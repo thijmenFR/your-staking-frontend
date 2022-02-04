@@ -1,0 +1,101 @@
+{
+  "name": "rad",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.1.2",
+    "@ethersproject/address": "^5.5.0",
+    "@ethersproject/bignumber": "^5.5.0",
+    "@ethersproject/constants": "^5.5.0",
+    "@ethersproject/contracts": "^5.5.0",
+    "@ethersproject/providers": "^5.5.0",
+    "@ethersproject/units": "^5.5.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/eslint": "^7.28.2",
+    "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/numeral": "^2.0.2",
+    "@types/prettier": "^2.4.1",
+    "@types/react-dom": "^17.0.10",
+    "@types/react-router-dom": "^5.3.0",
+    "@types/react-router-hash-link": "^2.4.2",
+    "@types/react-scroll": "^1.8.3",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "@walletconnect/web3-provider": "^1.6.6",
+    "@web3-react/abstract-connector": "^6.0.7",
+    "@web3-react/core": "^6.0.9",
+    "@web3-react/injected-connector": "^6.0.7",
+    "@web3-react/network-connector": "^6.1.9",
+    "@web3-react/walletconnect-connector": "^7.0.2-alpha.0",
+    "antd-dayjs-webpack-plugin": "^1.0.6",
+    "bignumber.js": "^9.0.1",
+    "classnames": "^2.3.1",
+    "craco": "^0.0.3",
+    "craco-alias": "^3.0.1",
+    "craco-antd": "^1.19.0",
+    "craco-sass-resources-loader": "^1.1.0",
+    "eslint": "7.22.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^14.0.1",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "graphql": "^15.7.1",
+    "graphql-request": "^3.6.1",
+    "moment": "^2.29.1",
+    "moralis": "^0.0.149",
+    "numeral": "^2.0.6",
+    "prettier": "2.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-ga": "^3.3.0",
+    "react-moralis": "^0.3.0",
+    "react-paginate": "^8.1.0",
+    "react-query": "^3.29.0",
+    "react-router": "^5.2.1",
+    "react-router-dom": "^5.3.0",
+    "react-router-hash-link": "^2.4.3",
+    "react-scripts": "4.0.3",
+    "sass": "^1.43.4",
+    "typescript": "^4.4.4",
+    "web-vitals": "^1.0.1",
+    "web3": "^1.6.0"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "generateIcons": "fantasticon --config .fantasticonrc.js",
+    "eject": "react-scripts eject",
+    "dev:prettier": "prettier --write .",
+    "dev:prettier-check": "prettier --check .",
+    "dev:lint-check": "npx eslint ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "antd": "^4.16.13"
+  }
+}

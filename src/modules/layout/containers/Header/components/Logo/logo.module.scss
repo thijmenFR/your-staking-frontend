@@ -1,0 +1,9 @@
+.logo {
+  position: relative;
+  z-index: 1;
+  svg {
+    path {
+      fill: var(--theme-text-white);
+    }
+  }
+}

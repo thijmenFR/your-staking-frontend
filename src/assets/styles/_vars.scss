@@ -1,0 +1,16 @@
+// Breackpoints use in mixins
+$low-mobile-breackpoint: 375px;
+$mobile-breackpoint: 1024px;
+$tablet-breackpoint: 1310px;
+
+// Colors
+$primary: #ac28f5;
+$primaryHover: #c55fff;
+
+:root {
+  --theme-body-color: #050505;
+}
+
+.light-mode {
+  --theme-body-color: #fff;
+}
