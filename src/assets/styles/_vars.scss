@@ -1,16 +1,40 @@
 // Breackpoints use in mixins
-$low-mobile-breackpoint: 375px;
-$mobile-breackpoint: 1024px;
-$tablet-breackpoint: 1310px;
+$low-mobile-bp: 375px;
+$mobile-bp: 1024px;
+$tablet-bp: 1310px;
 
 // Colors
-$primary: #ac28f5;
-$primaryHover: #c55fff;
+$primary: #56CDC0;
+$borderColor: #88CAB9;
+
+$border: linear-gradient(135.22deg, #88CAB9 0%, #2E7A6E 51.92%, #2B7368 100%);
 
 :root {
-  --theme-body-color: #050505;
+  --body-color: #011113;
+  --main-text-color: #022429;
+  --secondary-text-color: #C7E2DE;
+  --third-text-color: #E5EEED;
+  --four-text-color: #E5EEED;
+  --five-text-color: #022429;
+  --six-text-color: #E5EEED;
+  --seven-text-color: #B9DCD2;
+
+  --secondary-bg: #011113;
+  --accordion-bg: #011518;
+  --card-bg: #022429;
 }
 
 .light-mode {
-  --theme-body-color: #fff;
+  --body-color: linear-gradient(314.94deg, #C5D9D8 0%, #FFFFFF 100%);
+  --main-text-color: #E5EEED;
+  --secondary-text-color: #265A61;
+  --third-text-color: #032219;
+  --four-text-color: #011113;
+  --five-text-color: #F6F9F9;
+  --six-text-color: #022429;
+  --seven-text-color: #022429;
+
+  --secondary-bg: #E5EEED;
+  --accordion-bg: #F6F9F9;
+  --card-bg: #fff;
 }

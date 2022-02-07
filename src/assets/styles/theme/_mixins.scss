@@ -15,21 +15,26 @@
   align-items: $align-position;
 }
 
-/* Breakpoint mixins */
+// Transition
+@mixin transition {
+  transition: all .3s ease-in-out;
+}
+
+// Breakpoint mixins
 @mixin media-tablet {
-  @media (max-width: $tablet-breackpoint) {
+  @media (max-width: $tablet-bp) {
     @content;
   }
 }
 
 @mixin media-mobile {
-  @media (max-width: $mobile-breackpoint) {
+  @media (max-width: $mobile-bp) {
     @content;
   }
 }
 
 @mixin media-low-mobile {
-  @media (max-width: $low-mobile-breackpoint) {
+  @media (max-width: $low-mobile-bp) {
     @content;
   }
 }

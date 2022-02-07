@@ -1,16 +1,13 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '@modules/layout/context/AppContext';
-import AppLogo from './components/Logo';
-import { useMediaQuery } from '@modules/common/hooks';
+import AppLogo from '../../../common/components/Logo';
 import themeModeIcon from '@assets/images/mode.png';
 import themeModeIconLight from '@assets/images/mode_light.png';
 
 import s from './Header.module.scss';
 
 const Header = () => {
-  const isBreakpoint = useMediaQuery(1024);
-
   const { handleSwitchLightMode, isLightMode } = useContext(AppContext);
 
   const SwitchLightMode = () => {
@@ -19,30 +16,39 @@ const Header = () => {
 
   const ToggleThemeMode = () => {
     return (
-      <>
-        <a className={s.themeSelector} onClick={SwitchLightMode}>
-          <img
-            src={isLightMode ? themeModeIconLight : themeModeIcon}
-            width="24"
-            height="24"
-            alt="Theme Mode Icon"
-          />
-        </a>
-      </>
+      <aside className={s.themeSelector} onClick={SwitchLightMode}>
+        <p>Light</p>
+        <div className={s.themeSelector__icon}>
+          <img src={isLightMode ? themeModeIconLight : themeModeIcon} alt="Theme Mode Icon" />
+        </div>
+        <p>Dark</p>
+      </aside>
     );
   };
 
+  const userLogged = true;
+
   return (
-    <header className={s.header}>
-      <div className="container">
-        <div className={s.header__row}>
-          <Link to="/">
-            <AppLogo />
-          </Link>
-          <ToggleThemeMode />
+    <>
+      <ToggleThemeMode />
+      <header className={s.header}>
+        <div className="container">
+          <div className={s.header__row}>
+            <Link to="/">
+              <AppLogo />
+            </Link>
+
+            <div className={s.walletInfo}>
+              {userLogged ? (
+                <button className="btn">465XyUx…BcC</button>
+              ) : (
+                <button className="btn">Connect Wallet</button>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 };
 

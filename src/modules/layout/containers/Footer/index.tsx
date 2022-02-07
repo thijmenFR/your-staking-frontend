@@ -1,78 +1,79 @@
-import styles from './Footer.module.scss';
-import AppLogo from '@modules/layout/containers/Header/components/Logo';
+import AppLogo from '@modules/common/components/Logo';
+import { Link } from 'react-router-dom';
 
-const Socialslinks = [
-  { url: '/', title: 'Twitter' },
-  { url: '/', title: 'Telegram' },
-  { url: '/', title: 'Discord' },
-  { url: '/', title: 'Reddit' },
-  { url: '/', title: 'Github' },
-  { url: '/', title: 'Blog' },
+import s from './Footer.module.scss';
+
+const communitylinks = [
+  { id: 1, url: '/', title: 'Twitter' },
+  { id: 2, url: '/', title: 'Telegram' },
+  { id: 3, url: '/', title: 'Discord' },
+  { id: 4, url: '/', title: 'Reddit' },
+  { id: 5, url: '/', title: 'Github' },
+  { id: 6, url: '/', title: 'Blog' },
+];
+
+const resourceslinks = [
+  { id: 1, url: '#stakeBlock', title: 'Stake with YOUR' },
+  { id: 2, url: '/', title: 'Primer' },
+  { id: 3, url: '/', title: 'Terms of Use' },
+  { id: 4, url: '/', title: 'Privacy Policy' },
+  { id: 5, url: '#faqBlock', title: 'FAQ' },
+  { id: 6, url: '/', title: 'Press kit' },
+];
+
+const contactslinks = [
+  { id: 1, url: 'mailto:info@yournetwork.io', title: 'info@yournetwork.io' },
+  { id: 2, url: '/', title: 'Help Center' },
 ];
 
 const Footer = () => (
-  <footer className={styles.footer}>
+  <footer className={s.footer}>
     <div className="container">
-      <div className={styles.footer__row}>
-        <div>
+      <div className={s.footer__inner}>
+        <aside className={s.footer__aside}>
           <AppLogo />
-          <p className={styles.footer__title}>The New Creative Economy.</p>
-        </div>
-        <nav className={styles.footer__nav}>
-          <div>
-            <h5 className={styles.footer__subTitle}>Company</h5>
-            <ul>
-              <li>
-                <a href="https://littlestar.com" target="_blank">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="mailto:content@rad.live">Partnerships</a>
-              </li>
-              <li>
-                <a href="https://angel.co/company/watchrad" target="_blank">
-                  Careers
-                </a>
-              </li>
-              <li>
-                <a href="mailto:support@rad.live">Contact</a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h5 className={styles.footer__subTitle}>Helpful links</h5>
-            <ul>
-              <li>
-                <a
-                  href="https://littlstar.zendesk.com/hc/en-us/categories/360001797351-FAQ"
-                  target="_blank"
-                >
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="https://support.rad.live" target="_blank">
-                  Support
-                </a>
-              </li>
-              <li>
-                <a href="https://littlestar.com/terms" target="_blank">
-                  Terms
-                </a>
-              </li>
-              <li>
-                <a href="https://littlestar.com/copyright" target="_blank">
-                  Copyright
-                </a>
-              </li>
-              <li>
-                <a href="https://littlestar.com/privacy" target="_blank">
-                  Privacy
-                </a>
-              </li>
-            </ul>
-          </div>
+          <p className={s.footer__desc}>
+            YOUR is the Wikipedia of product content. Everyone around the world can create content
+            and earn money.
+          </p>
+        </aside>
+        <nav>
+          <ul className={s.navList}>
+            <li className={s.navList__item}>
+              <h4>Resources</h4>
+              <ul>
+                {resourceslinks.map((item: any) => (
+                  <li key={item.id}>
+                    <Link to={item.url}>{item.title}</Link>
+                  </li>
+                ))}
+              </ul>
+            </li>
+
+            <li className={s.navList__item}>
+              <h4>Community</h4>
+              <ul>
+                {communitylinks.map((item: any) => (
+                  <li key={item.id}>
+                    <a target="_blank" href={item.url}>
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+
+            <li className={s.navList__item}>
+              <h4>Contacts</h4>
+              <ul>
+                {contactslinks.map((item: any) => (
+                  <li key={item.id}>
+                    <a href={item.url}>{item.title}</a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ul>
         </nav>
       </div>
     </div>
