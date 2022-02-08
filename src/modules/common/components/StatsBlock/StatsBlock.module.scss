@@ -4,19 +4,36 @@
   flex-wrap: wrap;
   margin: 80px auto 145px;
 
+  @include media-mobile {
+    max-width: 384px;
+    width: 100%;
+    padding: 24px;
+    margin: 40px auto 80px;
+    border-radius: 16px;
+    background-color: var(--card-bg);
+  }
+
   & > li {
+    @include flex-align(baseline);
+    flex-direction: column;
     width: 195px;
     height: 124px;
-    margin-right: 16px;
-    margin-bottom: 16px;
+    margin: 0 8px 16px;
     padding: 24px;
-
     background-color: var(--card-bg);
     border-radius: 16px;
     box-shadow: 0 8px 16px 0 rgba(3, 34, 25, 0.07);
 
-    &:last-child {
-      margin-right: 0;
+    @include media-mobile {
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      height: fit-content;
+      margin: 0 0 16px;
+      padding: 0;
+      background-color: transparent;
+      border-radius: 0;
+      box-shadow: none;
     }
   }
 
@@ -25,29 +42,95 @@
     font-weight: 400;
     margin-bottom: 5px;
     color: var(--six-text-color);
+
+    @include media-mobile {
+      margin-bottom: 0;
+    }
   }
 
   &__value {
+    flex-grow: 1;
     font-size: 24px;
-    margin-bottom: 13px;
     color: $primary;
     font-weight: 600;
+
+    @include media-mobile {
+      order: 1;
+      font-size: 14px;
+      color: var(--six-text-color);
+      width: fit-content;
+      flex-grow: 0;
+      margin-left: 15px;
+    }
   }
 
   &__subValue {
-    font-size: 12px;
+    @include flex-align(end);
+
+    & p {
+      font-size: 12px;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    @include media-mobile {
+      display: none;
+    }
   }
 
   &__link {
+    width: fit-content;
+    padding-right: 25px;
     font-size: 12px;
     color: $primary;
     text-decoration: underline;
+    position: relative;
     @include transition;
+
+    @include media-mobile {
+      display: none;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      right: 4px;
+      top: calc((100% - 14px) / 2);
+      width: 12px;
+      height: 12px;
+      background: url("../../../../assets/images/external-link.svg") no-repeat center;
+      background-size: 100%;
+    }
 
     &:hover {
       color: $primary;
-      opacity: .7;
+      opacity: 0.7;
       @include transition;
     }
   }
+
+  &__progressBar {
+    @include media-mobile {
+      display: block;
+
+      & p {
+        display: none;
+      }
+    }
+  }
+
+  #apy {
+    @include media-mobile {
+      order: 1;
+      margin-bottom: 0;
+
+      .statsList__title,
+      .statsList__value {
+        font-weight: 600;
+        color: $primary;
+      }
+    }
+  }
 }
+
+

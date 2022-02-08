@@ -1,40 +1,49 @@
 // Breackpoints use in mixins
 $low-mobile-bp: 375px;
-$mobile-bp: 1024px;
-$tablet-bp: 1310px;
+$mobile-bp: 992px;
 
 // Colors
-$primary: #56CDC0;
-$borderColor: #88CAB9;
+$primary: #56cdc0;
+$borderColor: #88cab9;
+$itemBg: #022429;
+$white: #fff;
+$lightGray: #dce4e6;
+$darkGreen: #265a61;
 
-$border: linear-gradient(135.22deg, #88CAB9 0%, #2E7A6E 51.92%, #2B7368 100%);
+$primaryGradient: linear-gradient(135.22deg, #88cab9 0%, #2e7a6e 51.92%, #2b7368 100%);
+$primaryGradientHover: linear-gradient(135.22deg, #2b7368 0%, #2e7a6e 48.08%, #88cab9 100%);
+$primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
 
 :root {
   --body-color: #011113;
   --main-text-color: #022429;
-  --secondary-text-color: #C7E2DE;
-  --third-text-color: #E5EEED;
-  --four-text-color: #E5EEED;
+  --secondary-text-color: #c7e2de;
+  --third-text-color: #e5eeed;
+  --four-text-color: #e5eeed;
   --five-text-color: #022429;
-  --six-text-color: #E5EEED;
-  --seven-text-color: #B9DCD2;
+  --six-text-color: #e5eeed;
+  --seven-text-color: #b9dcd2;
+  --nine-text-color: #fff;
 
   --secondary-bg: #011113;
   --accordion-bg: #011518;
   --card-bg: #022429;
+  --tabs-header-bg: #394748;
 }
 
 .light-mode {
-  --body-color: linear-gradient(314.94deg, #C5D9D8 0%, #FFFFFF 100%);
-  --main-text-color: #E5EEED;
-  --secondary-text-color: #265A61;
+  --body-color: linear-gradient(314.94deg, #c5d9d8 0%, #ffffff 100%);
+  --main-text-color: #e5eeed;
+  --secondary-text-color: #265a61;
   --third-text-color: #032219;
   --four-text-color: #011113;
-  --five-text-color: #F6F9F9;
+  --five-text-color: #f6f9f9;
   --six-text-color: #022429;
   --seven-text-color: #022429;
+  --nine-text-color: #011113;
 
-  --secondary-bg: #E5EEED;
-  --accordion-bg: #F6F9F9;
+  --secondary-bg: #e5eeed;
+  --accordion-bg: #f6f9f9;
   --card-bg: #fff;
+  --tabs-header-bg: #fff;
 }

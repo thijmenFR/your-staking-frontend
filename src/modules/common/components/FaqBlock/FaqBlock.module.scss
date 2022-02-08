@@ -3,6 +3,10 @@
   width: 100%;
   margin: 0 auto 50px;
 
+  @include media-mobile {
+    margin-bottom: 0;
+  }
+
   & h3 {
     text-align: center;
     font-size: 24px;
@@ -17,10 +21,12 @@
     font-style: normal;
     @include transition;
     position: absolute;
-    right: 20px;
+    right: 24px;
+    top: 24px;
+    transform: rotate(-180deg);
 
     &__active {
-      transform: rotate(90deg);
+      transform: rotate(0);
       @include transition;
     }
   }
@@ -36,10 +42,19 @@
       border: none;
       @include transition;
 
+      @include media-mobile {
+        margin-bottom: 25px;
+      }
+
+      &:last-child {
+        border-radius: 8px;
+      }
+
       & > div {
         font-size: 16px;
         font-weight: 500;
         line-height: 30px !important;
+        padding-right: 50px !important;
         color: var(--four-text-color) !important;
       }
     }

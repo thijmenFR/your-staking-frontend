@@ -1,18 +1,26 @@
 import s from './FaqBlock.module.scss';
-
 import { Collapse } from 'antd';
 import cn from 'classnames';
+import { useContext } from 'react';
+import AppContext from '@modules/layout/context/AppContext';
+
+import arrowDown from '@assets/images/arrow-down.svg';
+import arrowDownPrimary from '@assets/images/arrow-down--primary.svg';
 
 const { Panel } = Collapse;
 
 const FaqBlock = () => {
+  const { isLightMode } = useContext(AppContext);
+
   function collapseCallback(key: any) {
     console.log(key);
   }
 
   const text = `
- Your stake will take 2-3 days to completely deactivate upon Unstaking. After that, you can use your wallet 
- (Phantom or Solflare) to withdraw the inactive stake.
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ullamcorper velit non nulla interdum dapibus ut at
+  nulla. Etiam imperdiet leo justo, id venenatis risus aliquet sed. Etiam at erat libero. Vestibulum eu nisl fermentum,
+   laoreet tortor ut, tempus arcu. Duis hendrerit pellentesque eros, eu bibendum massa porttitor sit amet. Suspendisse
+    faucibus malesuada facilisis. Vestibulum porttitor lectus a neque scelerisque vulputate.
 `;
 
   interface CustomArrowProps {
@@ -20,7 +28,11 @@ const FaqBlock = () => {
   }
 
   const CustomArrow = ({ rotate }: CustomArrowProps) => {
-    return <i className={cn(rotate && s.customArrow__active, s.customArrow)}> {'>'} </i>;
+    return (
+      <i className={cn(rotate && s.customArrow__active, s.customArrow)}>
+        <img src={isLightMode ? arrowDown : arrowDownPrimary} alt="dropdown icon" />
+      </i>
+    );
   };
 
   return (

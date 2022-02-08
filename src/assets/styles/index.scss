@@ -1,6 +1,5 @@
 @import 'vars';
 @import 'theme/mixins';
-@import 'theme/buttons';
 
 * {
   box-sizing: border-box;
@@ -25,7 +24,10 @@ body {
   background: var(--body-color);
 }
 
-a, a:hover, a:active, a:focus {
+a,
+a:hover,
+a:active,
+a:focus {
   color: inherit;
   text-decoration: none;
 }
@@ -46,7 +48,8 @@ strong {
   font-weight: bold;
 }
 
-ul, ol {
+ul,
+ol {
   list-style-type: none;
   margin-bottom: 0;
 }
@@ -77,18 +80,20 @@ button {
   margin: 0 auto;
   padding: 0 100px;
 
-  @include media-tablet {
-    padding: 0 32px;
-  }
   @include media-mobile {
     padding: 0 16px;
   }
 }
 
 .progress-bar {
-  display: inline-block;
   width: 56px;
+  height: 20px;
   margin-left: 12px;
+  margin-top: -2px;
+
+  @include media-mobile {
+    width: 116px;
+  }
 }
 
 body {
@@ -105,22 +110,36 @@ body {
 }
 
 .custom-tabs {
-  .ant-tabs {
-    color: var(--theme-text-secondary);
-  }
-
   .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
     color: $primary;
+    background-color: $itemBg;
+    padding: 7px 40px;
+    border-radius: 24px;
+    width: 100%;
   }
 
   .ant-tabs-tab {
-    color: var(--thame-modal-text-gray);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
+    min-width: 134px;
+    height: 36px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .ant-tabs-nav {
+    margin: 0 auto 24px;
+    width: fit-content;
+    padding: 4px 5px;
+    background-color: var(--tabs-header-bg);
+    border-radius: 24px;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.05);
   }
 
   .ant-tabs-tab-btn {
-    color: var(--theme-text-gray);
+    color: var(--nine-text-color);
+    font-weight: 500;
+    margin: 0 auto;
   }
 
   .ant-tabs-tab:hover {
@@ -134,41 +153,20 @@ body {
     color: inherit;
   }
 
+  .ant-tabs-top > .ant-tabs-nav::before,
+  .ant-tabs-top > div > .ant-tabs-nav::before {
+    display: none;
+  }
+
   .ant-modal-content {
     background: var(--theme-body-color);
   }
 
-  .ant-tabs-top > .ant-tabs-nav::before,
-  .ant-tabs-bottom > .ant-tabs-nav::before,
-  .ant-tabs-top > div > .ant-tabs-nav::before,
-  .ant-tabs-bottom > div > .ant-tabs-nav::before {
-    border-color: var(--theme-border-color);
-  }
-
   .ant-tabs-ink-bar {
-    background: $primary;
-  }
-
-  .ant-tabs-top > .ant-tabs-nav::before,
-  .ant-tabs-bottom > .ant-tabs-nav::before,
-  .ant-tabs-top > div > .ant-tabs-nav::before,
-  .ant-tabs-bottom > div > .ant-tabs-nav::before {
-    right: calc((100% - 100vw) / 2);
-    width: 100vw;
-    left: auto;
-  }
-
-  .ant-tabs-top > .ant-tabs-nav::after,
-  .ant-tabs-bottom > .ant-tabs-nav::after,
-  .ant-tabs-top > div > .ant-tabs-nav::after,
-  .ant-tabs-bottom > div > .ant-tabs-nav::after {
-    content: '';
-    position: absolute;
-    right: calc((100% - 100vw) / 2);
-    left: auto;
-    top: 0;
-    width: 100vw;
-    border-top: 1px solid var(--theme-border-color);
+    height: 100% !important;
+    z-index: -1;
+    background-color: $itemBg;
+    border-radius: 24px;
   }
 
   .ant-tabs {
@@ -182,7 +180,6 @@ body {
   .ant-input-number:focus,
   .ant-input-number-focused,
   .ant-input-number:hover {
-    border-color: var(--theme-border-color);
     box-shadow: none;
   }
 
@@ -191,3 +188,31 @@ body {
   }
 }
 
+.custom-tooltip {
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 280px;
+  width: 100%;
+  background-color: var(--four-text-color);
+  box-shadow: none;
+  position: relative;
+
+  @include media-mobile {
+    padding: 10px;
+    max-width: 220px;
+  }
+
+  & span {
+    color: var(--five-text-color);
+  }
+}
+
+.ant-tooltip-placement-top .ant-tooltip-arrow,
+.ant-tooltip-placement-topLeft .ant-tooltip-arrow,
+.ant-tooltip-placement-topRight .ant-tooltip-arrow {
+  bottom: -13px;
+}
+
+.ant-tooltip-arrow span {
+  background: var(--four-text-color) !important;
+}

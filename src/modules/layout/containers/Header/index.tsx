@@ -1,9 +1,11 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '@modules/layout/context/AppContext';
 import AppLogo from '../../../common/components/Logo';
 import themeModeIcon from '@assets/images/mode.png';
 import themeModeIconLight from '@assets/images/mode_light.png';
+import { formatAddress } from '@utils/index';
+import Button from '@modules/common/components/Button';
 
 import s from './Header.module.scss';
 
@@ -26,6 +28,14 @@ const Header = () => {
     );
   };
 
+  const clickConnectWallet = () => {
+    console.log('click Connect Wallet');
+  };
+
+  const clickDisconnectWallet = () => {
+    console.log('click Disconnect Wallet');
+  };
+
   const userLogged = true;
 
   return (
@@ -40,9 +50,17 @@ const Header = () => {
 
             <div className={s.walletInfo}>
               {userLogged ? (
-                <button className="btn">465XyUx…BcC</button>
+                <Button
+                  onClick={clickDisconnectWallet}
+                  text={formatAddress('465XyUx45gfded4r4543BcC')}
+                  color="primary-gradient"
+                />
               ) : (
-                <button className="btn">Connect Wallet</button>
+                <Button
+                  onClick={clickConnectWallet}
+                  text="Connect Wallet"
+                  color="primary-gradient"
+                />
               )}
             </div>
           </div>
