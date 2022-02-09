@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
-import Layout from './modules/layout';
-import CustomSwitch from './modules/common/components/CustomSwitch';
+import Layout from '@modules/layout';
+import CustomSwitch from '@modules/common/components/CustomSwitch';
 import HomePage from '@modules/home';
 import { QueryClient, QueryClientProvider } from 'react-query';
 

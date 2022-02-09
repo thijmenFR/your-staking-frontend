@@ -1,0 +1,98 @@
+.walletAccount {
+  background-color: var(--card-bg);
+  padding: 40px 25px 25px;
+
+  &__logo {
+    margin: 0 auto;
+    width: fit-content;
+  }
+
+  & h5 {
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 600;
+    text-align: center;
+    margin: 24px 0 30px;
+    color: var(--nine-text-color);
+  }
+
+  &__status {
+    text-align: center;
+    margin-bottom: 24px;
+    color: var(--six-text-color);
+    opacity: .8;
+  }
+
+  .accountInfo {
+    @include flex-align(center);
+    border-radius: 20px;
+    border: 1px solid $secondBorderColor;
+    padding: 3px;
+    margin-bottom: 24px;
+
+    &__logo {
+      width: 36px;
+      min-width: 36px;
+      height: 36px;
+      margin-right: 6px;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+
+    p {
+      width: fit-content;
+    }
+
+    &__title {
+      margin-right: 8px;
+      font-weight: 500;
+      color: var(--third-text-color);
+    }
+
+    &__value {
+      font-weight: 400;
+      color: var(--six-text-color);
+      opacity: .6;
+    }
+  }
+
+  .accountLinks {
+    @include flex-align(center);
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+
+    & > li {
+      width: fit-content;
+      margin-right: 40px;
+      margin-bottom: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &__item {
+      @include flex-align(center);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 0;
+      background: transparent;
+      border: none;
+      color: $primary;
+
+      &:hover {
+        opacity: 0.7;
+        @include transition;
+      }
+
+      & span {
+        display: inline-block;
+        width: 14px;
+        min-width: 14px;
+        height: 14px;
+        margin-left: 7px;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ $mobile-bp: 992px;
 // Colors
 $primary: #56cdc0;
 $borderColor: #88cab9;
+$secondBorderColor: #C7E2DE;
 $itemBg: #022429;
 $white: #fff;
 $lightGray: #dce4e6;
@@ -16,6 +17,7 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
 
 :root {
   --body-color: #011113;
+  --green-text-color: $darkGreen;
   --main-text-color: #022429;
   --secondary-text-color: #c7e2de;
   --third-text-color: #e5eeed;
@@ -24,6 +26,7 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
   --six-text-color: #e5eeed;
   --seven-text-color: #b9dcd2;
   --nine-text-color: #fff;
+  --eleven-text-color: #022429;
 
   --secondary-bg: #011113;
   --accordion-bg: #011518;
@@ -33,6 +36,7 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
 
 .light-mode {
   --body-color: linear-gradient(314.94deg, #c5d9d8 0%, #ffffff 100%);
+  --green-text-color: $primary;
   --main-text-color: #e5eeed;
   --secondary-text-color: #265a61;
   --third-text-color: #032219;
@@ -41,6 +45,7 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
   --six-text-color: #022429;
   --seven-text-color: #022429;
   --nine-text-color: #011113;
+  --eleven-text-color: #7B8A86;
 
   --secondary-bg: #e5eeed;
   --accordion-bg: #f6f9f9;

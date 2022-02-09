@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './PageNotFound.module.scss';
+import s from './PageNotFound.module.scss';
 
 const PageNotFound = () => {
   return (
-    <div className={styles.pageNotFound}>
+    <div className={s.pageNotFound}>
       <div className="container">
-        <h1>404</h1>
+        <h1>404 Page not found</h1>
       </div>
     </div>
   );

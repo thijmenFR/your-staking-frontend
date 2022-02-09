@@ -1,32 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FaqBlock from '@modules/common/components/FaqBlock';
 import StatsBlock from '@modules/common/components/StatsBlock';
 import { Tabs } from 'antd';
 import yourCoinIcon from '@assets/images/your-coin.svg';
 import Button from '@modules/common/components/Button';
 import CustomTooltip from '@modules/common/components/CustomTooltip';
+import { userLogged } from '@utils/index';
 
 import s from './Home.module.scss';
 
 const { TabPane } = Tabs;
 
-// Active Tab is change
-const tabChange = (key: string) => {
-  console.log(key, 'is active tab');
-};
-
-// Click on Amount Max button
-const clickAmountMax = () => {
-  console.log('clickAmountMax');
-};
-
-// Click on Stake button
-const clickSkateBtn = () => {
-  console.log('clickSkateBtn');
-};
+interface StakingFormProps {
+  btnText: string;
+}
 
 const HomePage = () => {
-  const StakingForm = () => {
+  // Active Tab is change
+  const tabChange = (key: string) => {
+    console.log(key, 'is active tab');
+  };
+
+  const StakingForm = ({ btnText }: StakingFormProps) => {
+    // Click on Amount Max button
+    const clickAmountMax = () => {
+      console.log('clickAmountMax');
+    };
+
+    // Click on Stake button, waiting alert
+    const [isWaiting, setIsWaiting] = useState(false);
+
+    const isWaitingActive = () => {
+      setIsWaiting(!isWaiting);
+      console.log('is Waiting', !isWaiting);
+    };
+
+    const connectWallet = () => {
+      console.log('Connect Wallet Btn');
+    };
+
     return (
       <form className={s.stakeForm}>
         <div className={s.stakeForm__balance}>
@@ -41,7 +53,22 @@ const HomePage = () => {
           <Button onClick={clickAmountMax} text="Max" color="gray" isSmallSize />
         </div>
 
-        <Button onClick={clickSkateBtn} text="Stake YOUR" color="primary-gradient" widthFill />
+        {userLogged ? (
+          <Button
+            onClick={isWaitingActive}
+            isWaitingMode={isWaiting}
+            text={isWaiting ? 'Waiting...' : btnText}
+            color="primary-gradient"
+            widthFill
+          />
+        ) : (
+          <Button
+            onClick={connectWallet}
+            text="Connect wallet"
+            color="primary-gradient"
+            widthFill
+          />
+        )}
 
         <ul className={s.stakeInfo}>
           <li>
@@ -80,10 +107,10 @@ const HomePage = () => {
           <div className="custom-tabs">
             <Tabs defaultActiveKey="1" onChange={tabChange} centered>
               <TabPane tab="Stake" key="1">
-                <StakingForm />
+                <StakingForm btnText="Stake YOUR" />
               </TabPane>
               <TabPane tab="Unstake" key="2">
-                <StakingForm />
+                <StakingForm btnText="Unstake YOUR" />
               </TabPane>
             </Tabs>
           </div>

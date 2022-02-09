@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '@modules/layout/context/AppContext';
-import AppLogo from '../../../common/components/Logo';
+import AppLogo from '@modules/common/components/Logo';
 import themeModeIcon from '@assets/images/mode.png';
 import themeModeIconLight from '@assets/images/mode_light.png';
-import { formatAddress } from '@utils/index';
 import Button from '@modules/common/components/Button';
+import ModalContainer from '@modules/look/ModalContainer';
+import ConnectWalletModal from '@modules/look/Wallet/ConnectWalletModal';
+import WalletAccountModal from '@modules/look/Wallet/WalletAccountModal';
+import { formatAddress, userLogged } from '@utils/index';
 
 import s from './Header.module.scss';
+
+// for tested inside Account modal
+import testLogo from '@assets/images/logo-round.svg';
 
 const Header = () => {
   const { handleSwitchLightMode, isLightMode } = useContext(AppContext);
@@ -28,16 +34,19 @@ const Header = () => {
     );
   };
 
-  const clickConnectWallet = () => {
-    console.log('click Connect Wallet');
+  // Open Connect Wallet Modal
+  const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
+  const connectWalletModal = async () => {
+    setIsConnectWalletModal(true);
+    console.log('Connect Wallet Modal', !isConnectWalletModal);
   };
 
-  const clickDisconnectWallet = () => {
-    console.log('click Disconnect Wallet');
+  // Open Wallet Account Modal
+  const [isWalletAccountModal, setIsWalletAccountModal] = useState<boolean>(false);
+  const walletAccountModal = async () => {
+    setIsWalletAccountModal(true);
+    console.log('Wallet Account Modal', !isWalletAccountModal);
   };
-
-  const userLogged = true;
-
   return (
     <>
       <ToggleThemeMode />
@@ -49,15 +58,17 @@ const Header = () => {
             </Link>
 
             <div className={s.walletInfo}>
-              {userLogged ? (
+              {!userLogged ? (
                 <Button
-                  onClick={clickDisconnectWallet}
+                  onClick={walletAccountModal}
                   text={formatAddress('465XyUx45gfded4r4543BcC')}
                   color="primary-gradient"
+                  iconPath={testLogo}
+                  isStateIndicator
                 />
               ) : (
                 <Button
-                  onClick={clickConnectWallet}
+                  onClick={connectWalletModal}
                   text="Connect Wallet"
                   color="primary-gradient"
                 />
@@ -66,8 +77,37 @@ const Header = () => {
           </div>
         </div>
       </header>
+
+      {/*Modals*/}
+
+      {/*Connect Wallet */}
+      <ModalContainer
+        isVisible={isConnectWalletModal}
+        isClosable={false}
+        handleCancel={() => {
+          setIsConnectWalletModal(false);
+        }}
+        width={384}
+      >
+        <ConnectWalletModal />
+      </ModalContainer>
+
+      {/*Wallet Account Modal */}
+      <ModalContainer
+        isVisible={isWalletAccountModal}
+        isClosable={false}
+        handleCancel={() => {
+          setIsWalletAccountModal(false);
+        }}
+        width={384}
+      >
+        <WalletAccountModal
+          connectedWalletLogo={testLogo}
+          walletBalance="4.908 SOL"
+          connectedWallet="Glow"
+        />
+      </ModalContainer>
     </>
   );
 };
-
 export default Header;

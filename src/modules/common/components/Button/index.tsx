@@ -1,6 +1,5 @@
 import s from './Button.module.scss';
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
 
 interface ButtonProps {
   color?: 'primary-gradient' | 'gray' | 'darkGreen';
@@ -10,6 +9,8 @@ interface ButtonProps {
   widthFill?: boolean;
   onClick?: () => void;
   isSmallSize?: boolean;
+  isWaitingMode?: boolean;
+  isStateIndicator?: boolean;
 }
 
 const Button = ({
@@ -20,6 +21,8 @@ const Button = ({
   widthFill,
   onClick,
   isSmallSize,
+  isWaitingMode,
+  isStateIndicator,
 }: ButtonProps) => {
   return (
     <>
@@ -30,16 +33,18 @@ const Button = ({
             color && s[color],
             widthFill && s.widthFill,
             isSmallSize && s.isSmallSize,
+            isWaitingMode && s.isWaitingMode,
+            iconPath && s.icon,
           )}
-          href={linkPath}
           onClick={onClick}
+          href={linkPath}
         >
           {iconPath && (
-            <div className={s.btn__icon}>
+            <div className={s.iconItem}>
               <img src={iconPath} alt="icon" />
             </div>
           )}
-          {text}
+          <p className={isStateIndicator ? s.isStateIndicator : ''}>{text}</p>
         </a>
       ) : (
         <button
@@ -48,16 +53,18 @@ const Button = ({
             color && s[color],
             widthFill && s.widthFill,
             isSmallSize && s.isSmallSize,
+            isWaitingMode && s.isWaitingMode,
+            iconPath && s.icon,
           )}
           type="button"
           onClick={onClick}
         >
           {iconPath && (
-            <div className={s.btn__icon}>
+            <div className={s.iconItem}>
               <img src={iconPath} alt="icon" />
             </div>
           )}
-          {text}
+          <p className={isStateIndicator ? s.isStateIndicator : ''}>{text}</p>
         </button>
       )}
     </>

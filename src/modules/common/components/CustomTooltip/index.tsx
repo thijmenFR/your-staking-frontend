@@ -16,7 +16,6 @@ const CustomTooltip = ({ text }: CustomTooltipProps) => {
       color="transparent"
       title={tooltipText}
       overlayClassName="custom-tooltip"
-      // arrowPointAtCenter={false}
       overlayInnerStyle={{ boxShadow: 'none' }}
     >
       <InfoCircleOutlined style={{ color: '#0C7E63', fontSize: '13px' }} />
