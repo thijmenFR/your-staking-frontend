@@ -8,6 +8,17 @@ const path = require('path');
 module.exports = () => ({
   webpack: {
     plugins: [new AntdDayjsWebpackPlugin()],
+    configure: {
+      module: {
+        rules: [
+          {
+            type: 'javascript/auto',
+            test: /\.mjs$/,
+            use: [],
+          },
+        ],
+      },
+    },
   },
   plugins: [
     {

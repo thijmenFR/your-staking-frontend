@@ -89,7 +89,7 @@ const Header = () => {
         }}
         width={384}
       >
-        <ConnectWalletModal />
+        <ConnectWalletModal handleModalVisible={setIsConnectWalletModal} />
       </ModalContainer>
 
       {/*Wallet Account Modal */}
