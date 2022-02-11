@@ -8,7 +8,8 @@ import Button from '@modules/common/components/Button';
 import ModalContainer from '@modules/look/ModalContainer';
 import ConnectWalletModal from '@modules/look/Wallet/ConnectWalletModal';
 import WalletAccountModal from '@modules/look/Wallet/WalletAccountModal';
-import { formatAddress, userLogged } from '@utils/index';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { formatAddress } from '@utils/index';
 
 import s from './Header.module.scss';
 
@@ -17,6 +18,7 @@ import testLogo from '@assets/images/logo-round.svg';
 
 const Header = () => {
   const { handleSwitchLightMode, isLightMode } = useContext(AppContext);
+  const { publicKey: account } = useWallet();
 
   const SwitchLightMode = () => {
     isLightMode ? handleSwitchLightMode(false) : handleSwitchLightMode(true);
@@ -58,10 +60,10 @@ const Header = () => {
             </Link>
 
             <div className={s.walletInfo}>
-              {!userLogged ? (
+              {account ? (
                 <Button
                   onClick={walletAccountModal}
-                  text={formatAddress('465XyUx45gfded4r4543BcC')}
+                  text={formatAddress(account.toJSON())}
                   color="primary-gradient"
                   iconPath={testLogo}
                   isStateIndicator
@@ -101,11 +103,7 @@ const Header = () => {
         }}
         width={384}
       >
-        <WalletAccountModal
-          connectedWalletLogo={testLogo}
-          walletBalance="4.908 SOL"
-          connectedWallet="Glow"
-        />
+        <WalletAccountModal handleModalVisible={setIsWalletAccountModal} />
       </ModalContainer>
     </>
   );
