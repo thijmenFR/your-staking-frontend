@@ -1,10 +1,8 @@
 import s from './WalletAccountModal.module.scss';
 import Logo from '@modules/common/components/Logo';
 import Button from '@modules/common/components/Button';
-import linkIcon from '@assets/images/external-link.svg';
-import linkIconDark from '@assets/images/external-link--darkGreen.svg';
-import { useContext } from 'react';
-import AppContext from '@modules/layout/context/AppContext';
+import linkIcon from '@assets/images/external-link--darkGreen.svg';
+import copyIcon from '@assets/images/copy-dark.svg';
 
 interface WalletAccountModalProps {
   connectedWallet: string;
@@ -17,8 +15,6 @@ const WalletAccountModal = ({
   walletBalance,
   connectedWalletLogo,
 }: WalletAccountModalProps) => {
-  const { isLightMode } = useContext(AppContext);
-
   const disconnectWallet = () => {
     console.log('Disconnect Wallet');
   };
@@ -46,7 +42,7 @@ const WalletAccountModal = ({
           <a href="#" target="_blank" className={s.accountLinks__item}>
             View{' '}
             <span>
-              <img src={isLightMode ? linkIconDark : linkIcon} alt="icon" />
+              <img src={linkIcon} alt="icon" />
             </span>
           </a>
         </li>
@@ -54,7 +50,7 @@ const WalletAccountModal = ({
           <button className={s.accountLinks__item} type="button">
             Copy address
             <span>
-              <img src={isLightMode ? linkIconDark : linkIcon} alt="icon" />
+              <img src={copyIcon} alt="icon" />
             </span>
           </button>
         </li>

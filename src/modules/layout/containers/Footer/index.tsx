@@ -1,5 +1,7 @@
 import AppLogo from '@modules/common/components/Logo';
 import { Link } from 'react-router-dom';
+import ToggleThemeMode from '@modules/common/components/ToggleThemeMode';
+import { useMediaQuery } from '@modules/common/hooks';
 
 import s from './Footer.module.scss';
 
@@ -26,58 +28,67 @@ const contactslinks = [
   { id: 2, url: '/', title: 'Help Center' },
 ];
 
-const Footer = () => (
-  <footer className={s.footer}>
-    <div className="container">
-      <div className={s.footer__inner}>
-        <aside className={s.footer__aside}>
-          <AppLogo />
-          <p className={s.footer__desc}>
-            YOUR is the Wikipedia of product content. Everyone around the world can create content
-            and earn money.
-          </p>
-        </aside>
-        <nav>
-          <ul className={s.navList}>
-            <li className={s.navList__item}>
-              <h4>Resources</h4>
-              <ul>
-                {resourceslinks.map((item: any) => (
-                  <li key={item.id}>
-                    <Link to={item.url}>{item.title}</Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
+const Footer = () => {
+  const isBreakpoint = useMediaQuery(992);
 
-            <li className={s.navList__item}>
-              <h4>Community</h4>
-              <ul>
-                {communitylinks.map((item: any) => (
-                  <li key={item.id}>
-                    <a target="_blank" href={item.url}>
-                      {item.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li>
+  return (
+    <footer className={s.footer}>
+      <div className="container">
+        <div className={s.footer__inner}>
+          <aside className={s.footer__aside}>
+            <AppLogo />
+            <p className={s.footer__desc}>
+              YOUR is the Wikipedia of product content. Everyone around the world can create content
+              and earn money.
+            </p>
+          </aside>
+          <nav>
+            <ul className={s.navList}>
+              <li className={s.navList__item}>
+                <h4>Resources</h4>
+                <ul>
+                  {resourceslinks.map((item: any) => (
+                    <li key={item.id}>
+                      <Link to={item.url}>{item.title}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
 
-            <li className={s.navList__item}>
-              <h4>Contacts</h4>
-              <ul>
-                {contactslinks.map((item: any) => (
-                  <li key={item.id}>
-                    <a href={item.url}>{item.title}</a>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          </ul>
-        </nav>
+              <li className={s.navList__item}>
+                <h4>Community</h4>
+                <ul>
+                  {communitylinks.map((item: any) => (
+                    <li key={item.id}>
+                      <a target="_blank" href={item.url}>
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+
+              <li className={s.navList__item}>
+                <h4>Contacts</h4>
+                <ul>
+                  {contactslinks.map((item: any) => (
+                    <li key={item.id}>
+                      <a href={item.url}>{item.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        {isBreakpoint && (
+          <div className={s.toggleThemeWrapp}>
+            <ToggleThemeMode />
+          </div>
+        )}
       </div>
-    </div>
-  </footer>
-);
-
+    </footer>
+  );
+};
 export default Footer;

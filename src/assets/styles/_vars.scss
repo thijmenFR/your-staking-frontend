@@ -34,6 +34,10 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
   --accordion-bg: #011518;
   --card-bg: #022429;
   --tabs-header-bg: #394748;
+  --wallet-item-bg: linear-gradient(135.22deg, #88CAB9 0%, #2E7A6E 51.92%, #2B7368 100%);
+  --wallet-item-hover-bg: linear-gradient(135.22deg, #2b7368 0%, #2e7a6e 48.08%, #88cab9 100%);
+  --wallet-item-active-bg: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
+  --wallet-item-border: $primary;
 }
 
 .light-mode {
@@ -54,4 +58,8 @@ $primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
   --accordion-bg: #f6f9f9;
   --card-bg: #fff;
   --tabs-header-bg: #fff;
+  --wallet-item-bg: transparent;
+  --wallet-item-hover-bg: transparent;
+  --wallet-item-active-bg: transparent;
+  --wallet-item-border: #C7E2DE;
 }

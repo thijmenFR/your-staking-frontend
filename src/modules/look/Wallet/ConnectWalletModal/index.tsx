@@ -2,14 +2,17 @@ import s from './ConnectWalletModal.module.scss';
 import Logo from '@modules/common/components/Logo';
 import { Checkbox } from 'antd';
 
+import phantomWalletIcon from '@assets/images/wallet/phantom.png';
+import solflareWalletIcon from '@assets/images/wallet/solflare.png';
+
 const connectWalletList = [
   {
-    logoPath: 'https://pbs.twimg.com/profile_images/1484112211371241476/wELnjpnY_normal.jpg',
+    logoPath: `${phantomWalletIcon}`,
     title: 'Phantom',
     url: '#',
   },
   {
-    logoPath: 'https://pbs.twimg.com/profile_images/1484112211371241476/wELnjpnY_normal.jpg',
+    logoPath: `${solflareWalletIcon}`,
     title: 'Solflare',
     url: '#',
   },
