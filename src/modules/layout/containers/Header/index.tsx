@@ -2,13 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '@modules/layout/context/AppContext';
 import AppLogo from '@modules/common/components/Logo';
-import themeModeIcon from '@assets/images/mode.png';
-import themeModeIconLight from '@assets/images/mode_light.png';
+import themeModeIcon from '@assets/images/theme-mode_dark.svg';
+import themeModeIconLight from '@assets/images/theme-mode_light.svg';
 import Button from '@modules/common/components/Button';
 import ModalContainer from '@modules/look/ModalContainer';
 import ConnectWalletModal from '@modules/look/Wallet/ConnectWalletModal';
 import WalletAccountModal from '@modules/look/Wallet/WalletAccountModal';
 import { formatAddress, userLogged } from '@utils/index';
+import cn from 'classnames';
 
 import s from './Header.module.scss';
 
@@ -25,11 +26,11 @@ const Header = () => {
   const ToggleThemeMode = () => {
     return (
       <aside className={s.themeSelector} onClick={SwitchLightMode}>
-        <p>Light</p>
+        <p className={cn(isLightMode && s.isActiveLight, !isLightMode && s.isInactive)}>Light</p>
         <div className={s.themeSelector__icon}>
           <img src={isLightMode ? themeModeIconLight : themeModeIcon} alt="Theme Mode Icon" />
         </div>
-        <p>Dark</p>
+        <p className={cn(!isLightMode && s.isActiveDark)}>Dark</p>
       </aside>
     );
   };

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="92px" height="48px" viewBox="0 0 92 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>mode-switch/dark</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="76" height="32" rx="16"></rect>
+        <filter x="-16.4%" y="-35.9%" width="132.9%" height="178.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.05 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="-5%" y1="42.4382716%" x2="105%" y2="57.5617284%" id="linearGradient-3">
+            <stop stop-color="#054A53" offset="0%"></stop>
+            <stop stop-color="#022429" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Staking" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Staking-Desktop-Dark" transform="translate(-1290.000000, -2008.000000)">
+            <g id="mode-switch/dark" transform="translate(1298.000000, 2015.000000)">
+                <g id="Rectangle">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <rect id="Rectangle" fill="url(#linearGradient-3)" x="2" y="2" width="72" height="28" rx="14"></rect>
+                <g id="icon/sparkles" transform="translate(10.000000, 5.937500)" stroke="#265A61" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M20,3.0625 L20,7.0625 M18,5.0625 L22,5.0625 M13,14.0625 L13,18.0625 M11,16.0625 L15,16.0625 M31.5,6 L32.7857063,9.85714125 L36,11.0625 L32.7857063,12.2678813 L31.5,16.125 L30.2142937,12.2678813 L27,11.0625 L30.2142937,9.85714125 L31.5,6 Z M4.5,0 L5.78570625,3.85714125 L9,5.0625 L5.78570625,6.26788125 L4.5,10.125 L3.21429375,6.26788125 L0,5.0625 L3.21429375,3.85714125 L4.5,0 Z" id="Shape" transform="translate(18.000000, 9.031250) scale(-1, 1) translate(-18.000000, -9.031250) "></path>
+                </g>
+                <g id="icon/moon" transform="translate(59.092331, 16.091678) scale(-1, 1) translate(-59.092331, -16.091678) translate(50.184663, 7.183619)" stroke="#56CDC0" stroke-linejoin="round" stroke-width="1.5">
+                    <path d="M7.12437435,-1.38998691 C6.69546985,-0.857779349 6.33807164,-0.283470892 6.05372604,0.319250612 C5.53009805,1.42917408 5.23836902,2.66902033 5.23836902,3.97697967 C5.23836902,6.35201638 6.20104286,8.50220858 7.75747587,10.0586416 C9.31390889,11.6150746 11.4641011,12.5777485 13.8391378,12.5777485 C15.1470591,12.5777485 16.3868695,12.2860429 17.4968063,11.7636823 C18.0988576,11.4803437 18.6729694,11.124308 19.2052714,10.6973512 C19.0444448,11.4053392 18.807179,12.0979338 18.4947624,12.7616872 C17.6746,14.5041862 16.3712011,15.974225 14.7572076,16.9987864 C13.1939241,17.9911572 11.3395153,18.5661175 9.35076879,18.5661175 C6.56151851,18.5661175 4.03632631,17.4355504 2.20844668,15.6076708 C0.380567056,13.7797912 -0.75,11.254599 -0.75,8.46534868 C-0.75,6.47620262 -0.174808133,4.6214484 0.817879883,3.05799921 C1.84279325,1.44379621 3.31329519,0.140396134 5.05619048,-0.679422163 C5.72115864,-0.992208062 6.41506781,-1.22956323 7.12437435,-1.38998691 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

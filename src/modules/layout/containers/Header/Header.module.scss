@@ -26,11 +26,28 @@
 
   & p {
     font-size: 14px;
+    font-weight: 500;
+
+    @include transition;
+
+    &.isActiveLight {
+      color: var(--ten-text-color);
+    }
+
+    &.isActiveDark {
+      color: $secondBorderColor;
+    }
+
+    &.isInactive {
+      color: $lightGreen;
+    }
   }
 
   &__icon {
-    width: 25px;
-    height: 25px;
-    margin: 0 15px;
+    width: 92px;
+    min-width: 92px;
+    height: 48px;
+    margin: 0 10px;
+    @include transition;
   }
 }
