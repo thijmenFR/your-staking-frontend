@@ -26,7 +26,12 @@ module.exports = {
     'import/prefer-default-export': 0,
     'no-nested-ternary': 0,
     'no-underscore-dangle': 0,
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'warn',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'prefer-promise-reject-errors': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'global-require': 0,

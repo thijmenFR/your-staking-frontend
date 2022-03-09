@@ -5,6 +5,7 @@ import Button from '@modules/common/components/Button';
 import ModalContainer from '@modules/look/ModalContainer';
 import ConnectWalletModal from '@modules/look/Wallet/ConnectWalletModal';
 import WalletAccountModal from '@modules/look/Wallet/WalletAccountModal';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { formatAddress, userLogged } from '@utils/index';
 import ToggleThemeMode from '@modules/common/components/ToggleThemeMode';
 
@@ -15,6 +16,7 @@ import testLogo from '@assets/images/wallet/phantom.png';
 import { useMediaQuery } from '@modules/common/hooks';
 
 const Header = () => {
+  const { publicKey: account } = useWallet();
   // Open Connect Wallet Modal
   const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
   const connectWalletModal = async () => {
@@ -41,10 +43,10 @@ const Header = () => {
             </Link>
 
             <div className={s.walletInfo}>
-              {!userLogged ? (
+              {account ? (
                 <Button
                   onClick={walletAccountModal}
-                  text={formatAddress('465XyUx45gfded4r4543BcC')}
+                  text={formatAddress(account.toJSON())}
                   color="primary-gradient"
                   iconPath={testLogo}
                   isStateIndicator
@@ -72,7 +74,7 @@ const Header = () => {
         }}
         width={384}
       >
-        <ConnectWalletModal />
+        <ConnectWalletModal handleModalVisible={setIsConnectWalletModal} />
       </ModalContainer>
 
       {/*Wallet Account Modal */}
@@ -84,11 +86,7 @@ const Header = () => {
         }}
         width={384}
       >
-        <WalletAccountModal
-          connectedWalletLogo={testLogo}
-          walletBalance="4.908 SOL"
-          connectedWallet="Glow"
-        />
+        <WalletAccountModal handleModalVisible={setIsWalletAccountModal} />
       </ModalContainer>
     </>
   );
