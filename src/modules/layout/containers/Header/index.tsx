@@ -6,7 +6,7 @@ import ModalContainer from '@modules/look/ModalContainer';
 import ConnectWalletModal from '@modules/look/Wallet/ConnectWalletModal';
 import WalletAccountModal from '@modules/look/Wallet/WalletAccountModal';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { formatAddress, userLogged } from '@utils/index';
+import { formatAddress } from '@utils/index';
 import ToggleThemeMode from '@modules/common/components/ToggleThemeMode';
 
 import s from './Header.module.scss';
@@ -21,7 +21,6 @@ const Header = () => {
   const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
   const connectWalletModal = async () => {
     setIsConnectWalletModal(true);
-    console.log('Connect Wallet Modal', !isConnectWalletModal);
   };
 
   // Open Wallet Account Modal
