@@ -2,8 +2,8 @@ import { Buffer } from 'buffer';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { deserializeUnchecked } from 'borsh';
 import BN from 'bn.js';
-import { StringPublicKey } from '../data/ids';
 
+import { StringPublicKey } from '../data/ids';
 import { extendBorsh } from '@utils/borch';
 import { Constants } from '../constants';
 

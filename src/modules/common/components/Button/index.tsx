@@ -11,6 +11,7 @@ interface ButtonProps {
   isSmallSize?: boolean;
   isWaitingMode?: boolean;
   isStateIndicator?: boolean;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -23,6 +24,7 @@ const Button = ({
   isSmallSize,
   isWaitingMode,
   isStateIndicator,
+  disabled,
 }: ButtonProps) => {
   return (
     <>
@@ -58,6 +60,7 @@ const Button = ({
           )}
           type="button"
           onClick={onClick}
+          disabled={disabled}
         >
           {iconPath && (
             <div className={s.iconItem}>

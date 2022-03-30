@@ -1,5 +1,21 @@
 import BN from "bn.js";
 
+export const isDev = true
+
+export const rewardDurationInDays: number = 1 / 86400;
+
+export enum YourStakingInstructions {
+  InitializeYourPool = 0,
+  CreateUser = 1,
+  StakeYour = 2,
+  UnstakeYour = 3,
+  ClaimRewards = 4,
+  ClosePool = 5,
+  CloseUser = 6,
+  FinalUnstake = 7,
+  UpdateRates = 8,
+}
+
 export class Constants {
   static yourDecimals = 9;
 

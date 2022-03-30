@@ -1,4 +1,4 @@
-import {PublicKey} from "@solana/web3.js";
+import { PublicKey } from '@solana/web3.js';
 
 const claster = 'devnet';
 
@@ -6,6 +6,7 @@ export const solanaConfig = {
   soloScan: (address: string | undefined) =>
     address ? `https://explorer.solana.com/address/${address}?cluster=${claster}` : '',
   decimals: '9',
+  inputDecimalsCount: 3,
 };
 
 export class Pubkeys {
