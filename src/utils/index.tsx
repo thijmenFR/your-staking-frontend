@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { solanaConfig } from '../contracts/config';
+import { RpcResponse } from '../types/index';
 
 export const formatAddress = (address: string) => {
   return address.length >= 10 ? `${address.slice(0, 7)}...${address.slice(-4)}` : address;
@@ -23,4 +24,8 @@ export const formatNumber = (value: string | BigNumber | number, digits = 3) => 
   }
   return value.toString();
 };
+
+export const getSplTokenTokenBalanceUi = (token: RpcResponse) =>
+  token?.value[0]?.account?.data.parsed.info.tokenAmount.uiAmount || 0;
+
 export const userLogged = true;

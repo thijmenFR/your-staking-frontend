@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FaqBlock from '@modules/common/components/FaqBlock';
 import StatsBlock from '@modules/common/components/StatsBlock';
 import { Tabs } from 'antd';
@@ -8,15 +8,13 @@ import CustomTooltip from '@modules/common/components/CustomTooltip';
 
 import s from './Home.module.scss';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import {
-  adminAccount,
-  rewardDurationInDays,
-  useYourSolana,
-  yourPoolStorageAccount,
-  yourRewardsVault,
-  yourStakingVault,
-} from '../../services/useYourSolana';
-import { sendAndConfirmTransaction } from '@solana/web3.js';
+import { useYourSolana } from '../../services/useYourSolana';
+import { PublicKey } from '@solana/web3.js';
+import { getSplTokenTokenBalanceUi } from '@utils/index';
+import BN from 'bn.js';
+import { YourPoolData } from '../../models/your-pool-info';
+import { UserData } from '../../models/user-info';
+import { Pubkeys } from '../../contracts/config';
 
 const { TabPane } = Tabs;
 
@@ -25,17 +23,38 @@ interface StakingFormProps {
 }
 
 const StakingForm = ({ btnText }: StakingFormProps) => {
+  const splToken = new PublicKey('7CRRTNZWELbWB97omD5vSwF16shvimaviGatUzyFUwvq');
+  const yourProgram = new PublicKey('5tQMZqWovxJMS5m656VvKUWncFEc5SEeD5xRoHyXN3nE');
+  const { createUserTransaction, stakeYourTransaction } = useYourSolana();
   const { publicKey: account, signTransaction, sendTransaction, wallet } = useWallet();
   const { connection } = useConnection();
 
-  const {
-    getUserStorageAccount,
-    getUserStorageAccountWithNonce,
-    createUserTransaction,
-    stakeYourTransaction,
-    createInitializePoolTransaction,
-    findAssociatedTokenAddress,
-  } = useYourSolana();
+  async function getUserStorageAccount(userWallet: PublicKey): Promise<PublicKey> {
+    return (
+      await PublicKey.findProgramAddress(
+        [userWallet.toBuffer(), Pubkeys.yourPoolStoragePubkey.toBuffer()],
+        Pubkeys.yourStakingProgramId,
+      )
+    )[0];
+  }
+
+  async function getUserPendingRewards(userWallet: PublicKey) {
+    const U64_MAX = new BN('18446744073709551615', 10);
+    let yourPoolData = await YourPoolData.fromAccount(Pubkeys.yourPoolStoragePubkey, connection);
+    console.log(yourPoolData, 'data');
+    if (yourPoolData == null) {
+      throw new Error('Pool Does Not Exist');
+    }
+    let userDataStorageAddress = await getUserStorageAccount(userWallet);
+    let userData = await UserData.fromAccount(userDataStorageAddress, connection);
+    console.log(userData, 'userData');
+    if (userData == null) {
+      return 0;
+    }
+
+    return userData.unstakePending.toNumber();
+  }
+
   // Click on Amount Max button
   const clickAmountMax = () => {
     console.log('clickAmountMax');
@@ -43,42 +62,43 @@ const StakingForm = ({ btnText }: StakingFormProps) => {
 
   // Click on Stake button, waiting alert
   const [isWaiting, setIsWaiting] = useState(false);
-  const [userWalletBalance, setUserWalletBalance] = useState('100.000');
+  const [userWalletBalance, setUserWalletBalance] = useState('0');
   const connectWallet = () => {
     console.log('Connect Wallet Btn');
   };
-  const isWaitingActive = async () => {
-    const initializePoolTx = await createInitializePoolTransaction(
-      adminAccount.publicKey,
-      yourPoolStorageAccount,
-      yourStakingVault,
-      yourRewardsVault,
-      rewardDurationInDays,
-      1000000000000,
-    );
-    await sendAndConfirmTransaction(connection, initializePoolTx, [
-      adminAccount,
-      yourPoolStorageAccount,
-      yourStakingVault,
-      yourRewardsVault,
-    ]);
 
-    // const amountToStake = 10;
-    // const createUserTx = await createUserTransaction(account!);
-    // const stakeYourTx = await stakeYourTransaction(account!, amountToStake);
-    // // if (signTransaction) {
-    // //   const signature = await sendTransaction(stakeYourTx, connection);
-    // //   await connection.confirmTransaction(signature, 'processed');
-    // //
-    // //   console.log(signature);
-    // // }
-    // if (sendTransaction) {
-    //   const signature = await sendTransaction(createUserTx, connection);
-    //   await connection.confirmTransaction(signature);
-    //
-    //   console.log(signature);
+  const isWaitingActive = async () => {
+    // getUserPendingRewards(account!);
+    if (account && signTransaction) {
+      getUserPendingRewards(account);
+      // const createUserTx = await createUserTransaction(account);
+      const stakeYourTx = await stakeYourTransaction(account, 100);
+      const signature = await sendTransaction(stakeYourTx, connection, { skipPreflight: true });
+      console.log(signature);
+      await connection.confirmTransaction(signature, 'processed');
+    }
+
+    // const stakeYourTx = await stakeYourTransaction(account!, 100);
+    // if (signTransaction) {
+    //   await signTransaction(stakeYourTx);
     // }
   };
+
+  const getSplTokenBalance = async (address: PublicKey) => {
+    const tokenBalance = await connection.getParsedTokenAccountsByOwner(address, {
+      mint: splToken,
+    });
+    const balance = getSplTokenTokenBalanceUi(tokenBalance);
+    setUserWalletBalance(balance);
+  };
+
+  useEffect(() => {
+    if (account) {
+      getSplTokenBalance(account);
+    } else {
+      setUserWalletBalance('0');
+    }
+  }, [account]);
 
   return (
     <form className={s.stakeForm}>
