@@ -4,6 +4,8 @@ import {
   formatNumber,
   getInputValue,
   getSplTokenTokenBalanceUi,
+  getStakedYourTokenBalance,
+  getUserPendingRewards,
   isNumber,
   useDev,
 } from '@utils/index';
@@ -33,18 +35,15 @@ export const UnStakingTabContainer: FC<UnStakingTabProps> = ({ userExist }) => {
     setInputValue(formatNumber(value, solanaConfig.inputDecimalsCount));
   };
 
-  const getYourTokenBalance = async (address: PublicKey) => {
-    const tokenBalance = await connection.getParsedTokenAccountsByOwner(address, {
-      mint: Pubkeys.rewardsMintPubkey,
-    });
-    const balance = getSplTokenTokenBalanceUi(tokenBalance);
+  const getStakedYourTokenBalanceHandler = async (address: PublicKey) => {
+    const balance = await getStakedYourTokenBalance(address, connection);
     setUserWalletBalance(balance);
   };
 
   const buttonHandler = async () => {
     if (!inputValue || !account || !userExist) return;
     setIsWaiting(true);
-
+    getUserPendingRewards(account, connection);
     try {
       const unstakeYourTx = await unstakeYourTransaction(account, +inputValue);
       const signature = await sendTransaction(unstakeYourTx, connection);
@@ -52,13 +51,13 @@ export const UnStakingTabContainer: FC<UnStakingTabProps> = ({ userExist }) => {
     } catch (e) {
       useDev(() => console.log(e));
     }
-    getYourTokenBalance(account);
+    getStakedYourTokenBalanceHandler(account);
     setIsWaiting(false);
   };
 
   useEffect(() => {
     if (account) {
-      getYourTokenBalance(account);
+      getStakedYourTokenBalanceHandler(account);
     } else {
       setUserWalletBalance('0');
     }

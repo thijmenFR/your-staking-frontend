@@ -51,7 +51,7 @@ export const StakingTabContainer: FC<StakingTabProps> = ({ userExist }) => {
   const stakeYourHandler = async () => {
     if (!stakeInputValue || !account) return;
     setIsWaiting(true);
-    // getUserPendingRewards(account, connection);
+
     try {
       if (!userExist) await createUser(account);
       const stakeYourTx = await stakeYourTransaction(account, +stakeInputValue);

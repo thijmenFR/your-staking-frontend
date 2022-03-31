@@ -1,6 +1,7 @@
 import ProgressBar from '@modules/common/components/ProgressBar';
 import s from './StatsBlock.module.scss';
 import cn from 'classnames';
+import { FC } from 'react';
 
 const statsInfo = {
   priceTitle: 'YOUR/SOL price',
@@ -20,7 +21,11 @@ const statsInfo = {
   epochProgress: 50,
 };
 
-const StatsBlock = () => {
+interface StatsBlockProps {
+  totalStaked: string;
+}
+
+const StatsBlock: FC<StatsBlockProps> = ({ totalStaked }) => {
   return (
     <ul className={s.statsList}>
       <li>
@@ -30,12 +35,12 @@ const StatsBlock = () => {
       </li>
       <li>
         <h4 className={s.statsList__title}>{statsInfo.stakedTitle}</h4>
-        <p className={s.statsList__value}>{statsInfo.stakedValue}</p>
+        <p className={s.statsList__value}>{totalStaked}</p>
         <p className={s.statsList__subValue}>{statsInfo.stakedSubValue}</p>
       </li>
       <li id={s.apy}>
         <h4 className={s.statsList__title}>{statsInfo.apyTitle}</h4>
-        <p className={s.statsList__value}>{statsInfo.apyValue}</p>
+        <p className={s.statsList__value}>{0}%</p>
         <a className={s.statsList__link} href="/">
           See stats
         </a>

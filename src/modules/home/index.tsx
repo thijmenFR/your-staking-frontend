@@ -4,7 +4,7 @@ import StatsBlock from '@modules/common/components/StatsBlock';
 import { Tabs } from 'antd';
 
 import s from './Home.module.scss';
-import { getUserPendingRewards, userIsExist } from '@utils/index';
+import { getUserPendingRewards, getUserTotalStake, userIsExist } from '@utils/index';
 import { StakingTabContainer } from '@modules/common/containers/StakingTab/StakingTabContainer';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { UnStakingTabContainer } from '@modules/common/containers/UnStakingTab/UnStakingTabContainer';
@@ -18,6 +18,7 @@ const HomePage = (): any => {
   const tabChange = (key: string) => {
     console.log(key, 'is active tab');
   };
+  const [totalStaked, setTotalStaked] = useState('0');
   const [userExist, setUserExist] = useState(false);
 
   const userExistHandler = async () => {
@@ -26,12 +27,21 @@ const HomePage = (): any => {
     setUserExist(existUser);
   };
 
+  const totalStakedHandler = async () => {
+    const toalaStaked = await getUserTotalStake(connection);
+    setTotalStaked(toalaStaked);
+  };
+
   useEffect(() => {
     userExistHandler();
     if (account) {
       getUserPendingRewards(account, connection);
     }
   }, [account]);
+
+  useEffect(() => {
+    totalStakedHandler();
+  }, []);
 
   return (
     <section className={s.home}>
@@ -50,7 +60,7 @@ const HomePage = (): any => {
             </Tabs>
           </div>
         </div>
-        <StatsBlock />
+        <StatsBlock totalStaked={totalStaked} />
         <FaqBlock />
       </div>
     </section>
