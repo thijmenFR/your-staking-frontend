@@ -8,7 +8,9 @@ import { WalletConnect } from '@modules/providers/WalletConnect';
 const modulesData = [{ path: '/', title: 'home', component: HomePage }];
 
 const isBrowserSupportsHistory = 'pushState' in window.history;
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 const NoFound = () => <Redirect to="/404" />;
 
 function App() {

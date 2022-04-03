@@ -1,35 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import FaqBlock from '@modules/common/components/FaqBlock';
 import StatsBlock from '@modules/common/components/StatsBlock';
 import { Tabs } from 'antd';
 
 import s from './Home.module.scss';
-import { getUserPendingRewards, getUserTotalStake, userIsExist } from '@utils/index';
+import {
+  epochDurationPercent,
+  epochETA,
+  epochNumber,
+  getUserPendingRewards,
+  userIsExist,
+} from '@utils/index';
 import { StakingTabContainer } from '@modules/common/containers/StakingTab/StakingTabContainer';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { UnStakingTabContainer } from '@modules/common/containers/UnStakingTab/UnStakingTabContainer';
+import { useYourPoolData } from '../../hooks/query/useYourPoolData';
+import { useCoinGecko } from '../../hooks/query/useCoinGecko';
 
 const { TabPane } = Tabs;
 
 const HomePage = (): any => {
   const { publicKey: account } = useWallet();
   const { connection } = useConnection();
-  // Active Tab is change
+  const { poolData, usersTotalStake, getApy } = useYourPoolData();
+  const { priceYourSol } = useCoinGecko();
   const tabChange = (key: string) => {
     console.log(key, 'is active tab');
   };
-  const [totalStaked, setTotalStaked] = useState('0');
   const [userExist, setUserExist] = useState(false);
+  const [slot, setSlot] = useState('0');
+
+  const epochNumb = useMemo(() => {
+    if (!poolData) return '1';
+    return epochNumber(slot, poolData);
+  }, [slot, poolData]);
+
+  const epochPercent = useMemo(() => {
+    if (poolData && +slot) return epochDurationPercent(slot, poolData);
+    return '1';
+  }, [slot, poolData]);
+
+  const epochTimeToEnd = useMemo(() => {
+    if (poolData && +slot) return epochETA(slot, poolData);
+    return 1;
+  }, [slot, poolData]);
 
   const userExistHandler = async () => {
     if (!account) return;
     const existUser = await userIsExist(account, connection);
     setUserExist(existUser);
-  };
-
-  const totalStakedHandler = async () => {
-    const toalaStaked = await getUserTotalStake(connection);
-    setTotalStaked(toalaStaked);
   };
 
   useEffect(() => {
@@ -40,7 +59,7 @@ const HomePage = (): any => {
   }, [account]);
 
   useEffect(() => {
-    totalStakedHandler();
+    connection.getSlot().then((res) => setSlot(res.toString()));
   }, []);
 
   return (
@@ -60,7 +79,14 @@ const HomePage = (): any => {
             </Tabs>
           </div>
         </div>
-        <StatsBlock totalStaked={totalStaked} />
+        <StatsBlock
+          totalStaked={usersTotalStake}
+          apy={getApy}
+          epochNumb={epochNumb}
+          epochPercent={epochPercent}
+          eta={epochTimeToEnd}
+          priceYourSol={priceYourSol}
+        />
         <FaqBlock />
       </div>
     </section>

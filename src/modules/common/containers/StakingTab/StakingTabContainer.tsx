@@ -12,6 +12,7 @@ import { Pubkeys, solanaConfig } from '../../../../contracts/config';
 import { PublicKey } from '@solana/web3.js';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useYourTransaction } from '../../../../services/useYourTransaction';
+import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 
 interface StakingTabProps {
   userExist: boolean;
@@ -20,6 +21,7 @@ interface StakingTabProps {
 export const StakingTabContainer: FC<StakingTabProps> = ({ userExist }) => {
   const { publicKey: account, sendTransaction } = useWallet();
   const { createUserTransaction, stakeYourTransaction } = useYourTransaction();
+  const { getReceiveUser } = useYourPoolData();
   const { connection } = useConnection();
 
   const [stakeInputValue, setStakeInputValue] = useState('');
@@ -30,9 +32,11 @@ export const StakingTabContainer: FC<StakingTabProps> = ({ userExist }) => {
 
   const stakeInputHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = getInputValue(event);
-    if (!isNumber(value)) return;
+    if (!isNumber(value) || !account) return;
     setStakeInputValue(formatNumber(value, solanaConfig.inputDecimalsCount));
   };
+
+  const userReceive = getReceiveUser(+stakeInputValue)
 
   const getYourTokenBalance = async (address: PublicKey) => {
     const tokenBalance = await connection.getParsedTokenAccountsByOwner(address, {
@@ -82,6 +86,7 @@ export const StakingTabContainer: FC<StakingTabProps> = ({ userExist }) => {
       onChange={stakeInputHandler}
       onClick={stakeYourHandler}
       clickAmountMax={clickAmountMaxHandler}
+      userReceive={userReceive}
     />
   );
 };

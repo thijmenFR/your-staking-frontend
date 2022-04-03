@@ -1,8 +1,16 @@
-import BN from "bn.js";
+import BN from 'bn.js';
 
-export const isDev = true
+export const isDev = true;
 
 export const rewardDurationInDays: number = 1 / 86400;
+
+export const SLOTS_PER_EPOCH = 432000;
+
+export const DEPLOY_SLOT = 124841215;
+
+export const EPOCH_DURATION = 216000;
+
+export const SECONDS_PER_DAY = 86400;
 
 export enum YourStakingInstructions {
   InitializeYourPool = 0,

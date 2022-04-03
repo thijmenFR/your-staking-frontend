@@ -13,6 +13,7 @@ interface StakingFormProps {
   btnText: string;
   value: string;
   balance: string;
+  userReceive?: string;
   isWaiting: boolean;
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
   clickAmountMax: () => void;
@@ -27,6 +28,7 @@ export const StakingForm: FC<StakingFormProps> = ({
   onClick,
   isWaiting,
   clickAmountMax,
+  userReceive = 0,
 }) => {
   const { createUserTransaction, stakeYourTransaction } = useYourTransaction();
   const { publicKey: account, sendTransaction } = useWallet();
@@ -59,7 +61,7 @@ export const StakingForm: FC<StakingFormProps> = ({
         <div className={s.stakeInput__tokenIcon}>
           <img src={yourCoinIcon} alt="YOUR token" />
         </div>
-        <input type="text" placeholder="Amount" value={value} onChange={onChange} maxLength={5} />
+        <input type="text" placeholder="Amount" value={value} onChange={onChange} maxLength={15} />
         <Button onClick={clickAmountMax} text="Max" color="gray" isSmallSize />
       </div>
 
@@ -78,7 +80,7 @@ export const StakingForm: FC<StakingFormProps> = ({
       <ul className={s.stakeInfo}>
         <li>
           <p>You will receive</p>
-          <p>0 $YOUR</p>
+          <p>{userReceive} $YOUR</p>
         </li>
         <li>
           <p>

@@ -6,7 +6,14 @@ import BN from 'bn.js';
 import { YourPoolData } from '../models/your-pool-info';
 import { UserData } from '../models/user-info';
 import { ChangeEvent } from 'react';
-import { Constants, isDev } from '../constants';
+import {
+  Constants,
+  DEPLOY_SLOT,
+  EPOCH_DURATION,
+  isDev,
+  SECONDS_PER_DAY,
+  SLOTS_PER_EPOCH,
+} from '../constants';
 import { getUserStorageAccount } from '@utils/solanaHalpers';
 
 export const useDev = (cb: any) => (isDev ? cb() : undefined);
@@ -48,17 +55,11 @@ export const getSplTokenTokenBalanceUi = (token: RpcResponse) =>
 export async function getUserPendingRewards(userWallet: PublicKey, connection: Connection) {
   const U64_MAX = new BN('18446744073709551615', 10);
   let yourPoolData = await YourPoolData.fromAccount(Pubkeys.yourPoolStoragePubkey, connection);
-  console.log(yourPoolData, 'data');
   if (yourPoolData == null) {
     throw new Error('Pool Does Not Exist');
   }
-  console.log(
-    yourPoolData.userTotalStake.div(new BN(Constants.toYourRaw)).toString(),
-    'userTotalStake',
-  );
   let userDataStorageAddress = await getUserStorageAccount(userWallet);
   let userData = await UserData.fromAccount(userDataStorageAddress, connection);
-  console.log(userData, 'userData');
 
   if (userData == null) {
     return 0;
@@ -91,3 +92,49 @@ export const userIsExist = async (userWallet: PublicKey, connection: Connection)
 };
 
 export const userLogged = true;
+
+export const quota = (stake_amount: number, yourPoolData: YourPoolData) => {
+  return new BN(stake_amount).mul(
+    BN.min(
+      yourPoolData.maxRewardRate,
+      BN.max(
+        yourPoolData.minRewardRate,
+        yourPoolData.rewardPerSlot.mul(new BN(SLOTS_PER_EPOCH).div(yourPoolData.userTotalStake)),
+      ),
+    ),
+  );
+};
+
+export const apy = (yourPoolData: YourPoolData) => {
+  return BN.min(
+    yourPoolData.maxRewardRate,
+    BN.max(
+      yourPoolData.minRewardRate,
+      yourPoolData.rewardPerSlot.mul(new BN(SLOTS_PER_EPOCH)).div(yourPoolData.userTotalStake),
+    ),
+  );
+};
+export const epochNumber = (slot: string, yourPoolData: YourPoolData) => {
+  return new BN(slot).sub(new BN(DEPLOY_SLOT)).div(yourPoolData.epochDuration).toString();
+};
+
+export const epochDurationPercent = (currentSlot: string, yourPoolData: YourPoolData) => {
+  const epoch_duration =
+    yourPoolData.epochDuration.toNumber() === 1
+      ? EPOCH_DURATION
+      : yourPoolData.epochDuration.toNumber();
+  const epoch_remaining = (+currentSlot - DEPLOY_SLOT) % epoch_duration;
+  const epoch_remaining_percent = (1 - epoch_remaining / epoch_duration) * 100;
+  return String(epoch_remaining_percent);
+};
+
+export const epochETA = (currentSlot: string, yourPoolData: YourPoolData) => {
+  const epoch_duration =
+    yourPoolData.epochDuration.toNumber() === 1
+      ? EPOCH_DURATION
+      : yourPoolData.epochDuration.toNumber();
+  const SLOT_DURATION = EPOCH_DURATION / SLOTS_PER_EPOCH;
+  const epoch_remainnig_time =
+    SLOT_DURATION * (epoch_duration - ((+currentSlot - DEPLOY_SLOT) % epoch_duration));
+  return epoch_remainnig_time * 1000;
+};
