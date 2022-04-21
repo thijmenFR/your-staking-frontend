@@ -1,13 +1,12 @@
 import { useYourTransaction } from '../../../../services/useYourTransaction';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import React, { ChangeEvent, ChangeEventHandler, FC, FormEvent, useEffect, useState } from 'react';
-import { getSplTokenTokenBalanceUi, getUserPendingRewards } from '@utils/index';
-import { PublicKey } from '@solana/web3.js';
-import { Pubkeys } from '../../../../contracts/config';
+import React, {ChangeEvent, FC, useContext, useState} from 'react';
+import { getUserPendingRewards } from '@utils/index';
 import s from '@modules/home/Home.module.scss';
 import yourCoinIcon from '@assets/images/your-coin.svg';
 import Button from '@modules/common/components/Button';
 import CustomTooltip from '@modules/common/components/CustomTooltip';
+import {WalletModalContext} from "@modules/context/WalletContex";
 
 interface StakingFormProps {
   btnText: string;
@@ -29,15 +28,18 @@ export const StakingForm: FC<StakingFormProps> = ({
   isWaiting,
   clickAmountMax,
   userReceive = 0,
+  children,
 }) => {
   const { createUserTransaction, stakeYourTransaction } = useYourTransaction();
   const { publicKey: account, sendTransaction } = useWallet();
   const { connection } = useConnection();
 
+  const { setIsConnectWalletModal } = useContext(WalletModalContext);
+
   // Click on Stake button, waiting alert
   const [userWalletBalance, setUserWalletBalance] = useState('0');
   const connectWallet = () => {
-    console.log('Connect Wallet Btn');
+    setIsConnectWalletModal(true)
   };
 
   const stakeYourHandler = async () => {
@@ -66,13 +68,16 @@ export const StakingForm: FC<StakingFormProps> = ({
       </div>
 
       {account ? (
-        <Button
-          onClick={onClick}
-          isWaitingMode={isWaiting}
-          text={isWaiting ? 'Waiting...' : btnText}
-          color="primary-gradient"
-          widthFill
-        />
+        <>
+          <Button
+            onClick={onClick}
+            isWaitingMode={isWaiting}
+            text={isWaiting ? 'Waiting...' : btnText}
+            color="primary-gradient"
+            widthFill
+          />
+          {children}
+        </>
       ) : (
         <Button onClick={connectWallet} text="Connect wallet" color="primary-gradient" widthFill />
       )}

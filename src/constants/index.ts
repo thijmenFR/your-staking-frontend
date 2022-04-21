@@ -4,7 +4,7 @@ export const isDev = true;
 
 export const rewardDurationInDays: number = 1 / 86400;
 
-export const SLOTS_PER_EPOCH = 432000;
+export const SLOTS_PER_EPOCH = 540; // default 432000
 
 export const DEPLOY_SLOT = 124841215;
 

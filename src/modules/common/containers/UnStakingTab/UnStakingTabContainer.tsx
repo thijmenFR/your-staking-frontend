@@ -1,33 +1,22 @@
-import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { ChangeEventHandler, FC, useState } from 'react';
 import { StakingForm } from '@modules/common/components/StakingForm/StakingForm';
-import {
-  formatNumber,
-  getInputValue,
-  getSplTokenTokenBalanceUi,
-  getStakedYourTokenBalance,
-  getUserPendingRewards,
-  isNumber,
-  useDev,
-} from '@utils/index';
-import { Pubkeys, solanaConfig } from '../../../../contracts/config';
-import { PublicKey } from '@solana/web3.js';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { useYourTransaction } from '../../../../services/useYourTransaction';
+import { formatNumber, getInputValue, isNumber } from '@utils/index';
+import { solanaConfig } from '../../../../contracts/config';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { IYourTab } from '../../../../types';
+import { useUserData } from '../../../../hooks/query/useUserData';
+import Button from '@modules/common/components/Button';
+import { useSendMutation } from '../../../../hooks/mutation/useSendMutation';
 
-interface UnStakingTabProps {
-  userExist: boolean;
-}
-
-export const UnStakingTabContainer: FC<UnStakingTabProps> = ({ userExist }) => {
-  const { publicKey: account, sendTransaction } = useWallet();
-  const { unstakeYourTransaction } = useYourTransaction();
-  const { connection } = useConnection();
+export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
+  const { publicKey: account } = useWallet();
+  const { userStakedBalance } = useUserData();
+  const { isLoading, mutateAsync } = useSendMutation('unstake');
+  const { isLoading: isLoadingFinal, mutate } = useSendMutation('finalUnstake');
 
   const [inputValue, setInputValue] = useState('');
-  const [userWalletBalance, setUserWalletBalance] = useState('0');
-  const [isWaiting, setIsWaiting] = useState(false);
 
-  const clickAmountMaxHandler = () => setInputValue(userWalletBalance);
+  const clickAmountMaxHandler = () => setInputValue(userStakedBalance);
 
   const inputHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = getInputValue(event);
@@ -35,43 +24,35 @@ export const UnStakingTabContainer: FC<UnStakingTabProps> = ({ userExist }) => {
     setInputValue(formatNumber(value, solanaConfig.inputDecimalsCount));
   };
 
-  const getStakedYourTokenBalanceHandler = async (address: PublicKey) => {
-    const balance = await getStakedYourTokenBalance(address, connection);
-    setUserWalletBalance(balance);
-  };
-
-  const buttonHandler = async () => {
+  const unstakeHandler = async () => {
     if (!inputValue || !account || !userExist) return;
-    setIsWaiting(true);
-    getUserPendingRewards(account, connection);
-    try {
-      const unstakeYourTx = await unstakeYourTransaction(account, +inputValue);
-      const signature = await sendTransaction(unstakeYourTx, connection);
-      await connection.confirmTransaction(signature, 'processed');
-    } catch (e) {
-      useDev(() => console.log(e));
-    }
-    getStakedYourTokenBalanceHandler(account);
-    setIsWaiting(false);
+    await mutateAsync(inputValue);
+    setInputValue('');
   };
-
-  useEffect(() => {
-    if (account) {
-      getStakedYourTokenBalanceHandler(account);
-    } else {
-      setUserWalletBalance('0');
-    }
-  }, [account]);
+  const finalUnstakeHandler = async () => {
+    if (!account || !userExist) return;
+    mutate(undefined);
+  };
 
   return (
     <StakingForm
       btnText="Unstake YOUR"
       value={inputValue}
-      balance={userWalletBalance}
-      isWaiting={isWaiting}
+      balance={userStakedBalance}
+      isWaiting={isLoading}
       onChange={inputHandler}
-      onClick={buttonHandler}
+      onClick={unstakeHandler}
       clickAmountMax={clickAmountMaxHandler}
-    />
+    >
+      <div style={{ marginTop: '15px' }}>
+        <Button
+          text={isLoadingFinal ? 'Waiting...' : 'Final Unstake'}
+          color="primary-gradient"
+          widthFill
+          onClick={finalUnstakeHandler}
+          isWaitingMode={isLoadingFinal}
+        />
+      </div>
+    </StakingForm>
   );
 };

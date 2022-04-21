@@ -5,7 +5,7 @@ import { Tabs } from 'antd';
 
 import s from './Home.module.scss';
 import {
-  epochDurationPercent,
+  epochDurationInSlotsPercent,
   epochETA,
   epochNumber,
   getUserPendingRewards,
@@ -16,6 +16,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { UnStakingTabContainer } from '@modules/common/containers/UnStakingTab/UnStakingTabContainer';
 import { useYourPoolData } from '../../hooks/query/useYourPoolData';
 import { useCoinGecko } from '../../hooks/query/useCoinGecko';
+import { ClaimTab } from '@modules/common/containers/ClaimTab/ClaimTab';
 
 const { TabPane } = Tabs;
 
@@ -24,11 +25,12 @@ const HomePage = (): any => {
   const { connection } = useConnection();
   const { poolData, usersTotalStake, getApy } = useYourPoolData();
   const { priceYourSol } = useCoinGecko();
-  const tabChange = (key: string) => {
-    console.log(key, 'is active tab');
-  };
+
   const [userExist, setUserExist] = useState(false);
   const [slot, setSlot] = useState('0');
+
+  const tabChange = (key: string) => {
+  };
 
   const epochNumb = useMemo(() => {
     if (!poolData) return '1';
@@ -36,7 +38,7 @@ const HomePage = (): any => {
   }, [slot, poolData]);
 
   const epochPercent = useMemo(() => {
-    if (poolData && +slot) return epochDurationPercent(slot, poolData);
+    if (poolData && +slot) return epochDurationInSlotsPercent(slot, poolData);
     return '1';
   }, [slot, poolData]);
 
@@ -75,6 +77,9 @@ const HomePage = (): any => {
               </TabPane>
               <TabPane tab="Unstake" key="2">
                 <UnStakingTabContainer userExist={userExist} />
+              </TabPane>
+              <TabPane tab="Claim" key="3">
+                <ClaimTab userExist={userExist} currentSlot={slot} />
               </TabPane>
             </Tabs>
           </div>

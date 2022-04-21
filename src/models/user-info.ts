@@ -10,15 +10,15 @@ import { Constants } from '../constants';
 export class UserData {
   accountType: number;
 
+  nonce: number;
+
   userWallet: StringPublicKey;
 
   yourPool: StringPublicKey;
 
-  unstakePending: BN;
+  unstakePendingAmount: BN;
 
-  unstakePendingDate: BN;
-
-  nonce: number;
+  unstakePendingSlot: BN;
 
   claimTimeoutDate: BN;
 
@@ -30,14 +30,14 @@ export class UserData {
 
   constructor(args: {
     accountType: number;
+    nonce: number;
 
     userWallet: StringPublicKey;
     yourPool: StringPublicKey;
 
-    unstakePending: BN;
-    unstakePendingDate: BN;
+    unstakePendingAmount: BN;
+    unstakePendingSlot: BN;
 
-    nonce: number;
     claimTimeoutDate: BN;
 
     userWeightedEpoch: BN;
@@ -45,11 +45,11 @@ export class UserData {
     balanceYourStaked: BN;
   }) {
     this.accountType = args.accountType;
+    this.nonce = args.nonce;
     this.userWallet = args.userWallet;
     this.yourPool = args.yourPool;
-    this.unstakePending = args.unstakePending;
-    this.unstakePendingDate = args.unstakePendingDate;
-    this.nonce = args.nonce;
+    this.unstakePendingAmount = args.unstakePendingAmount;
+    this.unstakePendingSlot = args.unstakePendingSlot;
     this.claimTimeoutDate = args.claimTimeoutDate;
     this.userWeightedEpoch = args.userWeightedEpoch;
     this.userWeightedStake = args.userWeightedStake;
@@ -91,7 +91,7 @@ export class UserData {
   }
 }
 
-export const USER_STORAGE_TOTAL_BYTES = 114;
+export const USER_STORAGE_TOTAL_BYTES = 1 + 1 + 32 + 32 + 8 + 8 + 8 + 8 + 8 + 8; // 114
 
 export const USER_STORAGE_DATA_ON_CHAIN_SCHEMA = new Map<any, any>([
   [
@@ -100,11 +100,11 @@ export const USER_STORAGE_DATA_ON_CHAIN_SCHEMA = new Map<any, any>([
       kind: 'struct',
       fields: [
         ['accountType', 'u8'],
+        ['nonce', 'u8'],
         ['userWallet', 'pubkeyAsString'],
         ['yourPool', 'pubkeyAsString'],
-        ['unstakePending', 'u64'],
-        ['unstakePendingDate', 'u64'],
-        ['nonce', 'u8'],
+        ['unstakePendingAmount', 'u64'],
+        ['unstakePendingSlot', 'u64'],
         ['claimTimeoutDate', 'u64'],
         ['userWeightedEpoch', 'u64'],
         ['userWeightedStake', 'u64'],

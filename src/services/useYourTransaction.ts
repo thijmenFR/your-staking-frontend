@@ -6,7 +6,7 @@ import {
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Pubkeys } from '../contracts/config';
 import { Constants, YourStakingInstructions } from '../constants';
@@ -190,9 +190,148 @@ export const useYourTransaction = () => {
     return createUserTx;
   }
 
+  async function claimRewardsTransaction(userWallet: PublicKey): Promise<Transaction> {
+    const userStoragePubkey = await getUserStorageAccount(userWallet);
+
+    const rewardsATAPubkey = await findAssociatedTokenAddress(
+      userWallet,
+      Pubkeys.rewardsMintPubkey,
+    );
+
+    const rewardsAtaInfo = await connection.getAccountInfo(rewardsATAPubkey);
+
+    const doesRewardsAtaExist = rewardsAtaInfo?.owner !== undefined;
+
+    const claimRewardsIxs: TransactionInstruction[] = [];
+    if (!doesRewardsAtaExist) {
+      const createFantAssociatedAccountIx = Token.createAssociatedTokenAccountInstruction(
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+        TOKEN_PROGRAM_ID,
+        Pubkeys.rewardsMintPubkey,
+        rewardsATAPubkey,
+        userWallet,
+        userWallet,
+      );
+      claimRewardsIxs.push(createFantAssociatedAccountIx);
+    }
+
+    const poolSignerPda = await getPoolSignerPDA();
+
+    const claimRewardsIx = new TransactionInstruction({
+      programId: Pubkeys.yourStakingProgramId,
+      keys: [
+        {
+          pubkey: userWallet,
+          isSigner: true,
+          isWritable: false,
+        },
+
+        {
+          pubkey: userStoragePubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+
+        {
+          pubkey: Pubkeys.yourPoolStoragePubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+
+        {
+          pubkey: Pubkeys.yourStakingVaultPubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+        {
+          pubkey: Pubkeys.yourRewardsVaultPubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+        {
+          pubkey: rewardsATAPubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+        {
+          pubkey: poolSignerPda,
+          isSigner: false,
+          isWritable: false,
+        },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+      ],
+      data: Buffer.from([YourStakingInstructions.ClaimRewards]),
+    });
+    claimRewardsIxs.push(claimRewardsIx);
+    const claimRewardsTx = new Transaction().add(...claimRewardsIxs);
+    claimRewardsTx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+    claimRewardsTx.feePayer = userWallet;
+
+    return claimRewardsTx;
+  }
+
+  async function finalUnstakeYourTransaction(userWallet: PublicKey): Promise<Transaction> {
+    const userStoragePubkey = await getUserStorageAccount(userWallet);
+
+    const stakingATAPubkey = await findAssociatedTokenAddress(
+      userWallet,
+      Pubkeys.stakingMintPubkey,
+    );
+
+    const poolSignerPda = await getPoolSignerPDA();
+
+    const unstakeYourIx = new TransactionInstruction({
+      programId: Pubkeys.yourStakingProgramId,
+      keys: [
+        {
+          pubkey: userWallet,
+          isSigner: true,
+          isWritable: false,
+        },
+
+        {
+          pubkey: userStoragePubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+
+        {
+          pubkey: Pubkeys.yourPoolStoragePubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+
+        {
+          pubkey: Pubkeys.yourStakingVaultPubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+        {
+          pubkey: stakingATAPubkey,
+          isSigner: false,
+          isWritable: true,
+        },
+        {
+          pubkey: poolSignerPda,
+          isSigner: false,
+          isWritable: false,
+        },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+      ],
+      data: Buffer.from([YourStakingInstructions.FinalUnstake]),
+    });
+    const finalUnstakeYourTx = new Transaction().add(unstakeYourIx);
+    finalUnstakeYourTx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+    finalUnstakeYourTx.feePayer = userWallet;
+
+    return finalUnstakeYourTx;
+  }
+
   return {
     stakeYourTransaction,
     createUserTransaction,
     unstakeYourTransaction,
+    claimRewardsTransaction,
+    finalUnstakeYourTransaction,
   };
 };

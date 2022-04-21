@@ -4,14 +4,13 @@ import { useConnection } from '@solana/wallet-adapter-react';
 import { queryKeys } from '../../constants/queryKeys';
 import { YourPoolData } from '../../models/your-pool-info';
 import { Pubkeys } from '../../contracts/config';
-import { apy, bnMultipledByDecimals, epochNumber, quota } from '@utils/index';
+import { apy, bnMultipledByDecimals, quota } from '@utils/index';
 
 export const useYourPoolData = () => {
   const { connection } = useConnection();
   const { isLoading, data: poolData, error } = useQuery([queryKeys.useYourPoolData], () =>
     YourPoolData.fromAccount(Pubkeys.yourPoolStoragePubkey, connection),
   );
-
   const usersTotalStake = useMemo(() => {
     if (error) {
       throw new Error('Pool Does Not Exist');

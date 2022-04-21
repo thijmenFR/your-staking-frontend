@@ -1,4 +1,5 @@
 export enum queryKeys {
-  useYourPoolData = 2,
-  coinGecko,
+  useYourPoolData = 'useYourPoolData',
+  userData = 'userData',
+  coinGecko = 'coinGecko',
 }

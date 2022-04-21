@@ -6,3 +6,7 @@ export type RpcResponse = RpcResponseAndContext<
     account: AccountInfo<ParsedAccountData>;
   }>
 >;
+
+export interface IYourTab {
+  userExist: boolean;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AppLogo from '@modules/common/components/Logo';
 import Button from '@modules/common/components/Button';
@@ -14,11 +14,12 @@ import s from './Header.module.scss';
 // for tested inside Account modal
 import testLogo from '@assets/images/wallet/phantom.png';
 import { useMediaQuery } from '@modules/common/hooks';
+import { WalletModalContext } from '@modules/context/WalletContex';
 
 const Header = () => {
   const { publicKey: account } = useWallet();
   // Open Connect Wallet Modal
-  const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
+  const { setIsConnectWalletModal, isConnectWalletModal } = useContext(WalletModalContext);
   const connectWalletModal = async () => {
     setIsConnectWalletModal(true);
   };

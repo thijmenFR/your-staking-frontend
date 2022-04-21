@@ -56,7 +56,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
     if (numb.length === 7) return reductionNumber(val) + 'M';
     if (numb.length === 8) return reductionNumber(val, 2) + 'M';
     if (numb.length === 9) return reductionNumber(val, 3) + 'M';
-    return numb
+    return numb;
   };
   return (
     <ul className={s.statsList}>
@@ -82,7 +82,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
           <span>{statsInfo.epochTitle}</span>
           <span>#{epochNumb}</span>
         </h4>
-        <p className={s.statsList__value}>{formatNumber(epochPercent, 1)}%</p>
+        <p className={s.statsList__value}>{formatNumber(100 - +epochPercent, 1)}%</p>
         <div className={cn(s.statsList__subValue, s.statsList__progressBar)}>
           <p>
             <Countdown
@@ -96,7 +96,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
             />
           </p>
           <div className="progress-bar">
-            <ProgressBar percentValue={+epochPercent} />
+            <ProgressBar percentValue={100 - +epochPercent} />
           </div>
         </div>
       </li>

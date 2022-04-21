@@ -34,7 +34,7 @@
 }
 
 .stakeForm {
-  max-width: 384px;
+  max-width: 416px;
   width: 100%;
   margin: 0 auto;
   padding: 24px 24px 20px;
@@ -55,6 +55,23 @@
       @include media-mobile {
         font-size: 12px;
       }
+    }
+  }
+  &__claim {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--six-text-color);
+    div:first-child {
+      color: #265A61;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    div:last-child {
+      color: #009688;
+      font-size: 24px;
+      padding-bottom: 40px;
+      font-weight: 600;
     }
   }
 }

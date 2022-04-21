@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
@@ -10,11 +10,13 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { WalletModalContext } from '@modules/context/WalletContex';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
 
 export const WalletConnect: FC = ({ children }) => {
+  const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
 
@@ -38,7 +40,11 @@ export const WalletConnect: FC = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>{children}</WalletModalProvider>
+        <WalletModalProvider>
+          <WalletModalContext.Provider value={{ isConnectWalletModal, setIsConnectWalletModal }}>
+            {children}
+          </WalletModalContext.Provider>
+        </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
