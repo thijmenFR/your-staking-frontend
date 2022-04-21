@@ -27,5 +27,5 @@ export const useCoinGecko = () => {
     solPrice,
   ]);
 
-  return { priceYourSol };
+  return { priceYourSol, solPrice, yourPrice };
 };

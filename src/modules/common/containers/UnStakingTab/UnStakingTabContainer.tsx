@@ -7,16 +7,21 @@ import { IYourTab } from '../../../../types';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import Button from '@modules/common/components/Button';
 import { useSendMutation } from '../../../../hooks/mutation/useSendMutation';
+import { useSlot } from '../../../../hooks/useSlot';
+import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 
 export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { publicKey: account } = useWallet();
-  const { userStakedBalance } = useUserData();
+  const { userStakedBalance, userData } = useUserData();
+  const { getReceiveUser } = useYourPoolData();
   const { isLoading, mutateAsync } = useSendMutation('unstake');
   const { isLoading: isLoadingFinal, mutate } = useSendMutation('finalUnstake');
-
+  const { slot } = useSlot();
   const [inputValue, setInputValue] = useState('');
 
   const clickAmountMaxHandler = () => setInputValue(userStakedBalance);
+
+  const userReceive = getReceiveUser(+inputValue);
 
   const inputHandler: ChangeEventHandler<HTMLInputElement> = (event) => {
     const value = getInputValue(event);
@@ -30,7 +35,7 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     setInputValue('');
   };
   const finalUnstakeHandler = async () => {
-    if (!account || !userExist) return;
+    if (!account || !userExist || userData!.unstakePendingSlot.toNumber() > +slot) return;
     mutate(undefined);
   };
 
@@ -43,6 +48,7 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
       onChange={inputHandler}
       onClick={unstakeHandler}
       clickAmountMax={clickAmountMaxHandler}
+      userReceive={userReceive}
     >
       <div style={{ marginTop: '15px' }}>
         <Button

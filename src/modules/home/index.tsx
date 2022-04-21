@@ -17,6 +17,7 @@ import { UnStakingTabContainer } from '@modules/common/containers/UnStakingTab/U
 import { useYourPoolData } from '../../hooks/query/useYourPoolData';
 import { useCoinGecko } from '../../hooks/query/useCoinGecko';
 import { ClaimTab } from '@modules/common/containers/ClaimTab/ClaimTab';
+import { useSlot } from '../../hooks/useSlot';
 
 const { TabPane } = Tabs;
 
@@ -25,12 +26,9 @@ const HomePage = (): any => {
   const { connection } = useConnection();
   const { poolData, usersTotalStake, getApy } = useYourPoolData();
   const { priceYourSol } = useCoinGecko();
-
+  const { slot } = useSlot();
   const [userExist, setUserExist] = useState(false);
-  const [slot, setSlot] = useState('0');
-
-  const tabChange = (key: string) => {
-  };
+  const tabChange = (key: string) => {};
 
   const epochNumb = useMemo(() => {
     if (!poolData) return '1';
@@ -59,10 +57,6 @@ const HomePage = (): any => {
       getUserPendingRewards(account, connection);
     }
   }, [account]);
-
-  useEffect(() => {
-    connection.getSlot().then((res) => setSlot(res.toString()));
-  }, []);
 
   return (
     <section className={s.home}>

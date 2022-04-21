@@ -1,7 +1,12 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useQuery } from 'react-query';
 import { queryKeys } from '../../constants/queryKeys';
-import { getStakedYourTokenBalance, getUserData, getYourTokenBalance } from '@utils/index';
+import {
+  formatNumber,
+  getStakedYourTokenBalance,
+  getUserData,
+  getYourTokenBalance,
+} from '@utils/index';
 import { useEffect, useState } from 'react';
 
 export const useUserData = () => {
@@ -12,7 +17,6 @@ export const useUserData = () => {
     () => getUserData(userWallet!, connection),
     { enabled: !!userWallet },
   );
-
   const isAlreadyConnect = !!userWallet && !!userData && !!connection;
 
   const [userBalance, setUserBalance] = useState('0');
@@ -20,8 +24,12 @@ export const useUserData = () => {
 
   useEffect(() => {
     if (isAlreadyConnect) {
-      (async () => setUserBalance(await getYourTokenBalance(userWallet, connection)))();
-      (async () => setUserStakedBalance(await getStakedYourTokenBalance(userWallet, connection)))();
+      (async () =>
+        setUserBalance(formatNumber(await getYourTokenBalance(userWallet, connection), 3)))();
+      (async () =>
+        setUserStakedBalance(
+          formatNumber(await getStakedYourTokenBalance(userWallet, connection), 3),
+        ))();
     }
     if (!userWallet) {
       setUserBalance('0');

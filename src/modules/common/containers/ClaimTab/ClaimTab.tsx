@@ -33,9 +33,10 @@ export const ClaimTab: FC<ClaimTabProps> = ({ userExist, currentSlot }) => {
   useEffect(() => {
     if (userExist) {
       const rewards = calculateRewards(currentSlot, poolData!, userData!);
-      setClaimRewardsCount(bnMultipledByDecimals(rewards).toString());
+      setClaimRewardsCount(bnMultipledByDecimals(bnMultipledByDecimals(rewards)).toString());
     }
-  }, [userExist, currentSlot, poolData, userData]);
+    if(!account) setClaimRewardsCount('0')
+  }, [userExist, currentSlot, poolData, userData, account]);
   return (
     <ClaimForms
       balance={userBalance}
