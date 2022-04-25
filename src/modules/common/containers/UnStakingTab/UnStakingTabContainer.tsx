@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import React, { ChangeEventHandler, FC, useState } from 'react';
 import { StakingForm } from '@modules/common/components/StakingForm/StakingForm';
 import { formatNumber, getInputValue, isNumber } from '@utils/index';
 import { solanaConfig } from '../../../../contracts/config';
@@ -7,18 +7,16 @@ import { IYourTab } from '../../../../types';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import Button from '@modules/common/components/Button';
 import { useSendMutation } from '../../../../hooks/mutation/useSendMutation';
-import { useSlot } from '../../../../hooks/useSlot';
 import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
+import { UNSTAKING_TAB_TEXT } from '../../../../lang/en';
 
 export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { publicKey: account } = useWallet();
-  const { userStakedBalance, userData } = useUserData();
+  const { userStakedBalance, isPending, unstakePendingAmount, ustakeUserSlot } = useUserData();
   const { getReceiveUser } = useYourPoolData();
   const { isLoading, mutateAsync } = useSendMutation('unstake');
   const { isLoading: isLoadingFinal, mutate } = useSendMutation('finalUnstake');
-  const { slot } = useSlot();
   const [inputValue, setInputValue] = useState('');
-
   const clickAmountMaxHandler = () => setInputValue(userStakedBalance);
 
   const userReceive = getReceiveUser(+inputValue);
@@ -35,9 +33,28 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     setInputValue('');
   };
   const finalUnstakeHandler = async () => {
-    if (!account || !userExist || userData!.unstakePendingSlot.toNumber() > +slot) return;
+    if (!account || !userExist || isPending) return;
     mutate(undefined);
   };
+
+  const infoBlock = [
+    {
+      val: (
+        <>
+          <p>{UNSTAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p>
+          <p>{formatNumber(unstakePendingAmount)} $YOUR</p>
+        </>
+      ),
+    },
+    {
+      val: (
+        <>
+          <p>{UNSTAKING_TAB_TEXT.BLOCK_INFO.TAB_2.key} </p>
+          <p>{ustakeUserSlot} slot</p>
+        </>
+      ),
+    },
+  ];
 
   return (
     <StakingForm
@@ -49,13 +66,16 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
       onClick={unstakeHandler}
       clickAmountMax={clickAmountMaxHandler}
       userReceive={userReceive}
+      infoBlock={infoBlock}
+      walletTitle={'$YOUR staked'}
     >
       <div style={{ marginTop: '15px' }}>
         <Button
-          text={isLoadingFinal ? 'Waiting...' : 'Final Unstake'}
+          text={isLoadingFinal ? 'Waiting...' : 'Withdraw'}
           color="primary-gradient"
           widthFill
           onClick={finalUnstakeHandler}
+          disabled={isPending}
           isWaitingMode={isLoadingFinal}
         />
       </div>

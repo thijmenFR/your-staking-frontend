@@ -1,13 +1,7 @@
 import BN from 'bn.js';
-import {
-  Keypair,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-  TransactionInstruction,
-} from '@solana/web3.js';
+import { PublicKey, SystemProgram, Transaction, TransactionInstruction } from '@solana/web3.js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useConnection } from '@solana/wallet-adapter-react';
 import { Pubkeys } from '../contracts/config';
 import { Constants, YourStakingInstructions } from '../constants';
 import {
@@ -16,6 +10,7 @@ import {
   getUserStorageAccount,
   getUserStorageAccountWithNonce,
 } from '@utils/solanaHalpers';
+import BigNumber from 'bignumber.js';
 
 async function getPoolSignerPdaNonce(): Promise<Number> {
   return (
@@ -38,7 +33,10 @@ export const useYourTransaction = () => {
       userWallet,
       Pubkeys.stakingMintPubkey,
     );
-    const amountToDepositRaw = new BN(amountToDeposit).mul(new BN(Constants.toYourRaw));
+
+    const amount = new BigNumber(amountToDeposit).multipliedBy(new BigNumber(Constants.toYourRaw));
+
+    const amountToDepositRaw = new BN(amount.toString());
 
     const stakeYourIx = new TransactionInstruction({
       programId: Pubkeys.yourStakingProgramId,

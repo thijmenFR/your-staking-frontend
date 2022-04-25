@@ -30,12 +30,12 @@ export const ClaimForms: FC<ClaimFormsProps> = ({
   return (
     <form className={s.stakeForm}>
       <div className={s.stakeForm__balance}>
-        <p>Wallet balance</p> <p>{balance} $YOUR</p>
+        <p>Total staked</p> <p>{balance} $YOUR</p>
       </div>
 
       <div className={s.stakeForm__claim}>
         <div>Claimable rewards</div>
-        <div>{value} $YOUR</div>
+        <div>~ {value} $YOUR</div>
       </div>
 
       {account ? (

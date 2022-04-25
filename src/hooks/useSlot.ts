@@ -6,7 +6,7 @@ export const useSlot = () => {
   const refetchInterval = 10_000;
   const { connection } = useConnection();
   const getSlot = async () => connection.getSlot();
-  const { isLoading, data: slot, error } = useQuery([queryKeys.slot], () => getSlot(), {
+  const { data: slot } = useQuery([queryKeys.slot], () => getSlot(), {
     initialData: () => 1,
     refetchInterval,
   });

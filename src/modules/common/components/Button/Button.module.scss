@@ -5,6 +5,9 @@
   border-radius: 20px;
   background-color: var(--card-bg);
   border: 1px solid $borderColor;
+  &:disabled {
+    cursor: not-allowed;
+  }
   @include transition;
 
   & p {
@@ -103,7 +106,7 @@
       opacity: 1;
     }
 
-    &:active {
+    &:active  {
       border: transparent;
 
       &::after {

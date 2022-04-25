@@ -6,12 +6,22 @@ import BN from 'bn.js';
 import { YourPoolData } from '../models/your-pool-info';
 import { UserData } from '../models/user-info';
 import { ChangeEvent } from 'react';
-import { Constants, DEPLOY_SLOT, EPOCH_DURATION, isDev, SLOTS_PER_EPOCH } from '../constants';
+import { Constants, EPOCH_DURATION, isDev } from '../constants';
 import { getUserStorageAccount } from '@utils/solanaHalpers';
 
 export const useDev = (cb: any) => (isDev ? cb() : undefined);
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const bnToBigNumber = (data: any) => {
+  const newObj = { ...data };
+  for (const prop in newObj) {
+    if (BN.isBN(newObj[prop])) {
+      newObj[prop] = new BigNumber(newObj[prop].toString());
+    }
+  }
+  return newObj;
+};
 
 export const formatAddress = (address: string) => {
   return address.length >= 10 ? `${address.slice(0, 7)}...${address.slice(-4)}` : address;
@@ -20,8 +30,11 @@ export const bnDivdedByDecimals = (bn: BigNumber, decimals = solanaConfig.decima
   return bn.dividedBy(new BigNumber(10).pow(decimals));
 };
 
-export const bnMultipledByDecimals = (bn: BN) => {
+export const bnDivdedByDecimalsRaw = (bn: BN) => {
   return bn.div(new BN(Constants.toYourRaw));
+};
+export const bnDivdedByDecimalsRawBigNumber = (bn: string) => {
+  return new BigNumber(bn).div(new BigNumber(Constants.toYourRaw));
 };
 
 export const formatNumber = (value: string | BigNumber | number, digits = 3) => {
@@ -72,7 +85,7 @@ export const getUserTotalStake = async (connection: Connection) => {
   if (yourPoolData == null) {
     throw new Error('Pool Does Not Exist');
   }
-  return bnMultipledByDecimals(yourPoolData.userTotalStake).toString();
+  return bnDivdedByDecimalsRaw(yourPoolData.userTotalStake).toString();
 };
 
 export const getStakedYourTokenBalance = async (userWallet: PublicKey, connection: Connection) => {
@@ -82,7 +95,7 @@ export const getStakedYourTokenBalance = async (userWallet: PublicKey, connectio
   if (userData == null) {
     return '0';
   }
-  return bnMultipledByDecimals(userData.balanceYourStaked).toString();
+  return bnDivdedByDecimals(new BigNumber(userData.balanceYourStaked.toString())).toString();
 };
 
 export const getUserData = async (userWallet: PublicKey, connection: Connection) => {
@@ -98,14 +111,19 @@ export const userIsExist = async (userWallet: PublicKey, connection: Connection)
 
 export const userLogged = true;
 
-export const quota = (stake_amount: number, yourPoolData: YourPoolData) => {
+export const epochRemaining = (stake_amount: number, yourPoolData: YourPoolData) => {
+  const maxRewardRate = new BigNumber(yourPoolData.maxRewardRate.toString());
+  const minRewardRate = new BigNumber(yourPoolData.minRewardRate.toString());
+  const rewardPerSlot = new BigNumber(yourPoolData.rewardPerSlot.toString());
+  const epochDurationInSlots = new BigNumber(yourPoolData.epochDurationInSlots.toString());
+  const userTotalStake = new BigNumber(yourPoolData.userTotalStake.toString());
   try {
-    return new BN(stake_amount).mul(
-      BN.min(
-        yourPoolData.maxRewardRate,
-        BN.max(
-          yourPoolData.minRewardRate,
-          yourPoolData.rewardPerSlot.mul(new BN(SLOTS_PER_EPOCH).div(yourPoolData.userTotalStake)),
+    return new BigNumber(stake_amount).multipliedBy(
+      BigNumber.min(
+        maxRewardRate,
+        BigNumber.max(
+          minRewardRate,
+          rewardPerSlot.multipliedBy(epochDurationInSlots.div(userTotalStake)),
         ),
       ),
     );
@@ -120,7 +138,9 @@ export const apy = (yourPoolData: YourPoolData) => {
       yourPoolData.maxRewardRate,
       BN.max(
         yourPoolData.minRewardRate,
-        yourPoolData.rewardPerSlot.mul(new BN(SLOTS_PER_EPOCH)).div(yourPoolData.userTotalStake),
+        yourPoolData.rewardPerSlot
+          .mul(yourPoolData.epochDurationInSlots)
+          .div(yourPoolData.userTotalStake),
       ),
     );
   } catch (e) {
@@ -139,61 +159,64 @@ export const epochNumber = (slot: string, yourPoolData: YourPoolData) => {
 };
 
 export const epochDurationInSlotsPercent = (currentSlot: string, yourPoolData: YourPoolData) => {
-  const epoch_duration =
-    yourPoolData.epochDurationInSlots.toNumber() === 1
-      ? EPOCH_DURATION
-      : yourPoolData.epochDurationInSlots.toNumber();
+  const epoch_duration = yourPoolData.epochDurationInSlots.toNumber();
   const epoch_remaining = (+currentSlot - yourPoolData.poolInitSlot.toNumber()) % epoch_duration;
   const epoch_remaining_percent = (1 - epoch_remaining / epoch_duration) * 100;
   return String(epoch_remaining_percent);
 };
 
 export const epochETA = (currentSlot: string, yourPoolData: YourPoolData) => {
-  const epoch_duration =
-    yourPoolData.epochDurationInSlots.toNumber() === 1
-      ? EPOCH_DURATION
-      : yourPoolData.epochDurationInSlots.toNumber();
-  const SLOT_DURATION = EPOCH_DURATION / SLOTS_PER_EPOCH;
+  const epoch_duration = yourPoolData.epochDurationInSlots.toNumber();
+  const deploy_slot = yourPoolData.poolInitSlot.toNumber();
+  const SLOT_DURATION = EPOCH_DURATION / epoch_duration;
   const epoch_remainnig_time =
-    SLOT_DURATION * (epoch_duration - ((+currentSlot - DEPLOY_SLOT) % epoch_duration));
+    SLOT_DURATION * (epoch_duration - ((+currentSlot - deploy_slot) % epoch_duration));
   return epoch_remainnig_time * 1000;
 };
 
 export const calculateRewards = (
   currentSlot: string,
-  yourPoolData: YourPoolData,
+  yourPoolDataRaw: YourPoolData,
   userData: UserData,
 ) => {
   try {
-    const rewards = userData.userWeightedStake.mul(
-      BN.min(
-        yourPoolData.maxRewardRate,
-        BN.max(
-          yourPoolData.minRewardRate,
-          yourPoolData.rewardPerSlot
-            .mul(yourPoolData.epochDurationInSlots)
-            .div(yourPoolData.userTotalWeightedStake),
+    const yourPoolData = bnToBigNumber(yourPoolDataRaw);
+    const maxRewardRate = bnDivdedByDecimals(yourPoolData.maxRewardRate);
+    const minRewardRate = bnDivdedByDecimals(yourPoolData.minRewardRate);
+    const rewardPerSlot = bnDivdedByDecimals(yourPoolData.rewardPerSlot);
+    const epochDurationInSlots = yourPoolData.epochDurationInSlots;
+    const userTotalWeightedStake = new BigNumber(yourPoolData.userTotalWeightedStake.toString());
+    const poolInitSlot = new BigNumber(yourPoolData.poolInitSlot.toString());
+    const userTotalStake = new BigNumber(yourPoolData.userTotalStake.toString());
+
+    const balanceYourStaked = new BigNumber(userData.balanceYourStaked.toString());
+    const userWeightedStake = new BigNumber(userData.userWeightedStake.toString());
+    const userWeightedEpoch = new BigNumber(userData.userWeightedEpoch.toString());
+
+    const rewards = userWeightedStake.multipliedBy(
+      BigNumber.min(
+        maxRewardRate,
+        BigNumber.max(
+          minRewardRate,
+          rewardPerSlot.multipliedBy(epochDurationInSlots).div(userTotalWeightedStake),
         ),
       ),
     );
-    const unclaimedEpochs = new BN(currentSlot)
-      .sub(userData.userWeightedEpoch)
-      .div(yourPoolData.epochDurationInSlots);
-    const currentEpoch = new BN(currentSlot)
-      .sub(yourPoolData.poolInitSlot)
-      .div(yourPoolData.epochDurationInSlots);
 
-    if (!userData.userWeightedEpoch.eq(currentEpoch)) {
-      rewards.add(
-        unclaimedEpochs.mul(
-          userData.balanceYourStaked.mul(
-            BN.min(
-              yourPoolData.maxRewardRate,
-              BN.max(
-                yourPoolData.minRewardRate,
-                yourPoolData.rewardPerSlot
-                  .mul(yourPoolData.epochDurationInSlots)
-                  .div(yourPoolData.userTotalStake),
+    const unclaimedEpochs = new BigNumber(currentSlot)
+      .minus(userWeightedEpoch)
+      .div(epochDurationInSlots);
+    const currentEpoch = new BigNumber(currentSlot).minus(poolInitSlot).div(epochDurationInSlots);
+
+    if (!userWeightedEpoch.isEqualTo(currentEpoch)) {
+      rewards.plus(
+        unclaimedEpochs.multipliedBy(
+          balanceYourStaked.multipliedBy(
+            BigNumber.min(
+              maxRewardRate,
+              BigNumber.max(
+                minRewardRate,
+                rewardPerSlot.multipliedBy(epochDurationInSlots).div(userTotalStake),
               ),
             ),
           ),
@@ -203,7 +226,7 @@ export const calculateRewards = (
     return rewards;
   } catch (e) {
     useDev(() => console.error(e, 'calculateRewards'));
-    return new BN(0);
+    return new BigNumber(0);
   }
 };
 

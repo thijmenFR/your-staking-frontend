@@ -2,17 +2,20 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useQuery } from 'react-query';
 import { queryKeys } from '../../constants/queryKeys';
 import {
+  bnDivdedByDecimalsRaw,
   formatNumber,
   getStakedYourTokenBalance,
   getUserData,
   getYourTokenBalance,
 } from '@utils/index';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSlot } from '../useSlot';
 
 export const useUserData = () => {
   const { connection } = useConnection();
+  const { slot } = useSlot();
   const { publicKey: userWallet } = useWallet();
-  const { isLoading, data: userData, error } = useQuery(
+  const { data: userData } = useQuery(
     [queryKeys.userData],
     () => getUserData(userWallet!, connection),
     { enabled: !!userWallet },
@@ -21,6 +24,18 @@ export const useUserData = () => {
 
   const [userBalance, setUserBalance] = useState('0');
   const [userStakedBalance, setUserStakedBalance] = useState('0');
+
+  const unstakePendingAmount = useMemo(
+    () => (userData ? bnDivdedByDecimalsRaw(userData.unstakePendingAmount).toString() : 0),
+    [userData],
+  );
+  const ustakeUserSlot = useMemo(() => (userData ? userData?.unstakePendingSlot.toString() : 0), [
+    userData,
+  ]);
+  const isPending = useMemo(
+    () => (userData ? userData.unstakePendingSlot.toNumber() > +slot : true),
+    [slot, userData],
+  );
 
   useEffect(() => {
     if (isAlreadyConnect) {
@@ -37,5 +52,12 @@ export const useUserData = () => {
     }
   }, [isAlreadyConnect, userWallet, userData]);
 
-  return { userData, userBalance, userStakedBalance };
+  return {
+    userData,
+    userBalance,
+    userStakedBalance,
+    isPending,
+    unstakePendingAmount,
+    ustakeUserSlot,
+  };
 };

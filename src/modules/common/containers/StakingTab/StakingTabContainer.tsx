@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import React, { ChangeEventHandler, FC, useState } from 'react';
 import { StakingForm } from '@modules/common/components/StakingForm/StakingForm';
 import { formatNumber, getInputValue, isNumber } from '@utils/index';
 import { solanaConfig } from '../../../../contracts/config';
@@ -9,6 +9,8 @@ import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 import { IYourTab } from '../../../../types';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import { useSendMutation } from '../../../../hooks/mutation/useSendMutation';
+import CustomTooltip from '@modules/common/components/CustomTooltip';
+import { STAKING_TAB_TEXT } from '../../../../lang/en';
 
 export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { publicKey: userWallet, sendTransaction } = useWallet();
@@ -17,7 +19,6 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { connection } = useConnection();
   const { userBalance } = useUserData();
   const { isLoading, mutateAsync } = useSendMutation('stake');
-
   const [stakeInputValue, setStakeInputValue] = useState('');
 
   const clickAmountMaxHandler = () => setStakeInputValue(userBalance);
@@ -43,6 +44,38 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     setStakeInputValue('');
   };
 
+  const infoBlock = [
+    {
+      val: (
+        <>
+          <p>{STAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p> <p>{userReceive} $YOUR</p>
+        </>
+      ),
+    },
+    {
+      val: (
+        <>
+          <p>
+            {STAKING_TAB_TEXT.BLOCK_INFO.TAB_2.key}{' '}
+            <CustomTooltip text={STAKING_TAB_TEXT.BLOCK_INFO.TAB_2.tooltip} />
+          </p>
+          <p>1 $YOUR ≈ 1.01 $YOUR</p>
+        </>
+      ),
+    },
+    {
+      val: (
+        <>
+          <p>
+            {STAKING_TAB_TEXT.BLOCK_INFO.TAB_3.key}{' '}
+            <CustomTooltip text={STAKING_TAB_TEXT.BLOCK_INFO.TAB_3.tooltip} />
+          </p>
+          <p>0%</p>
+        </>
+      ),
+    },
+  ];
+
   return (
     <StakingForm
       btnText="Stake YOUR"
@@ -53,6 +86,8 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
       onClick={stakeYourHandler}
       clickAmountMax={clickAmountMaxHandler}
       userReceive={userReceive}
+      infoBlock={infoBlock}
+      walletTitle={'Wallet balance'}
     />
   );
 };

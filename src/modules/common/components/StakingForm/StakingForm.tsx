@@ -1,12 +1,9 @@
-import { useYourTransaction } from '../../../../services/useYourTransaction';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import React, {ChangeEvent, FC, useContext, useState} from 'react';
-import { getUserPendingRewards } from '@utils/index';
+import { useWallet } from '@solana/wallet-adapter-react';
+import React, { ChangeEvent, FC, useContext } from 'react';
 import s from '@modules/home/Home.module.scss';
 import yourCoinIcon from '@assets/images/your-coin.svg';
 import Button from '@modules/common/components/Button';
-import CustomTooltip from '@modules/common/components/CustomTooltip';
-import {WalletModalContext} from "@modules/context/WalletContex";
+import { WalletModalContext } from '@modules/context/WalletContex';
 
 interface StakingFormProps {
   btnText: string;
@@ -17,6 +14,8 @@ interface StakingFormProps {
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
   clickAmountMax: () => void;
   onClick: () => void;
+  infoBlock?: any[];
+  walletTitle: string;
 }
 
 export const StakingForm: FC<StakingFormProps> = ({
@@ -27,36 +26,21 @@ export const StakingForm: FC<StakingFormProps> = ({
   onClick,
   isWaiting,
   clickAmountMax,
-  userReceive = 0,
+  infoBlock = [],
   children,
+  walletTitle,
 }) => {
-  const { createUserTransaction, stakeYourTransaction } = useYourTransaction();
-  const { publicKey: account, sendTransaction } = useWallet();
-  const { connection } = useConnection();
+  const { publicKey: account } = useWallet();
 
   const { setIsConnectWalletModal } = useContext(WalletModalContext);
-
-  // Click on Stake button, waiting alert
-  const [userWalletBalance, setUserWalletBalance] = useState('0');
   const connectWallet = () => {
-    setIsConnectWalletModal(true)
-  };
-
-  const stakeYourHandler = async () => {
-    if (account) {
-      getUserPendingRewards(account, connection);
-      // const createUserTx = await createUserTransaction(account);
-      const stakeYourTx = await stakeYourTransaction(account, 100);
-      const signature = await sendTransaction(stakeYourTx, connection);
-      console.log(signature);
-      await connection.confirmTransaction(signature, 'processed');
-    }
+    setIsConnectWalletModal(true);
   };
 
   return (
     <form className={s.stakeForm}>
       <div className={s.stakeForm__balance}>
-        <p>Wallet balance</p> <p>{balance} $YOUR</p>
+        <p>{walletTitle}</p> <p>{balance} $YOUR</p>
       </div>
 
       <div className={s.stakeInput}>
@@ -83,27 +67,9 @@ export const StakingForm: FC<StakingFormProps> = ({
       )}
 
       <ul className={s.stakeInfo}>
-        <li>
-          <p>You will receive</p>
-          <p>{userReceive} $YOUR</p>
-        </li>
-        <li>
-          <p>
-            Exchange rate{' '}
-            <CustomTooltip
-              text="mSOL/SOL price increases every epoch because staking rewards are accumulated into
-               the SOL staked pool. Therefore, the ratio is not 1:1. This ratio only goes up with time."
-            />
-          </p>
-          <p>1 $YOUR ≈ 1.01 $YOUR</p>
-        </li>
-        <li>
-          <p>
-            Deposit fee{' '}
-            <CustomTooltip text="There is 0% fee for staking your SOL and receiving mSOL." />
-          </p>
-          <p>1$ 0%</p>
-        </li>
+        {infoBlock.map(({ val }, i) => (
+          <li key={i}>{val}</li>
+        ))}
       </ul>
     </form>
   );

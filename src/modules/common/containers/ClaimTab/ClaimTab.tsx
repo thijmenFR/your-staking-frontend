@@ -1,7 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import { IYourTab } from '../../../../types';
 import { ClaimForms } from '@modules/common/components/claimForms/ClaimForms';
-import { bnMultipledByDecimals, calculateRewards } from '@utils/index';
+import {
+  bnDivdedByDecimals,
+  bnDivdedByDecimalsRaw,
+  calculateRewards,
+  formatNumber,
+} from '@utils/index';
 import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import { useYourTransaction } from '../../../../services/useYourTransaction';
@@ -14,14 +19,12 @@ interface ClaimTabProps extends IYourTab {
 
 export const ClaimTab: FC<ClaimTabProps> = ({ userExist, currentSlot }) => {
   const { poolData } = useYourPoolData();
-  const { userData, userBalance } = useUserData();
+  const { userData, userStakedBalance } = useUserData();
   const { claimRewardsTransaction } = useYourTransaction();
   const { publicKey: account, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const queryClient = useQueryClient();
-
   const [claimRewardsCount, setClaimRewardsCount] = useState('0');
-
   const claimReward = async () => {
     const claimRewardsTx = await claimRewardsTransaction(account!);
     const signature = await sendTransaction(claimRewardsTx, connection, { skipPreflight: true });
@@ -33,17 +36,17 @@ export const ClaimTab: FC<ClaimTabProps> = ({ userExist, currentSlot }) => {
   useEffect(() => {
     if (userExist) {
       const rewards = calculateRewards(currentSlot, poolData!, userData!);
-      setClaimRewardsCount(bnMultipledByDecimals(bnMultipledByDecimals(rewards)).toString());
+      setClaimRewardsCount(bnDivdedByDecimals(rewards).toString());
     }
-    if(!account) setClaimRewardsCount('0')
+    if (!account) setClaimRewardsCount('0');
   }, [userExist, currentSlot, poolData, userData, account]);
   return (
     <ClaimForms
-      balance={userBalance}
+      balance={userStakedBalance}
       onClick={claimReward}
       isWaiting={false}
       btnText={'Claim YOUR'}
-      value={claimRewardsCount}
+      value={formatNumber(claimRewardsCount)}
     />
   );
 };

@@ -4,7 +4,7 @@ import { useConnection } from '@solana/wallet-adapter-react';
 import { queryKeys } from '../../constants/queryKeys';
 import { YourPoolData } from '../../models/your-pool-info';
 import { Pubkeys } from '../../contracts/config';
-import { apy, bnMultipledByDecimals, quota } from '@utils/index';
+import { apy, bnDivdedByDecimalsRaw, epochRemaining } from '@utils/index';
 
 export const useYourPoolData = () => {
   const { connection } = useConnection();
@@ -18,7 +18,7 @@ export const useYourPoolData = () => {
     if (!poolData) {
       return '0';
     }
-    return bnMultipledByDecimals(poolData.userTotalStake).toString();
+    return bnDivdedByDecimalsRaw(poolData.userTotalStake).toString();
   }, [poolData, error]);
 
   const getApy = useMemo(() => {
@@ -34,7 +34,7 @@ export const useYourPoolData = () => {
   const getReceiveUser = useCallback(
     (stake_amount: number) => {
       if (!poolData) return '0';
-      return quota(stake_amount, poolData).toString();
+      return epochRemaining(stake_amount, poolData).toString();
     },
     [poolData],
   );

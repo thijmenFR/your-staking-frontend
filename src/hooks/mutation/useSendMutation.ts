@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useYourTransaction } from '../../services/useYourTransaction';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { getUserPendingRewards, sleep, useDev } from '@utils/index';
 
 type mutation = 'stake' | 'unstake' | 'finalUnstake';
 
@@ -28,7 +27,9 @@ export const useSendMutation = (type: mutation) => {
   };
   const finalUnstake = async () => {
     const finalUnstakeYourTx = await finalUnstakeYourTransaction(userWallet!);
-    const signature = await sendTransaction(finalUnstakeYourTx, connection, {skipPreflight: true});
+    const signature = await sendTransaction(finalUnstakeYourTx, connection, {
+      skipPreflight: true,
+    });
     await connection.confirmTransaction(signature, 'processed');
   };
 
