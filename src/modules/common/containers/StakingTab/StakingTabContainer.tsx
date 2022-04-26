@@ -29,7 +29,7 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     setStakeInputValue(formatNumber(value, solanaConfig.inputDecimalsCount));
   };
 
-  const userReceive = formatNumber(getReceiveUser(+stakeInputValue));
+  const userReceive = getReceiveUser(+stakeInputValue);
 
   const createUser = async (address: PublicKey) => {
     const createUserTx = await createUserTransaction(address);
@@ -40,7 +40,7 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const stakeYourHandler = async () => {
     if (!stakeInputValue || !userWallet) return;
     if (!userExist) await createUser(userWallet);
-    await mutateAsync(userReceive);
+    await mutateAsync(stakeInputValue);
     setStakeInputValue('');
   };
 
@@ -48,7 +48,7 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     {
       val: (
         <>
-          <p>{STAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p> <p>{userReceive} $YOUR</p>
+          <p>{STAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p> <p>{formatNumber(userReceive)} $YOUR</p>
         </>
       ),
     },
