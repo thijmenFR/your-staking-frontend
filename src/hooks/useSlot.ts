@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { queryKeys } from '../constants/queryKeys';
 
 export const useSlot = () => {
-  const refetchInterval = 10_000;
+  const refetchInterval = 1_000;
   const { connection } = useConnection();
   const getSlot = async () => connection.getSlot();
   const { data: slot } = useQuery([queryKeys.slot], () => getSlot(), {

@@ -48,7 +48,7 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
     {
       val: (
         <>
-          <p>{STAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p> <p>{userReceive} $YOUR</p>
+          <p>{STAKING_TAB_TEXT.BLOCK_INFO.TAB_1.key}</p> <p>{formatNumber(userReceive)} $YOUR</p>
         </>
       ),
     },
@@ -59,7 +59,7 @@ export const StakingTabContainer: FC<IYourTab> = ({ userExist }) => {
             {STAKING_TAB_TEXT.BLOCK_INFO.TAB_2.key}{' '}
             <CustomTooltip text={STAKING_TAB_TEXT.BLOCK_INFO.TAB_2.tooltip} />
           </p>
-          <p>1 $YOUR ≈ 1.01 $YOUR</p>
+          <p>{formatNumber(getReceiveUser(1))}</p>
         </>
       ),
     },

@@ -8,6 +8,7 @@ import {
   epochDurationInSlotsPercent,
   epochETA,
   epochNumber,
+  formatNumber,
   getUserPendingRewards,
   userIsExist,
 } from '@utils/index';
@@ -24,7 +25,7 @@ const { TabPane } = Tabs;
 const HomePage = (): any => {
   const { publicKey: account } = useWallet();
   const { connection } = useConnection();
-  const { poolData, usersTotalStake, getApy } = useYourPoolData();
+  const { poolData, usersTotalStake, getApy, epochPercent } = useYourPoolData();
   const { priceYourSol } = useCoinGecko();
   const { slot } = useSlot();
   const [userExist, setUserExist] = useState(false);
@@ -33,11 +34,6 @@ const HomePage = (): any => {
   const epochNumb = useMemo(() => {
     if (!poolData) return '1';
     return epochNumber(slot, poolData);
-  }, [slot, poolData]);
-
-  const epochPercent = useMemo(() => {
-    if (poolData && +slot) return epochDurationInSlotsPercent(slot, poolData);
-    return '1';
   }, [slot, poolData]);
 
   const epochTimeToEnd = useMemo(() => {
@@ -57,7 +53,6 @@ const HomePage = (): any => {
       getUserPendingRewards(account, connection);
     }
   }, [account]);
-
   return (
     <section className={s.home}>
       <div className="container">
@@ -80,7 +75,7 @@ const HomePage = (): any => {
         </div>
         <StatsBlock
           totalStaked={usersTotalStake}
-          apy={getApy}
+          apy={formatNumber(getApy, 6)}
           epochNumb={epochNumb}
           epochPercent={epochPercent}
           eta={epochTimeToEnd}
