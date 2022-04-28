@@ -32,7 +32,9 @@ export async function getPoolSignerPDA(): Promise<PublicKey> {
   )[0];
 }
 
-export async function getUserStorageAccountWithNonce(userWallet: PublicKey): Promise<[PublicKey, Number]> {
+export async function getUserStorageAccountWithNonce(
+  userWallet: PublicKey,
+): Promise<[PublicKey, Number]> {
   return PublicKey.findProgramAddress(
     [userWallet.toBuffer(), Pubkeys.yourPoolStoragePubkey.toBuffer()],
     Pubkeys.yourStakingProgramId,

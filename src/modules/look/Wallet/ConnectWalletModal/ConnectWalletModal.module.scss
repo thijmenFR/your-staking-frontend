@@ -41,7 +41,7 @@
       }
 
       &::before {
-        content: "";
+        content: '';
         background-image: var(--wallet-item-bg);
         position: absolute;
         top: 0;
@@ -50,11 +50,11 @@
         width: 100%;
         z-index: 1;
         border-radius: 20px;
-        transition: opacity .5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
       }
 
       &::after {
-        content: "";
+        content: '';
         opacity: 0;
         background-image: var(--wallet-item-hover-bg);
         position: absolute;
@@ -63,11 +63,12 @@
         height: 100%;
         width: 100%;
         z-index: 1;
-        transition: opacity .5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
         border-radius: 20px;
       }
 
-      &:hover::after, &:focus::after {
+      &:hover::after,
+      &:focus::after {
         opacity: 1;
       }
 

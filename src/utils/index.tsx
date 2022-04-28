@@ -201,7 +201,8 @@ export const calculateRewards = (
 
     const { balanceYourStaked, userWeightedStake, userWeightedEpoch } = bnToBigNumber(userData);
 
-    const rewards = userWeightedStake.multipliedBy(
+    let rewards = new BigNumber(0);
+    bnDivdedByDecimals(userWeightedStake).multipliedBy(
       BigNumber.min(
         bnDivdedByDecimals(maxRewardRate),
         BigNumber.max(
@@ -213,25 +214,23 @@ export const calculateRewards = (
       ),
     );
 
-    const unclaimedEpochs = new BigNumber(currentSlot)
-      .minus(userWeightedEpoch)
-      .div(epochDurationInSlots);
     const currentEpoch = new BigNumber(currentSlot).minus(poolInitSlot).div(epochDurationInSlots);
+    const unclaimedEpochs = currentEpoch.minus(userWeightedEpoch);
 
-    if (!userWeightedEpoch.isEqualTo(currentEpoch)) {
-      rewards.plus(
-        unclaimedEpochs.multipliedBy(
-          balanceYourStaked.multipliedBy(
-            BigNumber.min(
-              maxRewardRate,
-              BigNumber.max(
-                minRewardRate,
-                rewardPerSlot.multipliedBy(epochDurationInSlots).div(userTotalStake),
-              ),
+    if (!unclaimedEpochs.eq(0)) {
+      rewards = unclaimedEpochs.multipliedBy(
+        balanceYourStaked.multipliedBy(
+          BigNumber.min(
+            bnDivdedByDecimals(maxRewardRate),
+            BigNumber.max(
+              bnDivdedByDecimals(minRewardRate),
+              rewardPerSlot.multipliedBy(epochDurationInSlots).div(userTotalStake),
             ),
           ),
         ),
       );
+
+      console.log('rewards for full epochs', rewards.toNumber());
     }
     return rewards;
   } catch (e) {

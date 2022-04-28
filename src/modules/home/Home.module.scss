@@ -10,10 +10,10 @@
     font-weight: 700;
     background: rgb(136, 202, 185);
     background: linear-gradient(
-                    90deg,
-                    rgba(136, 202, 185, 1) 0%,
-                    rgba(46, 122, 110, 1) 50%,
-                    rgba(43, 115, 104, 1) 100%
+      90deg,
+      rgba(136, 202, 185, 1) 0%,
+      rgba(46, 122, 110, 1) 50%,
+      rgba(43, 115, 104, 1) 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -41,7 +41,6 @@
   border-radius: 16px;
   background-color: var(--card-bg);
 
-
   &__balance {
     @include flex-justify-align(space-between, center);
     margin-bottom: 16px;
@@ -63,7 +62,7 @@
     align-items: center;
     color: var(--six-text-color);
     div:first-child {
-      color: #265A61;
+      color: #265a61;
       font-size: 14px;
       font-weight: 600;
     }
@@ -124,7 +123,7 @@
     border: none;
     outline: none;
     font-weight: 500;
-    opacity: .5;
+    opacity: 0.5;
 
     &::placeholder {
       font-weight: 400;
