@@ -1,8 +1,9 @@
 import React, { ChangeEventHandler, FC, useState } from 'react';
+import { PublicKey } from '@solana/web3.js';
+
 import { StakingForm } from '@modules/common/components/StakingForm/StakingForm';
 import { formatNumber, getInputValue, isNumber } from '@utils/index';
 import { solanaConfig } from '../../../../contracts/config';
-import { PublicKey } from '@solana/web3.js';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { useYourTransaction } from '../../../../services/useYourTransaction';
 import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
