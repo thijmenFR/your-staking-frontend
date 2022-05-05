@@ -1,7 +1,7 @@
 import s from './FaqBlock.module.scss';
 import { Collapse } from 'antd';
 import cn from 'classnames';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import AppContext from '@modules/layout/context/AppContext';
 
 import arrowDown from '@assets/images/arrow-down.svg';
@@ -83,4 +83,4 @@ const FaqBlock = () => {
   );
 };
 
-export default FaqBlock;
+export default React.memo(FaqBlock);
