@@ -5,7 +5,6 @@ import { Tabs } from 'antd';
 
 import s from './Home.module.scss';
 import {
-  epochDurationInSlotsPercent,
   epochETA,
   epochNumber,
   formatNumber,
@@ -29,7 +28,7 @@ const HomePage = (): any => {
   const { priceYourSol } = useCoinGecko();
   const { slot } = useSlot();
   const [userExist, setUserExist] = useState(false);
-  const tabChange = (key: string) => {};
+  const tabChange = () => {};
 
   const epochNumb = useMemo(() => {
     if (!poolData) return '1';
