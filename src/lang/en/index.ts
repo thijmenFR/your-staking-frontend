@@ -17,10 +17,10 @@ export const STAKING_TAB_TEXT = {
 export const UNSTAKING_TAB_TEXT = {
   BLOCK_INFO: {
     TAB_1: {
-      key: 'Pending',
+      key: 'Locked',
     },
     TAB_2: {
-      key: 'Pending till',
+      key: 'Unlocked in',
       tooltip: `mSOL/SOL price increases every epoch because staking rewards are accumulated into
                the SOL staked pool. Therefore, the ratio is not 1:1. This ratio only goes up with time`,
     },

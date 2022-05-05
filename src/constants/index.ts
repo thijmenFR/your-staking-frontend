@@ -4,6 +4,8 @@ export const isDev = true;
 
 export const EPOCH_DURATION = 216000;
 
+export const TIME_FACTOR = 300;
+
 export enum YourStakingInstructions {
   InitializeYourPool = 0,
   CreateUser = 1,

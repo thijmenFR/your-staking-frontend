@@ -73,7 +73,6 @@ export class UserData {
   }
 
   static async fromAccount(account: PublicKey, connection: Connection): Promise<UserData | null> {
-    // const connection = ConnectionService.getConnection();
     const accountData = await connection.getAccountInfo(account);
     if (!accountData) return null;
     return UserData.fromBuffer(accountData?.data);

@@ -1,8 +1,10 @@
 import React, { ChangeEventHandler, FC, useState } from 'react';
+import Countdown from 'react-countdown';
+import { useWallet } from '@solana/wallet-adapter-react';
+
 import { StakingForm } from '@modules/common/components/StakingForm/StakingForm';
 import { formatNumber, getInputValue, isNumber } from '@utils/index';
 import { solanaConfig } from '../../../../contracts/config';
-import { useWallet } from '@solana/wallet-adapter-react';
 import { IYourTab } from '../../../../types';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import Button from '@modules/common/components/Button';
@@ -12,7 +14,7 @@ import { UNSTAKING_TAB_TEXT } from '../../../../lang/en';
 
 export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { publicKey: account } = useWallet();
-  const { userStakedBalance, isPending, unstakePendingAmount, ustakeUserSlot } = useUserData();
+  const { userStakedBalance, isPending, unstakePendingAmount, timeToUnlock } = useUserData();
   const { getReceiveUser } = useYourPoolData();
   const { isLoading, mutateAsync } = useSendMutation('unstake');
   const { isLoading: isLoadingFinal, mutate } = useSendMutation('finalUnstake');
@@ -50,12 +52,20 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
       val: (
         <>
           <p>{UNSTAKING_TAB_TEXT.BLOCK_INFO.TAB_2.key} </p>
-          <p>{ustakeUserSlot} slot</p>
+          <Countdown
+            autoStart={false}
+            daysInHours
+            date={Date.now() + timeToUnlock}
+            renderer={({ formatted: { hours, minutes, seconds } }) => (
+              <span>
+                {hours}h {minutes}m {seconds}s
+              </span>
+            )}
+          />
         </>
       ),
     },
   ];
-
   return (
     <StakingForm
       btnText="Unstake YOUR"
