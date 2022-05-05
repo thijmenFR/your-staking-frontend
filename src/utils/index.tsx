@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { Pubkeys, solanaConfig } from '../contracts/config';
-import { RpcResponse } from '../types/index';
+import { RpcResponse } from '../types';
 import { Connection, PublicKey } from '@solana/web3.js';
 import BN from 'bn.js';
 import { YourPoolData } from '../models/your-pool-info';
@@ -178,9 +178,7 @@ export const epochETA = (currentSlot: string, yourPoolData: YourPoolData) => {
   const epoch_duration = yourPoolData.epochDurationInSlots.toNumber();
   const deploy_slot = yourPoolData.poolInitSlot.toNumber();
   const SLOT_DURATION = EPOCH_DURATION / epoch_duration;
-  const epoch_remainnig_time =
-    SLOT_DURATION * (epoch_duration - ((+currentSlot - deploy_slot) % epoch_duration));
-  return epoch_remainnig_time * 1000;
+  return SLOT_DURATION * (epoch_duration - ((+currentSlot - deploy_slot) % epoch_duration));
 };
 
 export const calculateRewards = (
