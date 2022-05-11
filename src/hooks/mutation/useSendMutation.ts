@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useYourTransaction } from '../../services/useYourTransaction';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { useState } from 'react';
 
 type mutation = 'stake' | 'unstake' | 'finalUnstake';
 
