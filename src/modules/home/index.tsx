@@ -18,6 +18,7 @@ import { useYourPoolData } from '../../hooks/query/useYourPoolData';
 import { useCoinGecko } from '../../hooks/query/useCoinGecko';
 import { ClaimTab } from '@modules/common/containers/ClaimTab/ClaimTab';
 import { useSlot } from '../../hooks/useSlot';
+import { ConfirmationPopUp } from '@modules/common/components/ConfirmationPopUp/ConfirmationPopUp';
 
 const { TabPane } = Tabs;
 
@@ -54,6 +55,7 @@ const HomePage = (): any => {
   }, [account]);
   return (
     <section className={s.home}>
+      <ConfirmationPopUp />
       <div className="container">
         <div className={s.home__inner}>
           <h1>Stake to earn</h1>

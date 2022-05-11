@@ -4,6 +4,7 @@ import CustomSwitch from '@modules/common/components/CustomSwitch';
 import HomePage from '@modules/home';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { WalletConnect } from '@modules/providers/WalletConnect';
+import { ModalProvider } from '@modules/providers/ModalProvider';
 
 const modulesData = [{ path: '/', title: 'home', component: HomePage }];
 
@@ -18,14 +19,16 @@ function App() {
     <BrowserRouter forceRefresh={!isBrowserSupportsHistory}>
       <QueryClientProvider client={queryClient}>
         <WalletConnect>
-          <Layout>
-            <CustomSwitch>
-              {modulesData.map(({ path, title, component }) => (
-                <Route exact key={title} path={path} component={component} />
-              ))}
-              <Route component={NoFound} key="pageNotFound" />
-            </CustomSwitch>
-          </Layout>
+          <ModalProvider>
+            <Layout>
+              <CustomSwitch>
+                {modulesData.map(({ path, title, component }) => (
+                  <Route exact key={title} path={path} component={component} />
+                ))}
+                <Route component={NoFound} key="pageNotFound" />
+              </CustomSwitch>
+            </Layout>
+          </ModalProvider>
         </WalletConnect>
       </QueryClientProvider>
     </BrowserRouter>
