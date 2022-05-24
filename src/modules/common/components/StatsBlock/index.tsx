@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { FC } from 'react';
 import { formatNumber } from '@utils/index';
 import Countdown from 'react-countdown';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const statsInfo = {
   priceTitle: 'YOUR/SOL price',
@@ -11,6 +12,7 @@ const statsInfo = {
   priceSubValue: '≈ $0,00',
 
   stakedTitle: 'Total staked',
+  userStakedTitle: '$YOUR staked',
   stakedValue: '6.82M',
   stakedSubValue: '≈ $0,00',
 
@@ -30,6 +32,7 @@ interface StatsBlockProps {
   epochPercent: string;
   eta: number;
   priceYourSol: string;
+  userStaked: string;
 }
 
 const StatsBlock: FC<StatsBlockProps> = ({
@@ -39,7 +42,9 @@ const StatsBlock: FC<StatsBlockProps> = ({
   epochPercent,
   eta,
   priceYourSol,
+  userStaked,
 }) => {
+  const { publicKey: account } = useWallet();
   const reductionNumber = (value: string, dig = 1) => {
     if (isNaN(+value) || value === null) return '0';
     const [number, float] = value.split('.');
@@ -58,6 +63,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
     if (numb.length === 9) return reductionNumber(val, 3) + 'M';
     return numb;
   };
+
   return (
     <ul className={s.statsList}>
       <li>
@@ -65,11 +71,18 @@ const StatsBlock: FC<StatsBlockProps> = ({
         <p className={s.statsList__value}>{priceYourSol}</p>
         <p className={s.statsList__subValue}>{statsInfo.priceSubValue}</p>
       </li>
-      <li>
-        <h4 className={s.statsList__title}>{statsInfo.stakedTitle}</h4>
-        <p className={s.statsList__value}>{reduction(totalStaked)}</p>
-        <p className={s.statsList__subValue}>{statsInfo.stakedSubValue}</p>
-      </li>
+      {account ? (
+        <li>
+          <h4 className={s.statsList__title}>{statsInfo.userStakedTitle}</h4>
+          <p className={s.statsList__value}>{userStaked}</p>
+        </li>
+      ) : (
+        <li>
+          <h4 className={s.statsList__title}>{statsInfo.stakedTitle}</h4>
+          <p className={s.statsList__value}>{reduction(totalStaked)}</p>
+          <p className={s.statsList__subValue}>{statsInfo.stakedSubValue}</p>
+        </li>
+      )}
       <li id={s.apy}>
         <h4 className={s.statsList__title}>{statsInfo.apyTitle}</h4>
         <p className={s.statsList__value}>{apy}%</p>

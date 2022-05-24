@@ -77,19 +77,24 @@ button {
   margin: 0 auto;
   padding: 0 100px;
 
-  @include media-mobile {
+  @include media-tablet {
     padding: 0 16px;
   }
 }
 
-.progress-bar {
-  width: 56px;
-  height: 20px;
-  margin-left: 12px;
-  margin-top: -2px;
+.progress {
+  @include flex-align(center);
+  color: var(--six-text-color);
 
-  @include media-mobile {
-    width: 116px;
+  &-bar {
+    width: 56px;
+    height: 20px;
+    margin-left: 12px;
+    margin-top: -2px;
+
+    @include media-mobile {
+      width: 116px;
+    }
   }
 }
 
@@ -140,25 +145,33 @@ body {
   .ant-tabs-tab {
     font-size: 14px;
     font-weight: 500;
-    min-width: 134px;
+    //min-width: 134px;
+    width: 100%;
     height: 36px;
     text-align: center;
     margin: 0;
-    @include media-mobile {
-      min-width: 125px;
-    }
-    @include media-low-mobile {
-      min-width: 105px;
-    }
+
+    //@include media-mobile {
+    //  min-width: 125px;
+    //}
+    //@include media-low-mobile {
+    //  min-width: 105px;
+    //}
   }
 
   .ant-tabs-nav {
     margin: 0 auto 24px;
-    width: fit-content;
+    //width: fit-content;
     padding: 4px 5px;
     background-color: var(--tabs-header-bg);
     border-radius: 24px;
     box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 416px;
+
+    .ant-tabs-nav-list {
+      width: 100%;
+    }
   }
 
   .ant-tabs-tab-btn {

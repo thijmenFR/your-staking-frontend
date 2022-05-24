@@ -12,6 +12,7 @@ import { useSendMutation } from '../../../../hooks/mutation/useSendMutation';
 import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 import { UNSTAKING_TAB_TEXT } from '../../../../lang/en';
 import { ModalContext } from '@modules/context/ModalContext';
+import ProgressBar from '@modules/common/components/ProgressBar';
 
 export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
   const { publicKey: account } = useWallet();
@@ -68,16 +69,21 @@ export const UnStakingTabContainer: FC<IYourTab> = ({ userExist }) => {
         val: (
           <>
             <p>{UNSTAKING_TAB_TEXT.BLOCK_INFO.TAB_2.key} </p>
-            <Countdown
-              autoStart={false}
-              daysInHours
-              date={Date.now() + timeToUnlock}
-              renderer={({ formatted: { hours, minutes, seconds } }) => (
-                <span>
-                  {hours}h {minutes}m {seconds}s
-                </span>
-              )}
-            />
+            <div className="progress">
+              <Countdown
+                autoStart={false}
+                daysInHours
+                date={Date.now() + timeToUnlock}
+                renderer={({ formatted: { hours, minutes, seconds } }) => (
+                  <span>
+                    {hours}h {minutes}m {seconds}s
+                  </span>
+                )}
+              />
+              <div className="progress-bar">
+                <ProgressBar percentValue={timeToUnlock !== 0 ? 100 - +timeToUnlock / 1000 : 0} />
+              </div>
+            </div>
           </>
         ),
       },

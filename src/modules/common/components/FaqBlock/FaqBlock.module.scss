@@ -25,6 +25,10 @@
     top: 24px;
     transform: rotate(-180deg);
 
+    @include media-mobile {
+      top: 22px;
+    }
+
     &__active {
       transform: rotate(0);
       @include transition;
@@ -44,6 +48,7 @@
 
       @include media-mobile {
         margin-bottom: 25px;
+        min-height: 0;
       }
 
       &:last-child {
@@ -54,13 +59,18 @@
         margin-top: -10px;
         font-size: 16px;
         font-weight: 500;
-        line-height: 30px !important;
-        padding-right: 10px !important;
+        //line-height: 30px !important;
         color: var(--four-text-color) !important;
-        @include media-low-mobile {
-          padding-right: 30px !important;
-        }
 
+        &:global(.ant-collapse-header) {
+          padding-right: 40px;
+          position: relative;
+
+          @include media-mobile {
+            line-height: normal;
+            padding: 16px 40px 16px 16px;
+          }
+        }
       }
     }
 

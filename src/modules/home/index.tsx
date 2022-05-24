@@ -19,6 +19,7 @@ import { useCoinGecko } from '../../hooks/query/useCoinGecko';
 import { ClaimTab } from '@modules/common/containers/ClaimTab/ClaimTab';
 import { useSlot } from '../../hooks/useSlot';
 import { ConfirmationPopUp } from '@modules/common/components/ConfirmationPopUp/ConfirmationPopUp';
+import { useUserData } from '../../hooks/query/useUserData';
 
 const { TabPane } = Tabs;
 
@@ -26,6 +27,7 @@ const HomePage = (): any => {
   const { publicKey: account } = useWallet();
   const { connection } = useConnection();
   const { poolData, usersTotalStake, getApy, epochPercent } = useYourPoolData();
+  const { userStakedBalance } = useUserData();
   const { priceYourSol } = useCoinGecko();
   const { slot } = useSlot();
   const [userExist, setUserExist] = useState(false);
@@ -81,6 +83,7 @@ const HomePage = (): any => {
           epochPercent={epochPercent}
           eta={epochTimeToEnd}
           priceYourSol={priceYourSol}
+          userStaked={userStakedBalance}
         />
         <FaqBlock />
       </div>
