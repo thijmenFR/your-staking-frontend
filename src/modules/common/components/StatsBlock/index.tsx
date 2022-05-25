@@ -7,44 +7,38 @@ import Countdown from 'react-countdown';
 import { useWallet } from '@solana/wallet-adapter-react';
 
 const statsInfo = {
-  priceTitle: 'YOUR/SOL price',
-  priceValue: '0.001 SOL',
-  priceSubValue: '≈ $0,00',
+  expectedTitle: 'Expected interest',
+  expectedSubValue: '≈ $0,00',
 
   stakedTitle: 'Total staked',
-  userStakedTitle: '$YOUR staked',
-  stakedValue: '6.82M',
   stakedSubValue: '≈ $0,00',
 
   apyTitle: 'APY',
   apyValue: '29,5%',
 
-  epochTitle: 'Epoch',
-  epochValue: '48,9%',
-  epochSubValue: 'ETA 16h 35m',
+  epochTitle: 'Next rewards',
   epochProgress: 50,
 };
 
 interface StatsBlockProps {
-  totalStaked: string;
   apy: string;
   epochNumb: string;
   epochPercent: string;
   eta: number;
-  priceYourSol: string;
+  rewardsCount: string;
   userStaked: string;
 }
 
 const StatsBlock: FC<StatsBlockProps> = ({
-  totalStaked,
   apy,
   epochNumb,
   epochPercent,
   eta,
-  priceYourSol,
+  rewardsCount,
   userStaked,
 }) => {
   const { publicKey: account } = useWallet();
+
   const reductionNumber = (value: string, dig = 1) => {
     if (isNaN(+value) || value === null) return '0';
     const [number, float] = value.split('.');
@@ -67,25 +61,18 @@ const StatsBlock: FC<StatsBlockProps> = ({
   return (
     <ul className={s.statsList}>
       <li>
-        <h4 className={s.statsList__title}>{statsInfo.priceTitle}</h4>
-        <p className={s.statsList__value}>{priceYourSol}</p>
-        <p className={s.statsList__subValue}>{statsInfo.priceSubValue}</p>
+        <h4 className={s.statsList__title}>{statsInfo.stakedTitle}</h4>
+        <p className={s.statsList__value}>{account ? reduction(userStaked) : 0}</p>
+        <p className={s.statsList__subValue}>{statsInfo.stakedSubValue}</p>
       </li>
-      {account ? (
-        <li>
-          <h4 className={s.statsList__title}>{statsInfo.userStakedTitle}</h4>
-          <p className={s.statsList__value}>{userStaked}</p>
-        </li>
-      ) : (
-        <li>
-          <h4 className={s.statsList__title}>{statsInfo.stakedTitle}</h4>
-          <p className={s.statsList__value}>{reduction(totalStaked)}</p>
-          <p className={s.statsList__subValue}>{statsInfo.stakedSubValue}</p>
-        </li>
-      )}
+      <li>
+        <h4 className={s.statsList__title}>{statsInfo.expectedTitle}</h4>
+        <p className={s.statsList__value}>{account ? formatNumber(rewardsCount) : 0}</p>
+        <p className={s.statsList__subValue}>{statsInfo.expectedSubValue}</p>
+      </li>
       <li id={s.apy}>
         <h4 className={s.statsList__title}>{statsInfo.apyTitle}</h4>
-        <p className={s.statsList__value}>{apy}%</p>
+        <p className={s.statsList__value}>{account ? apy : 0}%</p>
         <a className={s.statsList__link} href="/">
           See stats
         </a>

@@ -1,12 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { IYourTab } from '../../../../types';
 import { ClaimForms } from '@modules/common/components/claimForms/ClaimForms';
-import {
-  bnDivdedByDecimals,
-  bnDivdedByDecimalsRaw,
-  calculateRewards,
-  formatNumber,
-} from '@utils/index';
+import { bnDivdedByDecimals, calculateRewards, formatNumber } from '@utils/index';
 import { useYourPoolData } from '../../../../hooks/query/useYourPoolData';
 import { useUserData } from '../../../../hooks/query/useUserData';
 import { useYourTransaction } from '../../../../services/useYourTransaction';
@@ -40,6 +35,7 @@ export const ClaimTab: FC<ClaimTabProps> = ({ userExist, currentSlot }) => {
     }
     if (!account) setClaimRewardsCount('0');
   }, [userExist, currentSlot, poolData, userData, account]);
+
   return (
     <ClaimForms
       balance={userStakedBalance}

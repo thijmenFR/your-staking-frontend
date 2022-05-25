@@ -2,6 +2,7 @@ import React, { FC, useContext } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import iconCheckMark from '@assets/images/iconsToFont/check-mark-svgrepo-com.svg';
+import iconErrorMark from '@assets/images/iconsToFont/Error-icon.svg';
 
 import s from '@modules/common/components/ConfirmationPopUp/styles.module.scss';
 import { ErrorProps, ModalType, SuccessProps } from '../../../../types';
@@ -11,7 +12,7 @@ import AppContext from '@modules/layout/context/AppContext';
 const Success: FC<SuccessProps> = ({ tokensCount, newBalance, txHash, message = 'staked' }) => (
   <div className={s.content}>
     <div className={s.icon}>
-      <img src={iconCheckMark} />
+      <img src={iconCheckMark} alt="Success" />
     </div>
     <div className={s.mainText}>
       {tokensCount} $YOUR Succesfully {message}
@@ -30,7 +31,7 @@ const Success: FC<SuccessProps> = ({ tokensCount, newBalance, txHash, message = 
 const Error: FC<ErrorProps> = ({ txHash }) => (
   <div className={s.content}>
     <div className={s.icon}>
-      <img src={iconCheckMark} />
+      <img src={iconErrorMark} alt="Error" />
     </div>
     <div className={s.mainText}>ERROR</div>
     <div className={s.infoBlock}>

@@ -5,6 +5,8 @@ import { Tabs } from 'antd';
 
 import s from './Home.module.scss';
 import {
+  bnDivdedByDecimals,
+  calculateRewards,
   epochETA,
   epochNumber,
   formatNumber,
@@ -15,7 +17,6 @@ import { StakingTabContainer } from '@modules/common/containers/StakingTab/Staki
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { UnStakingTabContainer } from '@modules/common/containers/UnStakingTab/UnStakingTabContainer';
 import { useYourPoolData } from '../../hooks/query/useYourPoolData';
-import { useCoinGecko } from '../../hooks/query/useCoinGecko';
 import { ClaimTab } from '@modules/common/containers/ClaimTab/ClaimTab';
 import { useSlot } from '../../hooks/useSlot';
 import { ConfirmationPopUp } from '@modules/common/components/ConfirmationPopUp/ConfirmationPopUp';
@@ -26,11 +27,11 @@ const { TabPane } = Tabs;
 const HomePage = (): any => {
   const { publicKey: account } = useWallet();
   const { connection } = useConnection();
-  const { poolData, usersTotalStake, getApy, epochPercent } = useYourPoolData();
-  const { userStakedBalance } = useUserData();
-  const { priceYourSol } = useCoinGecko();
+  const { poolData, getApy, epochPercent } = useYourPoolData();
+  const { userStakedBalance, userData } = useUserData();
   const { slot } = useSlot();
   const [userExist, setUserExist] = useState(false);
+  const [claimRewardsCount, setClaimRewardsCount] = useState('0');
   const tabChange = () => {};
 
   const epochNumb = useMemo(() => {
@@ -48,6 +49,14 @@ const HomePage = (): any => {
     const existUser = await userIsExist(account, connection);
     setUserExist(existUser);
   };
+
+  useEffect(() => {
+    if (userExist) {
+      const rewards = calculateRewards(slot, poolData!, userData!);
+      setClaimRewardsCount(bnDivdedByDecimals(rewards).toString());
+    }
+    if (!account) setClaimRewardsCount('0');
+  }, [userExist, slot, poolData, userData, account]);
 
   useEffect(() => {
     userExistHandler();
@@ -77,13 +86,12 @@ const HomePage = (): any => {
           </div>
         </div>
         <StatsBlock
-          totalStaked={usersTotalStake}
           apy={formatNumber(getApy, 6)}
           epochNumb={epochNumb}
           epochPercent={epochPercent}
           eta={epochTimeToEnd}
-          priceYourSol={priceYourSol}
           userStaked={userStakedBalance}
+          rewardsCount={claimRewardsCount}
         />
         <FaqBlock />
       </div>
