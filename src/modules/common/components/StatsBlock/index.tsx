@@ -88,9 +88,9 @@ const StatsBlock: FC<StatsBlockProps> = ({
             <Countdown
               daysInHours
               date={Date.now() + eta}
-              renderer={({ formatted: { minutes, seconds } }) => (
+              renderer={({ formatted: { hours, minutes, seconds } }) => (
                 <span>
-                  ETA {minutes}m {seconds}s
+                  ETA {hours}h {minutes}m {seconds}s
                 </span>
               )}
             />
