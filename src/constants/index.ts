@@ -2,9 +2,7 @@ import BN from 'bn.js';
 
 export const isDev = true;
 
-export const EPOCH_DURATION = 216000;
-
-export const TIME_FACTOR = 300;
+export const SLOT_DURATION = 500;
 
 export enum YourStakingInstructions {
   InitializeYourPool = 0,

@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { YourPoolData } from '../models/your-pool-info';
 import { UserData } from '../models/user-info';
 import { ChangeEvent } from 'react';
-import { Constants, EPOCH_DURATION, isDev } from '../constants';
+import { Constants, isDev, SLOT_DURATION } from '../constants';
 import { getUserStorageAccount } from '@utils/solanaHalpers';
 
 export const useDev = (cb: any) => (isDev ? cb() : undefined);
@@ -177,7 +177,6 @@ export const epochDurationInSlotsPercent = (currentSlot: string, yourPoolData: Y
 export const epochETA = (currentSlot: string, yourPoolData: YourPoolData) => {
   const epoch_duration = yourPoolData.epochDurationInSlots.toNumber();
   const deploy_slot = yourPoolData.poolInitSlot.toNumber();
-  const SLOT_DURATION = EPOCH_DURATION / epoch_duration;
   return SLOT_DURATION * (epoch_duration - ((+currentSlot - deploy_slot) % epoch_duration));
 };
 

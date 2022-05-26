@@ -11,7 +11,7 @@ import {
   getYourTokenBalance,
 } from '@utils/index';
 import { queryKeys } from '../../constants/queryKeys';
-import { TIME_FACTOR } from '../../constants';
+import { SLOT_DURATION } from '../../constants';
 
 export const useUserData = () => {
   const { connection } = useConnection();
@@ -40,7 +40,7 @@ export const useUserData = () => {
   );
 
   const timeToUnlock = useMemo(() => {
-    const unstakeTime = (+ustakeUserSlot - +slot) * TIME_FACTOR;
+    const unstakeTime = (+ustakeUserSlot - +slot) * SLOT_DURATION;
     return unstakeTime > 0 ? unstakeTime : 0;
   }, [slot, ustakeUserSlot]);
 

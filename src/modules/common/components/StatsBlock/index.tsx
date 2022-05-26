@@ -90,7 +90,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
               date={Date.now() + eta}
               renderer={({ formatted: { hours, minutes, seconds } }) => (
                 <span>
-                  ETA {hours}h {minutes}m {seconds}s
+                  ETA {hours}h {minutes}m
                 </span>
               )}
             />
