@@ -80,7 +80,7 @@ const StatsBlock: FC<StatsBlockProps> = ({
       <li>
         <h4 className={s.statsList__title}>
           <span>{statsInfo.epochTitle}</span>
-          <span>#{epochNumb}</span>
+          {/*<span>#{epochNumb}</span>*/}
         </h4>
         <p className={s.statsList__value}>{formatNumber(100 - +epochPercent, 1)}%</p>
         <div className={cn(s.statsList__subValue, s.statsList__progressBar)}>
