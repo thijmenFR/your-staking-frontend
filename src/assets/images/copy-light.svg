@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/copy-light</title>
+    <g id="Staking" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Buttons" transform="translate(-867.000000, -420.000000)" stroke="#C7E2DE" stroke-width="1.5">
+            <g id="icon/copy-light" transform="translate(868.000000, 421.000000)">
+                <path d="M4,12 L2,12 C0.89543,12 0,11.1046 0,10 L0,2 C0,0.89543 0.89543,0 2,0 L10,0 C11.1046,0 12,0.89543 12,2 L12,4 M6,16 L14,16 C15.1046,16 16,15.1046 16,14 L16,6 C16,4.89543 15.1046,4 14,4 L6,4 C4.89543,4 4,4.89543 4,6 L4,14 C4,15.1046 4.89543,16 6,16 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

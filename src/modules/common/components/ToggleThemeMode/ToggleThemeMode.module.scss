@@ -1,0 +1,35 @@
+.themeSelector {
+  @include flex-justify-align(center, center);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 999;
+
+  & p {
+    font-size: 14px;
+    font-weight: 500;
+
+    @include transition;
+
+    &.isActiveLight {
+      color: var(--ten-text-color);
+    }
+
+    &.isActiveDark {
+      color: $secondBorderColor;
+    }
+
+    &.isInactive {
+      color: $lightGreen;
+    }
+  }
+
+  &__icon {
+    width: 92px;
+    min-width: 92px;
+    height: 48px;
+    margin: 0 10px;
+    @include transition;
+  }
+}

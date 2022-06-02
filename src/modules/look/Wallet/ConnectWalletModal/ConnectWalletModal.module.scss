@@ -1,0 +1,154 @@
+.connectWallet {
+  background-color: var(--card-bg);
+  padding: 40px 25px 25px;
+
+  .shake {
+    animation: shake 0.5s;
+  }
+
+  &__logo {
+    margin: 0 auto;
+    width: fit-content;
+  }
+
+  & h5 {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    padding: 24px 0 30px;
+    color: var(--nine-text-color);
+  }
+
+  &__list {
+    & > li {
+      margin-bottom: 16px;
+      border-radius: 20px;
+      min-height: 40px;
+      border: 1px solid var(--wallet-item-border);
+      @include transition;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      & a {
+        @include flex-align(center);
+        padding: 3px;
+        height: 40px;
+        z-index: 2;
+        position: relative;
+      }
+
+      &::before {
+        content: '';
+        background-image: var(--wallet-item-bg);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        border-radius: 20px;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      &::after {
+        content: '';
+        opacity: 0;
+        background-image: var(--wallet-item-hover-bg);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        transition: opacity 0.5s ease-in-out;
+        border-radius: 20px;
+      }
+
+      &:hover::after,
+      &:focus::after {
+        opacity: 1;
+      }
+
+      &:active {
+        border: transparent;
+
+        &::after {
+          background-image: var(--wallet-item-active-bg);
+
+          opacity: 1;
+          transition: opacity 0.5s ease-in-out;
+        }
+
+        &::before {
+          background-image: none;
+        }
+      }
+    }
+
+    &Logo {
+      width: 32px;
+      min-width: 32px;
+      height: 32px;
+      margin-right: 8px;
+      overflow: hidden;
+      border-radius: 50%;
+    }
+  }
+
+  &__walletName {
+    color: var(--third-text-color);
+    font-weight: 500;
+  }
+
+  & .confirmPrivacy {
+    margin-bottom: 24px;
+
+    & span {
+      color: var(--six-text-color);
+      font-size: 12px;
+    }
+
+    & a {
+      font-weight: 700;
+    }
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+      transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+      transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+    80% {
+      transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+    100% {
+      transform: translate(1px, -2px) rotate(-1deg);
+    }
+  }
+}

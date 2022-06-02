@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/external-link</title>
+    <g id="Staking" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Staking-Desktop-Light" transform="translate(-812.000000, -782.000000)" stroke="#56CDC0" stroke-width="1.5">
+            <g id="card-small-03" transform="translate(728.000000, 697.000000)">
+                <g id="icon/external-link" transform="translate(85.000000, 86.000000)">
+                    <path d="M4.36363636,1.81818182 L1.45454545,1.81818182 C0.651221818,1.81818182 0,2.46940364 0,3.27272727 L0,10.5454545 C0,11.3488 0.651221818,12 1.45454545,12 L8.72727273,12 C9.53061818,12 10.1818182,11.3488 10.1818182,10.5454545 L10.1818182,7.63636364 M7.27272727,0.363636364 L11.6363636,0.363636364 M11.6363636,0.363636364 L11.6363636,4.72727273 M11.6363636,0.363636364 L4.36363636,7.63636364" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

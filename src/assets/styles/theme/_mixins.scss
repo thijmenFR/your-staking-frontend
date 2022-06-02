@@ -1,0 +1,40 @@
+// Flex
+@mixin flex-align($align-position) {
+  display: flex;
+  align-items: $align-position;
+}
+
+@mixin flex-justify($justify-position) {
+  display: flex;
+  justify-content: $justify-position;
+}
+
+@mixin flex-justify-align($justify-position, $align-position) {
+  display: flex;
+  justify-content: $justify-position;
+  align-items: $align-position;
+}
+
+// Transition
+@mixin transition {
+  transition: all 0.3s ease-in-out;
+}
+
+// Breakpoint mixins
+@mixin media-mobile {
+  @media (max-width: $mobile-bp) {
+    @content;
+  }
+}
+
+@mixin media-low-mobile {
+  @media (max-width: $low-mobile-bp) {
+    @content;
+  }
+}
+
+@mixin media-tablet {
+  @media (max-width: $tablet-bp) {
+    @content;
+  }
+}

@@ -1,0 +1,144 @@
+.btn {
+  padding: 11px 24px;
+  min-height: 40px;
+  min-width: 148px;
+  border-radius: 20px;
+  background-color: var(--card-bg);
+  border: 1px solid $borderColor;
+  &:disabled {
+    cursor: not-allowed;
+  }
+  @include transition;
+
+  & p {
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--six-text-color);
+    text-align: center;
+  }
+
+  &:hover {
+    color: $primary;
+    @include transition;
+  }
+
+  &.widthFill {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  &.isSmallSize {
+    padding: 9px 20px;
+    line-height: 1;
+    min-height: 32px;
+    min-width: 69px;
+  }
+
+  &.icon {
+    @include flex-align(center);
+    padding: 3px 24px 3px 3px;
+
+    .iconItem {
+      width: 35px;
+      min-width: 35px;
+      height: 35px;
+      margin-right: 10px;
+    }
+  }
+
+  &.gray {
+    background-color: $lightGray;
+    border: none;
+    padding: 3px;
+    margin-right: 1px;
+    font-weight: 500;
+
+    & p {
+      color: $darkGreen;
+    }
+
+    &:hover p {
+      opacity: 0.9;
+    }
+  }
+
+  &.primary-gradient {
+    border: transparent;
+    position: relative;
+    z-index: 1;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: transparent;
+
+    & p {
+      color: $white;
+    }
+
+    &::before {
+      content: '';
+      background-image: $primaryGradient;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      border-radius: 20px;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    &::after {
+      content: '';
+      opacity: 0;
+      background-image: $primaryGradientHover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      transition: opacity 0.5s ease-in-out;
+      border-radius: 20px;
+    }
+
+    &:hover::after,
+    &:focus::after {
+      opacity: 1;
+    }
+
+    &:active {
+      border: transparent;
+
+      &::after {
+        background-image: $primaryGradientActive;
+
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      &::before {
+        background-image: none;
+      }
+    }
+  }
+
+  &.isWaitingMode {
+    pointer-events: none;
+  }
+}
+
+.isStateIndicator {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -10px;
+    background-color: $primary;
+    border-radius: 100%;
+    width: 6px;
+    height: 6px;
+  }
+}

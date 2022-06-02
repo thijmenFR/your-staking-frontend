@@ -1,0 +1,66 @@
+// Breackpoints use in mixins
+$low-mobile-bp: 380px;
+$mobile-bp: 430px;
+$tablet-bp: 768px;
+
+// Colors
+$primary: #56cdc0;
+$borderColor: #88cab9;
+$secondBorderColor: #c7e2de;
+$itemBg: #022429;
+$white: #fff;
+$lightGray: #dce4e6;
+$darkGreen: #265a61;
+$lightGreen: #607d8b;
+
+$primaryGradient: linear-gradient(135.22deg, #88cab9 0%, #2e7a6e 51.92%, #2b7368 100%);
+$primaryGradientHover: linear-gradient(135.22deg, #2b7368 0%, #2e7a6e 48.08%, #88cab9 100%);
+$primaryGradientActive: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
+
+:root {
+  --body-color: #011113;
+  --green-text-color: $darkGreen;
+  --main-text-color: #022429;
+  --secondary-text-color: #c7e2de;
+  --third-text-color: #e5eeed;
+  --four-text-color: #e5eeed;
+  --five-text-color: #022429;
+  --six-text-color: #e5eeed;
+  --seven-text-color: #b9dcd2;
+  --nine-text-color: #fff;
+  --eleven-text-color: #022429;
+  --ten-text-color: #607d8b;
+
+  --secondary-bg: #011113;
+  --accordion-bg: #011518;
+  --card-bg: #022429;
+  --tabs-header-bg: #394748;
+  --wallet-item-bg: linear-gradient(135.22deg, #88cab9 0%, #2e7a6e 51.92%, #2b7368 100%);
+  --wallet-item-hover-bg: linear-gradient(135.22deg, #2b7368 0%, #2e7a6e 48.08%, #88cab9 100%);
+  --wallet-item-active-bg: linear-gradient(132.27deg, #054a53 0%, #022429 100%);
+  --wallet-item-border: $primary;
+}
+
+.light-mode {
+  --body-color: linear-gradient(314.94deg, #c5d9d8 0%, #ffffff 100%);
+  --green-text-color: $primary;
+  --main-text-color: #e5eeed;
+  --secondary-text-color: #265a61;
+  --third-text-color: #032219;
+  --four-text-color: #011113;
+  --five-text-color: #f6f9f9;
+  --six-text-color: #022429;
+  --seven-text-color: #022429;
+  --nine-text-color: #011113;
+  --eleven-text-color: #7b8a86;
+  --ten-text-color: #011113;
+
+  --secondary-bg: #e5eeed;
+  --accordion-bg: #f6f9f9;
+  --card-bg: #fff;
+  --tabs-header-bg: #fff;
+  --wallet-item-bg: transparent;
+  --wallet-item-hover-bg: transparent;
+  --wallet-item-active-bg: transparent;
+  --wallet-item-border: #c7e2de;
+}
