@@ -10,21 +10,21 @@ export const solanaConfig = {
 };
 
 export class Pubkeys {
-  static yourStakingProgramId = new PublicKey('7S6UrxVdWvq3LB8VJ8xyuXDH8JnXmiJFrqAJcaBSC9yw');
+  static yourStakingProgramId = new PublicKey('B3YKFzpW7ASiQC9oMAzPE2Pjm7SAf6ecCEYsygHjcxJ7');
 
   static splAssociatedTokenAccountProgramId = new PublicKey(
     'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
   );
 
-  static yourTokenMintPubkey = new PublicKey('8qmUZbSVbraiZb4MLNjLLyN1KvP1RLj77F9wW34hvDqb');
+  static yourTokenMintPubkey = new PublicKey('ByyxaLCt6cGdSAHwLY28BcGd1kVcNfJ9h4nZouBruKqd');
 
-  static stakingMintPubkey = new PublicKey('8qmUZbSVbraiZb4MLNjLLyN1KvP1RLj77F9wW34hvDqb');
+  static stakingMintPubkey = new PublicKey('ByyxaLCt6cGdSAHwLY28BcGd1kVcNfJ9h4nZouBruKqd');
 
-  static rewardsMintPubkey = new PublicKey('8qmUZbSVbraiZb4MLNjLLyN1KvP1RLj77F9wW34hvDqb');
+  static rewardsMintPubkey = new PublicKey('ByyxaLCt6cGdSAHwLY28BcGd1kVcNfJ9h4nZouBruKqd');
 
-  static yourPoolStoragePubkey = new PublicKey('HmWTE9h4SMgdKNRWpvx8zdR4W5cwQKvHv1ZuGBnQDJE2');
+  static yourPoolStoragePubkey = new PublicKey('7DHkXWSu12LbsW788AJBvBj4xbEQhFJePQRacxakAfLr');
 
-  static yourStakingVaultPubkey = new PublicKey('Gp2VUsBSfg2nVJokpnieMnQLMbiVsLidCpzMyvnvEuPh');
+  static yourStakingVaultPubkey = new PublicKey('HPvED8unsjXjsGwDPdQJPSzsfKvUcerVM7fE42NfoX7a');
 
-  static yourRewardsVaultPubkey = new PublicKey('9Q15Ky2f5fUPHvSFFAGxAsqwmJV8fiq1ua9eLSPrjswH');
+  static yourRewardsVaultPubkey = new PublicKey('DxGKFwckzCNe811CRDbLnrjGBs4GyuCFwYQ33ySo4aFx');
 }

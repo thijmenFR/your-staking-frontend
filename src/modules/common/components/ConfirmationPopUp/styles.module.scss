@@ -10,7 +10,8 @@
     width: 92px;
   }
 
-  .mainText, .secondText {
+  .mainText,
+  .secondText {
     font-size: 24px;
     text-align: center;
   }
@@ -38,7 +39,7 @@
     }
 
     .explorer {
-      color: #55CDC0;
+      color: #55cdc0;
       font-size: 16px;
       line-height: 24px;
       text-align: center;
@@ -49,5 +50,4 @@
       }
     }
   }
-
 }
