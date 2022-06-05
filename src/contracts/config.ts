@@ -1,10 +1,10 @@
 import { PublicKey } from '@solana/web3.js';
 
-const claster = 'devnet';
+const cluster = 'devnet';
 
 export const solanaConfig = {
   soloScan: (address: string | undefined) =>
-    address ? `https://explorer.solana.com/address/${address}?cluster=${claster}` : '',
+    address ? `https://explorer.solana.com/address/${address}?cluster=${cluster}` : '',
   decimals: '9',
   inputDecimalsCount: 3,
 };
