@@ -9,15 +9,19 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { formatAddress } from '@utils/index';
 import ToggleThemeMode from '@modules/common/components/ToggleThemeMode';
 
-import s from './Header.module.scss';
-
 // for tested inside Account modal
-import testLogo from '@assets/images/wallet/phantom.png';
 import { useMediaQuery } from '@modules/common/hooks';
 import { WalletModalContext } from '@modules/context/WalletContex';
+import { useWeb3React } from '@web3-react/core';
+
+import testLogo from '@assets/images/wallet/phantom.png';
+import walletConnectLogo from '@assets/images/wallet/wallet-connect.svg';
+
+import s from './Header.module.scss';
 
 const Header = () => {
   const { publicKey: account } = useWallet();
+  const { account: web3Account } = useWeb3React();
   // Open Connect Wallet Modal
   const { setIsConnectWalletModal, isConnectWalletModal } = useContext(WalletModalContext);
   const connectWalletModal = async () => {
@@ -43,14 +47,26 @@ const Header = () => {
             </Link>
 
             <div className={s.walletInfo}>
-              {account ? (
-                <Button
-                  onClick={walletAccountModal}
-                  text={formatAddress(account.toJSON())}
-                  color="primary-gradient"
-                  iconPath={testLogo}
-                  isStateIndicator
-                />
+              {account || web3Account ? (
+                account ? (
+                  <Button
+                    onClick={walletAccountModal}
+                    text={formatAddress(account.toJSON())}
+                    color="primary-gradient"
+                    iconPath={testLogo}
+                    isStateIndicator
+                  />
+                ) : (
+                  web3Account && (
+                    <Button
+                      onClick={walletAccountModal}
+                      text={formatAddress(web3Account)}
+                      color="primary-gradient"
+                      iconPath={walletConnectLogo}
+                      isStateIndicator
+                    />
+                  )
+                )
               ) : (
                 <Button
                   onClick={connectWalletModal}

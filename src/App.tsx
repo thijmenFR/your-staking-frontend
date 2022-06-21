@@ -5,6 +5,7 @@ import HomePage from '@modules/home';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { WalletConnect } from '@modules/providers/WalletConnect';
 import { ModalProvider } from '@modules/providers/ModalProvider';
+import Web3Wrapper from '@modules/web3/containers/Web3Wrapper';
 
 const modulesData = [{ path: '/', title: 'home', component: HomePage }];
 
@@ -18,18 +19,20 @@ function App() {
   return (
     <BrowserRouter forceRefresh={!isBrowserSupportsHistory}>
       <QueryClientProvider client={queryClient}>
-        <WalletConnect>
-          <ModalProvider>
-            <Layout>
-              <CustomSwitch>
-                {modulesData.map(({ path, title, component }) => (
-                  <Route exact key={title} path={path} component={component} />
-                ))}
-                <Route component={NoFound} key="pageNotFound" />
-              </CustomSwitch>
-            </Layout>
-          </ModalProvider>
-        </WalletConnect>
+        <Web3Wrapper>
+          <WalletConnect>
+            <ModalProvider>
+              <Layout>
+                <CustomSwitch>
+                  {modulesData.map(({ path, title, component }) => (
+                    <Route exact key={title} path={path} component={component} />
+                  ))}
+                  <Route component={NoFound} key="pageNotFound" />
+                </CustomSwitch>
+              </Layout>
+            </ModalProvider>
+          </WalletConnect>
+        </Web3Wrapper>
       </QueryClientProvider>
     </BrowserRouter>
   );
