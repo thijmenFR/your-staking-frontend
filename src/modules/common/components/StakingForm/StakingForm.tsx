@@ -1,9 +1,11 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import React, { ChangeEvent, FC, useContext } from 'react';
-import s from '@modules/home/Home.module.scss';
 import yourCoinIcon from '@assets/images/your-coin.svg';
 import Button from '@modules/common/components/Button';
 import { WalletModalContext } from '@modules/context/WalletContex';
+import { useWeb3React } from '@web3-react/core';
+
+import s from '@modules/home/Home.module.scss';
 
 interface StakingFormProps {
   btnText: string;
@@ -31,7 +33,7 @@ export const StakingForm: FC<StakingFormProps> = ({
   walletTitle,
 }) => {
   const { publicKey: account } = useWallet();
-
+  const { account: web3Account } = useWeb3React();
   const { setIsConnectWalletModal } = useContext(WalletModalContext);
   const connectWallet = () => {
     setIsConnectWalletModal(true);
@@ -51,7 +53,7 @@ export const StakingForm: FC<StakingFormProps> = ({
         <Button onClick={clickAmountMax} text="Max" color="gray" isSmallSize />
       </div>
 
-      {account ? (
+      {account || web3Account ? (
         <>
           <Button
             onClick={onClick}
