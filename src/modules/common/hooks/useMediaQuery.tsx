@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
-const useMediaQuery = (width: number) => {
+interface Matches {
+  matches: boolean;
+}
+
+const useMediaQuery = (width: number): boolean => {
   const [targetReached, setTargetReached] = useState(false);
 
-  const updateTarget = useCallback((e) => {
-    if (e.matches) {
+  const updateTarget = useCallback((event: Matches) => {
+    if (event.matches) {
       setTargetReached(true);
     } else {
       setTargetReached(false);
@@ -13,14 +17,15 @@ const useMediaQuery = (width: number) => {
 
   useEffect(() => {
     const media = window.matchMedia(`(max-width: ${width}px)`);
-    media.addListener(updateTarget);
+
+    media.addEventListener('change', updateTarget);
 
     if (media.matches) {
       setTargetReached(true);
     }
-    return () => media.removeListener(updateTarget);
-    // eslint-disable-next-line
-  }, []);
+
+    return () => media.removeEventListener('change', updateTarget);
+  }, [updateTarget, width]);
 
   return targetReached;
 };

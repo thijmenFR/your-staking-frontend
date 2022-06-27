@@ -1,8 +1,12 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, ReactNode, useCallback, useState } from 'react';
 import { ModalContext } from '@modules/context/ModalContext';
 import { IConfirmationProps, IModalSuccessProps, ModalType } from '../../types';
 
-export const ModalProvider: FC = ({ children }) => {
+interface ModalProviderProps {
+  children?: ReactNode;
+}
+
+export const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<IConfirmationProps>({} as IConfirmationProps);
 

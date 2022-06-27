@@ -1,5 +1,5 @@
 import { useWallet } from '@solana/wallet-adapter-react';
-import React, { ChangeEvent, FC, useContext } from 'react';
+import React, { ChangeEvent, FC, ReactNode, useContext } from 'react';
 import yourCoinIcon from '@assets/images/your-coin.svg';
 import Button from '@modules/common/components/Button';
 import { WalletModalContext } from '@modules/context/WalletContex';
@@ -17,6 +17,7 @@ interface StakingFormProps {
   clickAmountMax: () => void;
   onClick: () => void;
   infoBlock?: any[];
+  children?: ReactNode;
   walletTitle: string;
 }
 

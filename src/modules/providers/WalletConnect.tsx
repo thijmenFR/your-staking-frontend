@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, ReactNode, useMemo, useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
@@ -15,7 +15,11 @@ import { WalletModalContext } from '@modules/context/WalletContex';
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-export const WalletConnect: FC = ({ children }) => {
+interface ModalProviderProps {
+  children?: ReactNode;
+}
+
+export const WalletConnect: FC<ModalProviderProps> = ({ children }) => {
   const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;

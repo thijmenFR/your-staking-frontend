@@ -1,17 +1,21 @@
-import { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
+import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { resetWalletConnector } from '@utils/connectors';
-import { WALLETS, ACTIVATE_NETWORK } from '@modules/common/const';
+import { WALLETS as WalletConnect, ACTIVATE_NETWORK } from '@modules/common/const';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletName } from '@solana/wallet-adapter-base';
-import Logo from '@modules/common/components/Logo';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+
+import Logo from '@modules/common/components/Logo';
+
 import cn from 'classnames';
 
 import s from './ConnectWalletModal.module.scss';
+import { WalletConnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 interface ConnectWalletModalProps {
   handleModalVisible: (bool: boolean) => void;
@@ -30,7 +34,9 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
   }>();
 
   const getCurrentWallet = (currentConnector: any) => {
-    const wallet = WALLETS.find(({ walletConnector }) => currentConnector === walletConnector);
+    const wallet = WalletConnect.find(
+      ({ walletConnector }) => currentConnector === walletConnector,
+    );
     setCurrentWallet(wallet);
   };
 
@@ -60,7 +66,6 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
       walletConnector instanceof WalletConnectConnector &&
       walletConnector.walletConnectProvider?.wc?.uri
     ) {
-      // eslint-disable-next-line no-param-reassign
       walletConnector.walletConnectProvider = undefined;
     }
     walletConnector &&
@@ -86,7 +91,7 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
   }, [account, connector, currentWallet]);
 
   const handleWalletConnectClick = useCallback(
-    (event: MouseEvent, walletName) => {
+    (event: MouseEvent, walletName: any) => {
       setIsShake(true);
       if (!isChecked) return;
       activateWallet(walletName);
@@ -119,13 +124,13 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
           <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
             <a href="#">
               <div className={s.connectWallet__listLogo}>
-                <img src={adapter.icon} alt="Wallet Icon" />
+                <img src={adapter.icon} alt={adapter.name} />
               </div>
               <p className={s.connectWallet__walletName}>{adapter.name}</p>
             </a>
           </li>
         ))}
-        {WALLETS.map(({ name, icon, walletConnector }) => (
+        {WalletConnect.map(({ name, icon, walletConnector }) => (
           <li key={name} onClick={(e) => handleWalletConnectClick(e, walletConnector)}>
             <a href="#">
               <div className={s.connectWallet__listLogo}>
@@ -135,6 +140,15 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
             </a>
           </li>
         ))}
+        {isMobile && (
+          <a
+            href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
+          >
+            Wallet Connect at mobile
+          </a>
+        )}
+        <WalletConnectButton />
+        <WalletMultiButton />
       </ul>
     </div>
   );
