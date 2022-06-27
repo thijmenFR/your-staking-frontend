@@ -1,6 +1,13 @@
 import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
-import { BrowserView, MobileView, isBrowser, isMobile, browserName } from 'react-device-detect';
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+  browserName,
+  IOSView,
+} from 'react-device-detect';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -11,6 +18,7 @@ import { WalletName } from '@solana/wallet-adapter-base';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 import Logo from '@modules/common/components/Logo';
+import Phantom from '@assets/images/wallet/phantom.png';
 
 import cn from 'classnames';
 
@@ -100,6 +108,8 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
     [select, isChecked],
   );
 
+  console.log({ wallets }, 'wallets');
+
   return (
     <div className={s.connectWallet}>
       <div className={s.connectWallet__logo}>
@@ -119,16 +129,18 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         </Checkbox>
       </div>
       <ul className={s.connectWallet__list}>
-        {wallets.map(({ adapter }) => (
-          <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
-            <a href="#">
-              <div className={s.connectWallet__listLogo}>
-                <img src={adapter.icon} alt={adapter.name} />
-              </div>
-              <p className={s.connectWallet__walletName}>{adapter.name}</p>
-            </a>
-          </li>
-        ))}
+        {isBrowser ||
+          (browserName === 'WebKit' &&
+            wallets.map(({ adapter }) => (
+              <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
+                <a href="#">
+                  <div className={s.connectWallet__listLogo}>
+                    <img src={adapter.icon} alt={adapter.name} />
+                  </div>
+                  <p className={s.connectWallet__walletName}>{adapter.name}</p>
+                </a>
+              </li>
+            )))}
         {WalletConnect.map(({ name, icon, walletConnector }) => (
           <li key={name} onClick={(e) => handleWalletConnectClick(e, walletConnector)}>
             <a href="#">
@@ -139,23 +151,29 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
             </a>
           </li>
         ))}
-        {isMobile && (
-          <a
-            href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
-          >
-            Wallet Connect at mobile
-          </a>
+        {isMobile && browserName !== 'WebKit' && (
+          <li>
+            <a
+              href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
+            >
+              <div className={s.connectWallet__listLogo}>
+                <img src={Phantom} alt="Wallet Icon" />
+              </div>
+              <p className={s.connectWallet__walletName}>Open in Phantom</p>
+            </a>
+          </li>
         )}
         {/*<WalletConnectButton />*/}
         {/*<WalletMultiButton />*/}
       </ul>
       <p>{isMobile && browserName !== 'WebKit' && 'Мобилка...но не приложение'}</p>
-      <a
-        href="slopewallet://wallet.slope/pay?returnSchemes=slopedapp://slope.dapp/pay?
-slopePayReturn&slopePayParams={type: connect}"
-      >
-        Slope
-      </a>
+      {/*      <a*/}
+      {/*        href="slopewallet://wallet.slope/pay?returnSchemes=slopedapp://slope.dapp/pay?*/}
+      {/*slopePayReturn&slopePayParams={type: connect}"*/}
+      {/*      >*/}
+      {/*        Slope*/}
+      {/*      </a>*/}
+      {/*      {IOSView && 'IOSView'}*/}
     </div>
   );
 };
