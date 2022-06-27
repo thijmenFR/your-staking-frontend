@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { BrowserView, MobileView, isBrowser, isMobile, browserName } from 'react-device-detect';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -118,7 +118,6 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
           </a>
         </Checkbox>
       </div>
-
       <ul className={s.connectWallet__list}>
         {wallets.map(({ adapter }) => (
           <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
@@ -150,6 +149,13 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         {/*<WalletConnectButton />*/}
         {/*<WalletMultiButton />*/}
       </ul>
+      <p>{isMobile && browserName !== 'WebKit' && 'Мобилка...но не приложение'}</p>
+      <a
+        href="slopewallet://wallet.slope/pay?returnSchemes=slopedapp://slope.dapp/pay?
+slopePayReturn&slopePayParams={type: connect}"
+      >
+        Slope
+      </a>
     </div>
   );
 };

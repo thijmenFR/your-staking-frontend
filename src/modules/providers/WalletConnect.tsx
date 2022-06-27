@@ -10,6 +10,7 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { isMobile } from 'react-device-detect';
 import { WalletModalContext } from '@modules/context/WalletContex';
 
 // Default styles that can be overridden by your app
@@ -30,7 +31,7 @@ export const WalletConnect: FC<ModalProviderProps> = ({ children }) => {
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
   // of wallets that your users connect to will be loaded.
-  const wallets = useMemo(
+  const walletsDesktop = useMemo(
     () => [
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter({ network }),
@@ -41,9 +42,19 @@ export const WalletConnect: FC<ModalProviderProps> = ({ children }) => {
     [network],
   );
 
+  const walletsMobile = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new SolletWalletAdapter({ network }),
+      new SlopeWalletAdapter(),
+    ],
+    [network],
+  );
+
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={isMobile ? walletsMobile : walletsDesktop} autoConnect>
         <WalletModalProvider>
           <WalletModalContext.Provider value={{ isConnectWalletModal, setIsConnectWalletModal }}>
             {children}
