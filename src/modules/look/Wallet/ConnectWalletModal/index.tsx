@@ -15,7 +15,7 @@ import Logo from '@modules/common/components/Logo';
 import cn from 'classnames';
 
 import s from './ConnectWalletModal.module.scss';
-import { WalletConnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+// import { WalletConnectButton, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 
 interface ConnectWalletModalProps {
   handleModalVisible: (bool: boolean) => void;
@@ -147,8 +147,8 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
             Wallet Connect at mobile
           </a>
         )}
-        <WalletConnectButton />
-        <WalletMultiButton />
+        {/*<WalletConnectButton />*/}
+        {/*<WalletMultiButton />*/}
       </ul>
     </div>
   );
