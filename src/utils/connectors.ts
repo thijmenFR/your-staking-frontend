@@ -4,15 +4,16 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 
 export const POLLING_INTERVAL = 12000;
-export const DEFAULT_CHAIN_ID = 4;
+export const DEFAULT_CHAIN_ID = 103;
 
 export const NETWORK_URLS: { [chainId: number]: string } = {
   1: 'https://mainnet.infura.io/v3/0b0a905027d546c6a10ffc906951d678',
   4: 'https://rinkeby.infura.io/v3/0b0a905027d546c6a10ffc906951d678',
+  103: 'https://api.devnet.solana.com',
 };
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 4],
+  supportedChainIds: [103, 4],
 });
 
 export const network = new NetworkConnector({
@@ -21,7 +22,8 @@ export const network = new NetworkConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
-  rpc: { 1: NETWORK_URLS[1], 4: NETWORK_URLS[4] },
+  // rpc: { 1: NETWORK_URLS[1], 4: NETWORK_URLS[4] },
+  rpc: { 103: NETWORK_URLS[103], 4: NETWORK_URLS[4] },
   bridge: 'https://pancakeswap.bridge.walletconnect.org/',
   qrcode: true,
   // @ts-ignore
