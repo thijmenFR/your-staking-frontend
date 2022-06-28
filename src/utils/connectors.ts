@@ -21,7 +21,7 @@ export const network = new NetworkConnector({
 });
 
 export const walletConnect = new WalletConnectConnector({
-  // rpc: { 1: NETWORK_URLS[1], 4: NETWORK_URLS[4] },
+  rpc: { 1: NETWORK_URLS[1], 4: NETWORK_URLS[4] },
   bridge: 'https://pancakeswap.bridge.walletconnect.org/',
   qrcode: true,
   // @ts-ignore

@@ -166,12 +166,14 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         {/*<WalletMultiButton />*/}
       </ul>
       {/*<p>{isMobile && browserName !== 'WebKit' && 'Мобилка...но не приложение'}</p>*/}
-      {/*      <a*/}
-      {/*        href="slopewallet://wallet.slope/pay?returnSchemes=slopedapp://slope.dapp/pay?*/}
-      {/*slopePayReturn&slopePayParams={type: connect}"*/}
-      {/*      >*/}
-      {/*        Slope*/}
-      {/*      </a>*/}
+      <p>
+        <a
+          href="slopewallet://wallet.slope/pay?returnSchemes=slopedapp://slope.dapp/pay?
+      slopePayReturn&slopePayParams={type: connect}"
+        >
+          Open in Slope App
+        </a>
+      </p>
       {/*      {IOSView && 'IOSView'}*/}
     </div>
   );
