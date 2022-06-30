@@ -29,7 +29,7 @@ export const useYourPoolData = () => {
         className: 'notificationError',
         description: 'Pool Does Not Exist',
       });
-      return '0';
+      // return '0';
     }
     if (!poolData) {
       return '0';
@@ -44,7 +44,12 @@ export const useYourPoolData = () => {
 
   const getApy = useMemo(() => {
     if (error) {
-      throw new Error('Pool Does Not Exist');
+      // throw new Error('Pool Does Not Exist');
+      notification.error({
+        message: 'Error',
+        className: 'notificationError',
+        description: 'Pool Does Not Exist',
+      });
     }
     if (!poolData) {
       return '0';
