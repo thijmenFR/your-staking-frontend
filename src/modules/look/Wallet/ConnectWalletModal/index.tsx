@@ -1,13 +1,6 @@
 import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
-import {
-  BrowserView,
-  MobileView,
-  isBrowser,
-  isMobile,
-  browserName,
-  IOSView,
-} from 'react-device-detect';
+import { isBrowser, isMobile, browserName } from 'react-device-detect';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';

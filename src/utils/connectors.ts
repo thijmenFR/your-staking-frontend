@@ -13,11 +13,11 @@ export const NETWORK_URLS: { [chainId: number]: string } = {
 };
 
 export const injected = new InjectedConnector({
-  supportedChainIds: [103, 1, 4],
+  supportedChainIds: [103],
 });
 
 export const network = new NetworkConnector({
-  urls: { 1: NETWORK_URLS[1], 4: NETWORK_URLS[4] },
+  urls: { 103: NETWORK_URLS[103] },
   defaultChainId: DEFAULT_CHAIN_ID,
 });
 
