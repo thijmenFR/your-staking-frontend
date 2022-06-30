@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, useCallback, useEffect, useState } from 'react';
 import { Checkbox } from 'antd';
-import { isBrowser, isMobile, browserName } from 'react-device-detect';
+// import { isBrowser, isMobile, browserName } from 'react-device-detect';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
@@ -122,29 +122,30 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         </Checkbox>
       </div>
       <ul className={s.connectWallet__list}>
-        {(browserName === 'WebKit' || browserName === 'Chrome WebView' || isBrowser) &&
-          wallets.map(({ adapter }) => (
-            <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
-              <a href="#">
-                <div className={s.connectWallet__listLogo}>
-                  <img src={adapter.icon} alt={adapter.name} />
-                </div>
-                <p className={s.connectWallet__walletName}>{adapter.name}</p>
-              </a>
-            </li>
-          ))}
-        {isMobile && browserName !== 'WebKit' && browserName !== 'Chrome WebView' && (
-          <li onClick={() => setIsShake(true)}>
-            <a
-              href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
-            >
+        {/*{(browserName === 'WebKit' || browserName === 'Chrome WebView' || isBrowser) &&*/}
+        {wallets.map(({ adapter }) => (
+          <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
+            <a href="#">
               <div className={s.connectWallet__listLogo}>
-                <img src={Phantom} alt="Wallet Icon" />
+                <img src={adapter.icon} alt={adapter.name} />
               </div>
-              <p className={s.connectWallet__walletName}>Open in Phantom</p>
+              <p className={s.connectWallet__walletName}>{adapter.name}</p>
             </a>
           </li>
-        )}
+        ))}
+        {/*))}*/}
+        {/*{isMobile && browserName !== 'WebKit' && browserName !== 'Chrome WebView' && (*/}
+        <li onClick={() => setIsShake(true)}>
+          <a
+            href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
+          >
+            <div className={s.connectWallet__listLogo}>
+              <img src={Phantom} alt="Wallet Icon" />
+            </div>
+            <p className={s.connectWallet__walletName}>Open in Phantom</p>
+          </a>
+        </li>
+        {/*)}*/}
         {WalletConnect.map(({ name, icon, walletConnector }) => (
           <li key={name} onClick={(e) => handleWalletConnectClick(e, walletConnector)}>
             <a href="#">
@@ -167,9 +168,7 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
       {/*    Open in Slope App*/}
       {/*  </a>*/}
       {/*</p>*/}
-      <p>
-        <strong>Your browser: {browserName}</strong>
-      </p>
+      <p>{/*<strong>Your browser: {browserName}</strong>*/}</p>
     </div>
   );
 };
