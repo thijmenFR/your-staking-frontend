@@ -129,7 +129,7 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         </Checkbox>
       </div>
       <ul className={s.connectWallet__list}>
-        {(browserName === 'WebKit' || isBrowser) &&
+        {(browserName === 'WebKit' || browserName === 'WebView' || isBrowser) &&
           wallets.map(({ adapter }) => (
             <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
               <a href="#">
@@ -140,7 +140,7 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
               </a>
             </li>
           ))}
-        {isMobile && browserName !== 'WebKit' && (
+        {isMobile && browserName !== 'WebKit' && browserName !== 'WebView' && (
           <li onClick={() => setIsShake(true)}>
             <a
               href={`https://phantom.app/ul/browse/${window.location.href}?ref=${window.location.href}`}
