@@ -20,9 +20,9 @@ export const useYourPoolData = () => {
     YourPoolData.fromAccount(Pubkeys.yourPoolStoragePubkey, connection),
   );
   const usersTotalStake = useMemo(() => {
-    // if (error) {
-    //   throw new Error('Pool Does Not Exist');
-    // }
+    if (error) {
+      throw new Error('Pool Does Not Exist');
+    }
     if (!poolData) {
       return '0';
     }
