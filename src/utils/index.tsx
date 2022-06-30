@@ -8,6 +8,7 @@ import { UserData } from '../models/user-info';
 import { ChangeEvent } from 'react';
 import { Constants, isDev, SLOT_DURATION } from '../constants';
 import { getUserStorageAccount } from '@utils/solanaHalpers';
+import { notification } from 'antd';
 
 export const useDev = (cb: any) => (isDev ? cb() : undefined);
 
@@ -70,7 +71,12 @@ export async function getUserPendingRewards(userWallet: PublicKey, connection: C
   const U64_MAX = new BN('18446744073709551615', 10);
   let yourPoolData = await YourPoolData.fromAccount(Pubkeys.yourPoolStoragePubkey, connection);
   if (yourPoolData == null) {
-    throw new Error('Pool Does Not Exist');
+    // throw new Error('Pool Does Not Exist');
+    notification.error({
+      message: 'Error',
+      className: 'notificationError',
+      description: 'Pool Does Not Exist',
+    });
   }
   let userDataStorageAddress = await getUserStorageAccount(userWallet);
   let userData = await UserData.fromAccount(userDataStorageAddress, connection);
