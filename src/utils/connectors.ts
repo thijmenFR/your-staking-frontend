@@ -9,7 +9,7 @@ export const DEFAULT_CHAIN_ID = 103;
 export const NETWORK_URLS: { [chainId: number]: string } = {
   1: 'https://mainnet.infura.io/v3/0b0a905027d546c6a10ffc906951d678',
   4: 'https://rinkeby.infura.io/v3/0b0a905027d546c6a10ffc906951d678',
-  103: 'https://rpc.ankr.com/solana_devnet',
+  103: 'https://api.devnet.solana.com/',
 };
 
 export const injected = new InjectedConnector({
