@@ -29,6 +29,7 @@ export const useYourPoolData = () => {
         className: 'notificationError',
         description: 'Pool Does Not Exist',
       });
+      return '0';
     }
     if (!poolData) {
       return '0';
