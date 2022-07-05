@@ -122,17 +122,6 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
         </Checkbox>
       </div>
       <ul className={s.connectWallet__list}>
-        {(browserName === 'WebKit' || browserName === 'Chrome WebView' || isBrowser) &&
-          wallets.map(({ adapter }) => (
-            <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
-              <a href="#">
-                <div className={s.connectWallet__listLogo}>
-                  <img src={adapter.icon} alt={adapter.name} />
-                </div>
-                <p className={s.connectWallet__walletName}>{adapter.name}</p>
-              </a>
-            </li>
-          ))}
         {isMobile && browserName !== 'WebKit' && browserName !== 'Chrome WebView' && (
           <li onClick={() => setIsShake(true)}>
             <a
@@ -145,6 +134,16 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
             </a>
           </li>
         )}
+        {wallets.map(({ adapter }) => (
+          <li key={adapter.name} onClick={(e) => handleWalletClick(e, adapter.name)}>
+            <a href="#">
+              <div className={s.connectWallet__listLogo}>
+                <img src={adapter.icon} alt={adapter.name} />
+              </div>
+              <p className={s.connectWallet__walletName}>{adapter.name}</p>
+            </a>
+          </li>
+        ))}
         {WalletConnect.map(({ name, icon, walletConnector }) => (
           <li key={name} onClick={(e) => handleWalletConnectClick(e, walletConnector)}>
             <a href="#">
