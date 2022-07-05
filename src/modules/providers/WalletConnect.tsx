@@ -47,7 +47,6 @@ export const WalletConnect: FC<ModalProviderProps> = ({ children }) => {
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter({ network }),
       new SolletWalletAdapter({ network }),
-      new SlopeWalletAdapter(),
     ],
     [network],
   );
