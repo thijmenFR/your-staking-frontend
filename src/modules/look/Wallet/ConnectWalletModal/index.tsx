@@ -166,9 +166,9 @@ const ConnectWalletModal: FC<ConnectWalletModalProps> = ({ handleModalVisible })
       {/*    Open in Slope App*/}
       {/*  </a>*/}
       {/*</p>*/}
-      <p>
-        <strong>Your browser: {browserName}</strong>
-      </p>
+      {/*<p>*/}
+      {/*  <strong>Your browser: {browserName}</strong>*/}
+      {/*</p>*/}
     </div>
   );
 };
