@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import AppContext from './context/AppContext';
 import { LOCAL_STORAGE } from '@modules/common/const';
@@ -6,7 +6,11 @@ import Header from '@modules/layout/containers/Header';
 import Footer from '@modules/layout/containers/Footer';
 import PageNotFound from '@modules/staticPages/PageNotFound';
 
-const Layout: FC = ({ children }) => {
+interface LayoutProps {
+  children?: ReactNode;
+}
+
+const Layout: FC<LayoutProps> = ({ children }) => {
   const { pathname } = useLocation();
   const [isLightMode, setIsLightMode] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE.LIGHT_MODE) || 'false'),

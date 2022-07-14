@@ -41,7 +41,7 @@ export class YourPoolData {
     ownerWallet: StringPublicKey;
     stakingVault: StringPublicKey;
     userTotalWeightedStake: BN;
-    
+
     poolInitSlot: BN;
     userStakeCount: BN;
     userTotalStake: BN;

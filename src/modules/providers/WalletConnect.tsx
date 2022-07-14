@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, ReactNode, useMemo, useState } from 'react';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import {
@@ -10,12 +10,17 @@ import {
 } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { isMobile } from 'react-device-detect';
 import { WalletModalContext } from '@modules/context/WalletContex';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-export const WalletConnect: FC = ({ children }) => {
+interface ModalProviderProps {
+  children?: ReactNode;
+}
+
+export const WalletConnect: FC<ModalProviderProps> = ({ children }) => {
   const [isConnectWalletModal, setIsConnectWalletModal] = useState<boolean>(false);
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
@@ -26,7 +31,7 @@ export const WalletConnect: FC = ({ children }) => {
   // @solana/wallet-adapter-wallets includes all the adapters but supports tree shaking and lazy loading --
   // Only the wallets you configure here will be compiled into your application, and only the dependencies
   // of wallets that your users connect to will be loaded.
-  const wallets = useMemo(
+  const walletsDesktop = useMemo(
     () => [
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter({ network }),
@@ -37,9 +42,18 @@ export const WalletConnect: FC = ({ children }) => {
     [network],
   );
 
+  const walletsMobile = useMemo(
+    () => [
+      new PhantomWalletAdapter(),
+      new SolflareWalletAdapter({ network }),
+      new SolletWalletAdapter({ network }),
+    ],
+    [network],
+  );
+
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={isMobile ? walletsMobile : walletsDesktop} autoConnect>
         <WalletModalProvider>
           <WalletModalContext.Provider value={{ isConnectWalletModal, setIsConnectWalletModal }}>
             {children}
